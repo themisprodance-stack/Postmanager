@@ -76,6 +76,13 @@
     {{ form.user_tags.errors }}
   </div>
 
+  <div class="field" data-collab-field>
+    <label for="id_collaborators">🤝 {% translate "Collab with" %} <span class="muted small">{% translate "(optional, up to 3)" %}</span></label>
+    {{ form.collaborators }}
+    <span class="help">{% translate "Invite other accounts as co-authors. Once they accept the invitation in Instagram, the post also shows on their profile and reaches their followers. Only public accounts can be invited. Not for Stories." %}</span>
+    {{ form.collaborators.errors }}
+  </div>
+
   <div class="field" data-reel-only hidden>
     <label class="check">{{ form.share_reel_to_feed }} {% translate "Also show this Reel in the main profile grid" %}</label>
   </div>

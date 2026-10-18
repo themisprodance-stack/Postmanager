@@ -208,6 +208,7 @@ class Post(models.Model):
     )
     share_reel_to_feed = models.BooleanField(default=True, help_text=_("Reels only: also show in the main grid."))
     user_tags = models.CharField(max_length=700, blank=True)  # Instagram usernames to tag, space separated
+    collaborators = models.CharField(max_length=100, blank=True)  # up to 3 usernames invited as co-authors
     status = models.CharField(max_length=12, choices=STATUS_CHOICES, default=DRAFT, db_index=True)
     scheduled_at = models.DateTimeField(null=True, blank=True, db_index=True)
     published_at = models.DateTimeField(null=True, blank=True)
@@ -244,6 +245,10 @@ class Post(models.Model):
     @property
     def tagged_usernames(self):
         return self.user_tags.split()
+
+    @property
+    def collaborator_usernames(self):
+        return self.collaborators.split()
 
     @property
     def is_editable(self):

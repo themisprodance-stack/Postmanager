@@ -100,6 +100,8 @@
     if (captionBlock) captionBlock.hidden = currentType() === "story";
     const tagsField = document.querySelector("[data-tags-field]");
     if (tagsField) tagsField.hidden = currentType() === "story";
+    const collabField = document.querySelector("[data-collab-field]");
+    if (collabField) collabField.hidden = currentType() === "story";
   }
   document.querySelectorAll("input[name=post_type]").forEach((el) => el.addEventListener("change", updateHint));
   updateHint();

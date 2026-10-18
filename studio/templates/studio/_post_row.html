@@ -12,6 +12,7 @@
     </div>
     <div class="caption-preview">{% if post.caption %}{{ post.caption }}{% else %}{% translate "(no caption)" %}{% endif %}</div>
     {% if post.link %}<div class="small muted">🔗 {{ post.link }}</div>{% endif %}
+    {% if post.collaborators %}<div class="small muted">🤝 {% translate "Collab with" %} {% for name in post.collaborator_usernames %}@{{ name }}{% if not forloop.last %}, {% endif %}{% endfor %}</div>{% endif %}
     {% if post.publish_state.untagged %}<div class="small muted">👤 {% translate "Not tagged (private account, wrong username, or they don't allow tags):" %} {{ post.publish_state.untagged|join:", " }}</div>{% endif %}
     {% if post.status == "failed" and post.error %}<div class="error-text">{{ post.error }}</div>{% endif %}
     {% if not compact %}

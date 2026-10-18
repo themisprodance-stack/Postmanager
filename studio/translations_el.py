@@ -172,6 +172,14 @@ EL = {
     'Making your video… this can take up to a minute': 'Δημιουργία βίντεο… μπορεί να διαρκέσει έως ένα λεπτό',
     'Make video': 'Δημιουργία βίντεο',
     "Not tagged (private account, wrong username, or they don't allow tags):": "Δεν επισημάνθηκαν (ιδιωτικός λογαριασμός, λάθος όνομα χρήστη ή δεν επιτρέπουν επισημάνσεις):",
+    "Collab with": "Συνεργασία με",
+    "(optional, up to 3)": "(προαιρετικό, έως 3)",
+    "e.g. @teacher_anna": "π.χ. @teacher_anna",
+    "Invite other accounts as co-authors. Once they accept the invitation in Instagram, the post also shows on their profile and reaches their followers. Only public accounts can be invited. Not for Stories.":
+        "Προσκαλέστε άλλους λογαριασμούς ως συν-δημιουργούς. Μόλις αποδεχτούν την πρόσκληση στο Instagram, η ανάρτηση εμφανίζεται και στο δικό τους προφίλ και φτάνει στους ακόλουθούς τους. Μπορούν να προσκληθούν μόνο δημόσιοι λογαριασμοί. Όχι για Stories.",
+    "Instagram allows at most 3 collaborators.": "Το Instagram επιτρέπει έως 3 συνεργάτες.",
+    "Stories can't be collab posts. Remove the collaborators or choose another type.":
+        "Τα Stories δεν μπορούν να είναι συνεργατικές αναρτήσεις. Αφαιρέστε τους συνεργάτες ή επιλέξτε άλλο τύπο.",
     "Tag people": "Επισήμανση ατόμων",
     "Instagram usernames, separated by commas. Only public accounts can be tagged; anyone Instagram can't reach is skipped and the post still goes out. In a carousel, the tags go on the first slide. Stories can't have tags.":
         "Ονόματα χρηστών Instagram, χωρισμένα με κόμμα. Μπορούν να επισημανθούν μόνο δημόσιοι λογαριασμοί· όποιοι δεν είναι προσβάσιμοι παραλείπονται και η ανάρτηση δημοσιεύεται κανονικά. Στο καρουζέλ οι επισημάνσεις μπαίνουν στην πρώτη διαφάνεια. Τα Stories δεν μπορούν να έχουν επισημάνσεις.",

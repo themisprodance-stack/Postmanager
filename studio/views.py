@@ -204,6 +204,7 @@ def post_duplicate(request, pk):
     copy = Post.objects.create(
         post_type=original.post_type, caption=original.caption, link=original.link,
         share_reel_to_feed=original.share_reel_to_feed, user_tags=original.user_tags,
+        collaborators=original.collaborators,
         created_by=request.user,
     )
     copy.set_media(original.ordered_media)

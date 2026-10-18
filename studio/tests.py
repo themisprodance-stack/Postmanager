@@ -200,6 +200,17 @@ class PublishTests(BaseTest):
         self.assertTrue(all(0 <= t["x"] <= 1 and 0 <= t["y"] <= 1 for t in photo_tags))
         self.assertEqual(json.loads(self.graph.created[1]["user_tags"]), [{"username": "maria_dance"}])
 
+    def test_collab_post_invites_collaborators(self):
+        self.make_post(Post.FEED, [save_upload(image_upload())], collaborators="anna john")
+        self.make_post(Post.CAROUSEL, [save_upload(image_upload()), save_upload(image_upload())], collaborators="anna")
+        story = self.make_post(Post.STORY, [save_upload(image_upload())], collaborators="anna")
+        scheduler.publish_due_posts()
+        self.assertEqual(json.loads(self.graph.created[0]["collaborators"]), ["anna", "john"])
+        self.assertNotIn("collaborators", self.graph.created[1])  # carousel slide
+        self.assertEqual(json.loads(self.graph.created[3]["collaborators"]), ["anna"])  # carousel itself
+        story.refresh_from_db()
+        self.assertEqual(story.status, Post.FAILED)
+
     def test_private_accounts_are_skipped_and_the_post_still_publishes(self):
         self.graph.private_users = {"_.private", "peggy"}
         post = self.make_post(Post.FEED, [save_upload(image_upload())], user_tags="maria _.private peggy")
@@ -529,6 +540,19 @@ class ViewTests(BaseTest):
             "user_tags": "not-valid!",
         })
         self.assertContains(resp, "valid Instagram username")
+
+    def test_at_most_three_collaborators(self):
+        asset = save_upload(image_upload())
+        resp = self.client.post(reverse("post_new"), {
+            "post_type": "feed", "caption": "x", "action": "draft", "media_ids": str(asset.pk),
+            "collaborators": "@Anna, b, c, d",
+        })
+        self.assertContains(resp, "at most 3 collaborators")
+        self.client.post(reverse("post_new"), {
+            "post_type": "feed", "caption": "x", "action": "draft", "media_ids": str(asset.pk),
+            "collaborators": "@Anna, instagram.com/john/",
+        })
+        self.assertEqual(Post.objects.get().collaborators, "anna john")
 
     def test_link_with_hash_is_trimmed_when_saving(self):
         asset = save_upload(image_upload())

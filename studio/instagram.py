@@ -222,6 +222,11 @@ def _user_tags_param(usernames, *, is_video):
     return {"user_tags": json.dumps(tags)}
 
 
+def _collaborators_param(post):
+    """Collab posts appear on the invited accounts' profiles too, once they accept the invitation."""
+    return {"collaborators": json.dumps(post.collaborator_usernames)} if post.collaborator_usernames else {}
+
+
 def validate(post, assets=None):
     """Return a list of problems that would stop this post from publishing."""
     assets = post.ordered_media if assets is None else assets
@@ -246,22 +251,25 @@ def validate(post, assets=None):
         problems.append(_("Instagram allows at most 30 hashtags."))
     if post.tagged_usernames and post.post_type == Post.STORY:
         problems.append(_("Instagram doesn't allow apps to tag people in Stories. Remove the tags or choose another type."))
+    if post.collaborator_usernames and post.post_type == Post.STORY:
+        problems.append(_("Stories can't be collab posts. Remove the collaborators or choose another type."))
     return problems
 
 
 def _create_main_container(account, post, assets, children=None):
     if post.post_type == Post.FEED:
         return _create_container(account, caption=post.full_caption, **_media_params(assets[0], for_feed=True),
-                                 **_user_tags_param(post.tagged_usernames, is_video=False))
+                                 **_user_tags_param(post.tagged_usernames, is_video=False), **_collaborators_param(post))
     if post.post_type == Post.REEL:
         return _create_container(
             account, media_type="REELS", caption=post.full_caption, video_url=assets[0].public_url,
             share_to_feed="true" if post.share_reel_to_feed else "false",
-            **_user_tags_param(post.tagged_usernames, is_video=True),
+            **_user_tags_param(post.tagged_usernames, is_video=True), **_collaborators_param(post),
         )
     if post.post_type == Post.STORY:
         return _create_container(account, media_type="STORIES", **_media_params(assets[0], for_feed=False))
-    return _create_container(account, media_type="CAROUSEL", caption=post.full_caption, children=",".join(children))
+    return _create_container(account, media_type="CAROUSEL", caption=post.full_caption, children=",".join(children),
+                             **_collaborators_param(post))
 
 
 USERS_NOT_ACCESSIBLE = 110

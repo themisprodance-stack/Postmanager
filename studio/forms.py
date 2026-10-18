@@ -24,23 +24,28 @@ class LinkCleaningMixin:
 
 USERNAME_RE = re.compile(r"[a-z0-9._]{1,30}")
 MAX_USER_TAGS = 20
+MAX_COLLABORATORS = 3
 USER_TAGS_WIDGET = forms.TextInput(attrs={"placeholder": _("e.g. @maria_dance, @johnsmith"), "autocapitalize": "off"})
 
 
-class UserTagsCleaningMixin:
-    """Turns '@Maria, instagram.com/john/' into 'maria john' and rejects anything that isn't a username."""
+def clean_usernames(value):
+    """Turns '@Maria, instagram.com/john/' into ['maria', 'john'] and rejects anything that isn't a username."""
+    names = []
+    for raw in re.split(r"[\s,;]+", value or ""):
+        name = raw.strip().lstrip("@").removeprefix("https://").removeprefix("www.").removeprefix("instagram.com/")
+        name = name.strip("/").lower()
+        if not name:
+            continue
+        if not USERNAME_RE.fullmatch(name):
+            raise forms.ValidationError(_("“%(name)s” isn't a valid Instagram username.") % {"name": raw})
+        if name not in names:
+            names.append(name)
+    return names
 
+
+class UserTagsCleaningMixin:
     def clean_user_tags(self):
-        names = []
-        for raw in re.split(r"[\s,;]+", self.cleaned_data.get("user_tags") or ""):
-            name = raw.strip().lstrip("@").removeprefix("https://").removeprefix("www.").removeprefix("instagram.com/")
-            name = name.strip("/").lower()
-            if not name:
-                continue
-            if not USERNAME_RE.fullmatch(name):
-                raise forms.ValidationError(_("“%(name)s” isn't a valid Instagram username.") % {"name": raw})
-            if name not in names:
-                names.append(name)
+        names = clean_usernames(self.cleaned_data.get("user_tags"))
         if len(names) > MAX_USER_TAGS:
             raise forms.ValidationError(_("Instagram allows at most 20 tagged people."))
         return " ".join(names)
@@ -119,12 +124,13 @@ class PostForm(UserTagsCleaningMixin, LinkCleaningMixin, forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ["post_type", "caption", "link", "user_tags", "share_reel_to_feed", "scheduled_at"]
+        fields = ["post_type", "caption", "link", "user_tags", "collaborators", "share_reel_to_feed", "scheduled_at"]
         widgets = {
             "post_type": forms.RadioSelect,
             "caption": forms.Textarea(attrs={"rows": 8, "maxlength": 2200}),
             "link": forms.TextInput(attrs={"placeholder": _("e.g. lineofdance.gr/classes"), "inputmode": "url"}),
             "user_tags": USER_TAGS_WIDGET,
+            "collaborators": forms.TextInput(attrs={"placeholder": _("e.g. @teacher_anna"), "autocapitalize": "off"}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -133,6 +139,12 @@ class PostForm(UserTagsCleaningMixin, LinkCleaningMixin, forms.ModelForm):
             self.initial["media_ids"] = ",".join(str(a.pk) for a in self.instance.ordered_media)
             if self.instance.scheduled_at:
                 self.initial["scheduled_at"] = timezone.localtime(self.instance.scheduled_at).strftime(DATETIME_FORMAT)
+
+    def clean_collaborators(self):
+        names = clean_usernames(self.cleaned_data.get("collaborators"))
+        if len(names) > MAX_COLLABORATORS:
+            raise forms.ValidationError(_("Instagram allows at most 3 collaborators."))
+        return " ".join(names)
 
     def clean_media_ids(self):
         ids = [int(i) for i in self.cleaned_data["media_ids"].split(",") if i.strip().isdigit()]
