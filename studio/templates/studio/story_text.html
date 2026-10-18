@@ -36,7 +36,12 @@
       <label class="check">{{ form.repeat }} 🔁 {{ form.repeat.label }}</label>
       {{ form.repeat.errors }}
       <div data-repeat-fields {% if not form.repeat.value %}hidden{% endif %}>
-        {% include "studio/_weekly_fields.html" %}
+        <div class="field">
+          <label>{% translate "Days" %}</label>
+          <div class="choice-row">{% for cb in form.weekday_list %}<label>{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</div>
+          {{ form.weekday_list.errors }}
+        </div>
+        {% include "studio/_timing_fields.html" %}
         <span class="help">{% translate "The same story goes out automatically on these days and times. You can pause or change it later under Recurring." %}</span>
       </div>
     </div>
@@ -89,6 +94,7 @@
     out.textContent = form.querySelector("#" + out.dataset.sizeFor).value + "%";
   });
   form.addEventListener("input", (event) => {
+    if (event.target.closest("[data-repeat-fields]")) return;
     showSizes();
     schedule(event.target.type === "range" ? 250 : 600);
   });
@@ -97,7 +103,7 @@
       form.querySelector("[data-repeat-fields]").hidden = !event.target.checked;
       return;
     }
-    if (["weekday_list", "times"].includes(event.target.name)) return;
+    if (["weekday_list", "times", "timing_mode", "window_start", "window_end", "posts_per_day"].includes(event.target.name)) return;
     schedule(100);
   });
   showSizes();

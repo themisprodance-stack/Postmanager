@@ -12,7 +12,12 @@
     <label>{% translate "Type" %}</label>
     <div class="choice-row">{% for radio in form.post_type %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}</div>
   </div>
-  {% include "studio/_weekly_fields.html" %}
+  <div class="field">
+    <label>{% translate "Days" %}</label>
+    <div class="choice-row">{% for cb in form.weekday_list %}<label>{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</div>
+    {{ form.weekday_list.errors }}
+  </div>
+  {% include "studio/_timing_fields.html" %}
   <div class="field">
     <label>{% translate "Photos & videos" %}</label>
     {% if library %}

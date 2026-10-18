@@ -165,7 +165,7 @@ EL = {
     'Post this story every week': 'Ανάρτηση αυτού του story κάθε εβδομάδα',
     'Pick at least one day.': 'Επιλέξτε τουλάχιστον μία ημέρα.',
     'Only an owner can set up weekly posts.': 'Μόνο ένας ιδιοκτήτης μπορεί να ορίσει εβδομαδιαίες αναρτήσεις.',
-    'Story saved. It will be posted every %(days)s at %(times)s. Next: %(when)s.': 'Το story αποθηκεύτηκε. Θα αναρτάται κάθε %(days)s στις %(times)s. Επόμενη: %(when)s.',
+    'Story saved. It will be posted every %(days)s, %(times)s. Next: %(when)s.': 'Το story αποθηκεύτηκε. Θα αναρτάται κάθε %(days)s, %(times)s. Επόμενη: %(when)s.',
     'The same story goes out automatically on these days and times. You can pause or change it later under Recurring.': 'Το ίδιο story δημοσιεύεται αυτόματα αυτές τις μέρες και ώρες. Μπορείτε να το σταματήσετε ή να το αλλάξετε αργότερα στις Επαναλαμβανόμενες.',
     # --- Music ---
     'Music': 'Μουσική',

@@ -14,7 +14,7 @@
     <tr>
       <td>{% if is_owner %}<a href="{% url 'recurring_edit' rule.pk %}"><b>{{ rule.name }}</b></a>{% else %}<b>{{ rule.name }}</b>{% endif %}{% if rule.use_ai_caption %} <span class="badge badge-accent">{% translate "AI caption" %}</span>{% endif %}</td>
       <td>{{ rule.get_post_type_display }}</td>
-      <td>{{ rule.weekday_labels }} · {{ rule.times }}</td>
+      <td>{{ rule.weekday_labels }} · {{ rule.schedule_label }}</td>
       <td>{% if rule.active %}{{ rule.next_run_at|date:"D j M, H:i"|default:"—" }}{% else %}<span class="badge">{% translate "Paused" %}</span>{% endif %}</td>
       <td style="text-align:right">{% if is_owner %}<a class="btn btn-sm" href="{% url 'recurring_edit' rule.pk %}">{% translate "Edit" %}</a>{% endif %}</td>
     </tr>

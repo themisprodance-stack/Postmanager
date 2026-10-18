@@ -268,71 +268,14 @@ class PostItem(models.Model):
         ordering = ["position"]
 
 
-class RecurringRule(models.Model):
-    """Publishes the same kind of post on a weekly pattern, e.g. the class timetable every Monday 09:00."""
-
-    name = models.CharField(max_length=120)
-    active = models.BooleanField(default=True)
-    post_type = models.CharField(max_length=10, choices=Post.TYPE_CHOICES, default=Post.FEED)
-    caption = models.TextField(
-        blank=True,
-        help_text=_("Placeholders: {date}, {weekday}, {studio}. Ignored when an AI caption is generated."),
-    )
-    use_ai_caption = models.BooleanField(default=False, help_text=_("Write a fresh caption with AI each time."))
-    ai_brief = models.TextField(blank=True, help_text=_("What the AI caption should be about."))
-    link = models.CharField(max_length=300, blank=True, help_text=_("Optional link added to the end of the caption."))
-    user_tags = models.CharField(max_length=700, blank=True, verbose_name=_("Tag people"))  # usernames, space separated
-    media = models.ManyToManyField(MediaAsset, blank=True, related_name="recurring_rules")
-    weekdays = models.CharField(max_length=20, default="0", help_text=_("Comma separated, 0=Mon … 6=Sun"))
-    times = models.CharField(max_length=100, default="09:00", help_text=_("Comma separated HH:MM, e.g. 09:00,18:30"))
-    next_run_at = models.DateTimeField(null=True, blank=True)
-    last_run_at = models.DateTimeField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ["next_run_at"]
-
-    def __str__(self):
-        return self.name
-
-    def compute_next_run(self, after=None):
-        return next_occurrence(parse_weekdays(self.weekdays), parse_times(self.times), after)
-
-    def weekday_labels(self):
-        labels = dict(WEEKDAY_CHOICES)
-        return ", ".join(str(labels[str(d)]) for d in parse_weekdays(self.weekdays))
-
-    def render_caption(self, when):
-        local = timezone.localtime(when)
-        return self.caption.format_map(_SafeDict(
-            date=local.strftime("%d %B"), weekday=local.strftime("%A"), studio=settings.STUDIO_NAME,
-        ))
-
-
-class QueueSettings(models.Model):
-    """Automatic content queue: publishes the next library item marked 'in queue' on a schedule."""
-
-    CAPTION_ASSET = "asset"
-    CAPTION_AI = "ai"
-    CAPTION_DEFAULT = "default"
-    CAPTION_CHOICES = [
-        (CAPTION_ASSET, _("Item's own caption, otherwise AI")),
-        (CAPTION_AI, _("Always AI")),
-        (CAPTION_DEFAULT, _("Item's own caption, otherwise the default caption")),
-    ]
-
-    SOURCE_QUEUE = "queue"
-    SOURCE_LIBRARY = "library"
-    SOURCE_CHOICES = [
-        (SOURCE_QUEUE, _("Only items I marked “In queue”")),
-        (SOURCE_LIBRARY, _("Anything in the library")),
-    ]
+class WeeklyTiming(models.Model):
+    """Posting days plus either fixed times or random times inside a window, shared by the queue and
+    recurring posts."""
 
     TIMING_FIXED = "fixed"
     TIMING_RANDOM = "random"
     TIMING_CHOICES = [(TIMING_FIXED, _("At fixed times")), (TIMING_RANDOM, _("🎲 At random times, different every day"))]
 
-    active = models.BooleanField(default=False)
     weekdays = models.CharField(max_length=20, default="1,3,5")
     timing_mode = models.CharField(max_length=10, choices=TIMING_CHOICES, default=TIMING_FIXED, verbose_name=_("When"))
     times = models.CharField(max_length=100, default="18:00", blank=True)
@@ -341,29 +284,10 @@ class QueueSettings(models.Model):
     posts_per_day = models.PositiveSmallIntegerField(default=2, verbose_name=_("Posts per day"))
     # Random mode: the remaining planned times for the current day (ISO strings), first = next_run_at.
     planned_runs = models.JSONField(default=list, blank=True)
-    source = models.CharField(max_length=10, choices=SOURCE_CHOICES, default=SOURCE_QUEUE, verbose_name=_("Post from"))
-    random_order = models.BooleanField(default=False, help_text=_("Pick items at random instead of oldest first."))
-    link = models.CharField(max_length=300, blank=True, help_text=_("Optional link added to the end of every queue caption."))
-    user_tags = models.CharField(max_length=700, blank=True, verbose_name=_("Tag people"))  # usernames, space separated
-    as_story = models.BooleanField(default=False, help_text=_("Post queue items as Stories instead of feed posts/Reels."))
-    caption_mode = models.CharField(max_length=10, choices=CAPTION_CHOICES, default=CAPTION_ASSET)
-    default_caption = models.TextField(blank=True)
-    ai_brief = models.TextField(
-        blank=True, default="A moment from our dance classes. Invite people to try a class.",
-    )
-    reuse_items = models.BooleanField(
-        default=False, help_text=_("When every item has been posted, start again from the least used."),
-    )
     next_run_at = models.DateTimeField(null=True, blank=True)
-    last_run_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
-        verbose_name_plural = "queue settings"
-
-    @classmethod
-    def load(cls):
-        obj, _created = cls.objects.get_or_create(pk=1)
-        return obj
+        abstract = True
 
     def compute_next_run(self, after=None):
         return next_occurrence(parse_weekdays(self.weekdays), parse_times(self.times), after)
@@ -424,6 +348,85 @@ class QueueSettings(models.Model):
                 times.append(t.replace(second=0, microsecond=0))
             return sorted(set(times))
         return []
+
+
+
+class RecurringRule(WeeklyTiming):
+    """Publishes the same kind of post on a weekly pattern, e.g. the class timetable every Monday 09:00."""
+
+    name = models.CharField(max_length=120)
+    active = models.BooleanField(default=True)
+    post_type = models.CharField(max_length=10, choices=Post.TYPE_CHOICES, default=Post.FEED)
+    caption = models.TextField(
+        blank=True,
+        help_text=_("Placeholders: {date}, {weekday}, {studio}. Ignored when an AI caption is generated."),
+    )
+    use_ai_caption = models.BooleanField(default=False, help_text=_("Write a fresh caption with AI each time."))
+    ai_brief = models.TextField(blank=True, help_text=_("What the AI caption should be about."))
+    link = models.CharField(max_length=300, blank=True, help_text=_("Optional link added to the end of the caption."))
+    user_tags = models.CharField(max_length=700, blank=True, verbose_name=_("Tag people"))  # usernames, space separated
+    media = models.ManyToManyField(MediaAsset, blank=True, related_name="recurring_rules")
+    weekdays = models.CharField(max_length=20, default="0", help_text=_("Comma separated, 0=Mon … 6=Sun"))
+    times = models.CharField(max_length=100, default="09:00", help_text=_("Comma separated HH:MM, e.g. 09:00,18:30"))
+    posts_per_day = models.PositiveSmallIntegerField(default=1, verbose_name=_("Posts per day"))
+    last_run_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["next_run_at"]
+
+    def __str__(self):
+        return self.name
+
+    def render_caption(self, when):
+        local = timezone.localtime(when)
+        return self.caption.format_map(_SafeDict(
+            date=local.strftime("%d %B"), weekday=local.strftime("%A"), studio=settings.STUDIO_NAME,
+        ))
+
+
+class QueueSettings(WeeklyTiming):
+    """Automatic content queue: publishes the next library item marked 'in queue' on a schedule."""
+
+    CAPTION_ASSET = "asset"
+    CAPTION_AI = "ai"
+    CAPTION_DEFAULT = "default"
+    CAPTION_CHOICES = [
+        (CAPTION_ASSET, _("Item's own caption, otherwise AI")),
+        (CAPTION_AI, _("Always AI")),
+        (CAPTION_DEFAULT, _("Item's own caption, otherwise the default caption")),
+    ]
+
+    SOURCE_QUEUE = "queue"
+    SOURCE_LIBRARY = "library"
+    SOURCE_CHOICES = [
+        (SOURCE_QUEUE, _("Only items I marked “In queue”")),
+        (SOURCE_LIBRARY, _("Anything in the library")),
+    ]
+
+    active = models.BooleanField(default=False)
+    source = models.CharField(max_length=10, choices=SOURCE_CHOICES, default=SOURCE_QUEUE, verbose_name=_("Post from"))
+    random_order = models.BooleanField(default=False, help_text=_("Pick items at random instead of oldest first."))
+    link = models.CharField(max_length=300, blank=True, help_text=_("Optional link added to the end of every queue caption."))
+    user_tags = models.CharField(max_length=700, blank=True, verbose_name=_("Tag people"))  # usernames, space separated
+    as_story = models.BooleanField(default=False, help_text=_("Post queue items as Stories instead of feed posts/Reels."))
+    caption_mode = models.CharField(max_length=10, choices=CAPTION_CHOICES, default=CAPTION_ASSET)
+    default_caption = models.TextField(blank=True)
+    ai_brief = models.TextField(
+        blank=True, default="A moment from our dance classes. Invite people to try a class.",
+    )
+    reuse_items = models.BooleanField(
+        default=False, help_text=_("When every item has been posted, start again from the least used."),
+    )
+    last_run_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "queue settings"
+
+    @classmethod
+    def load(cls):
+        obj, _created = cls.objects.get_or_create(pk=1)
+        return obj
 
     def candidates(self):
         """Items that can be posted next (least-used first when items may be reused)."""

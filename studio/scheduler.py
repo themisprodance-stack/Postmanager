@@ -57,8 +57,9 @@ def run_recurring_rules():
     for rule in RecurringRule.objects.filter(active=True, next_run_at__lte=now):
         run_at = rule.next_run_at
         # Claim this run first so a crash can't create duplicates.
+        next_run_at, planned_runs = rule.plan_after(max(now, run_at))
         claimed = RecurringRule.objects.filter(pk=rule.pk, next_run_at=run_at).update(
-            next_run_at=rule.compute_next_run(max(now, run_at)), last_run_at=now,
+            next_run_at=next_run_at, planned_runs=planned_runs, last_run_at=now,
         )
         if not claimed:
             continue

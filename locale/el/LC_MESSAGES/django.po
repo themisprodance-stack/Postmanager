@@ -124,7 +124,7 @@ msgstr "+ Νέα επαναλαμβανόμενη ανάρτηση"
 msgid "+ Queue"
 msgstr "+ Ουρά"
 
-#: studio/templates/studio/queue.html
+#: studio/templates/studio/_timing_fields.html
 msgid "24h times, comma separated, e.g. 09:00, 18:30"
 msgstr "Ώρες σε 24ωρη μορφή, χωρισμένες με κόμμα, π.χ. 09:00, 18:30"
 
@@ -716,7 +716,7 @@ msgstr "Αλληλεπίδραση ανά ώρα δημοσίευσης"
 msgid "Enter the app secret."
 msgstr "Συμπληρώστε το app secret."
 
-#: studio/templates/studio/queue.html
+#: studio/templates/studio/_timing_fields.html
 msgid ""
 "Every posting day gets new random times inside this window, spread out so "
 "posts don't bunch together."
@@ -740,7 +740,7 @@ msgstr "Απέτυχε:"
 msgid "File deleted."
 msgstr "Το αρχείο διαγράφηκε."
 
-#: studio/models.py
+#: studio/forms.py
 msgid "First post not before"
 msgstr "Πρώτη ανάρτηση όχι πριν από"
 
@@ -1089,7 +1089,7 @@ msgstr ""
 msgid "Language"
 msgstr "Γλώσσα"
 
-#: studio/models.py
+#: studio/forms.py
 msgid "Last post not after"
 msgstr "Τελευταία ανάρτηση όχι μετά από"
 
@@ -1562,7 +1562,7 @@ msgstr "Αναρτήσεις"
 msgid "Posts analysed"
 msgstr "Αναρτήσεις που αναλύθηκαν"
 
-#: studio/models.py
+#: studio/forms.py
 msgid "Posts per day"
 msgstr "Αναρτήσεις την ημέρα"
 
@@ -1872,9 +1872,9 @@ msgstr ""
 
 #: studio/views.py
 msgid ""
-"Story saved. It will be posted every %(days)s at %(times)s. Next: %(when)s."
+"Story saved. It will be posted every %(days)s, %(times)s. Next: %(when)s."
 msgstr ""
-"Το story αποθηκεύτηκε. Θα αναρτάται κάθε %(days)s στις %(times)s. Επόμενη: "
+"Το story αποθηκεύτηκε. Θα αναρτάται κάθε %(days)s, %(times)s. Επόμενη: "
 "%(when)s."
 
 #: studio/templates/studio/media_list.html
@@ -2075,7 +2075,7 @@ msgstr ""
 msgid "Thu"
 msgstr "Πεμ"
 
-#: studio/templates/studio/_weekly_fields.html
+#: studio/templates/studio/_timing_fields.html
 msgid "Time(s)"
 msgstr "Ώρα/ες"
 

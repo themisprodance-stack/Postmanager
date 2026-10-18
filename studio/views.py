@@ -435,15 +435,13 @@ def story_text(request):
         else:
             story = save_story(form.cleaned_data["asset"], request.user, **options)
             if form.cleaned_data["repeat"]:
-                rule = RecurringRule(
-                    name=(options["headline"] or options["text"]).strip()[:120], post_type=Post.STORY,
-                    weekdays=",".join(sorted(form.cleaned_data["weekday_list"])), times=form.cleaned_data["times"],
-                )
-                rule.next_run_at = rule.compute_next_run()
+                rule = RecurringRule(name=(options["headline"] or options["text"]).strip()[:120], post_type=Post.STORY,
+                                     **form.schedule_options())
+                rule.next_run_at, rule.planned_runs = rule.plan_after()
                 rule.save()
                 rule.media.set([story])
-                messages.success(request, _("Story saved. It will be posted every %(days)s at %(times)s. Next: %(when)s.") % {
-                    "days": rule.weekday_labels(), "times": rule.times.replace(",", ", "), "when": _when(rule.next_run_at),
+                messages.success(request, _("Story saved. It will be posted every %(days)s, %(times)s. Next: %(when)s.") % {
+                    "days": rule.weekday_labels(), "times": rule.schedule_label(), "when": _when(rule.next_run_at),
                 })
                 return redirect("recurring_list")
             messages.success(request, _(

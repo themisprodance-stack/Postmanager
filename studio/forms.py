@@ -5,7 +5,7 @@ from django import forms
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from .models import WEEKDAY_CHOICES, MediaAsset, MusicTrack, Post, QueueSettings, RecurringRule, clean_link, parse_times
+from .models import WEEKDAY_CHOICES, MediaAsset, MusicTrack, Post, WeeklyTiming, QueueSettings, RecurringRule, clean_link, parse_times
 
 
 class LinkCleaningMixin:
@@ -111,6 +111,65 @@ class MusicVideoForm(forms.Form):
         return cleaned
 
 
+TIMING_WIDGETS = {
+    "timing_mode": forms.RadioSelect,
+    "window_start": forms.TimeInput(attrs={"type": "time"}, format="%H:%M"),
+    "window_end": forms.TimeInput(attrs={"type": "time"}, format="%H:%M"),
+    "posts_per_day": forms.NumberInput(attrs={"min": 1, "max": 25}),
+}
+TIMING_FIELDS = ["timing_mode", "times", "window_start", "window_end", "posts_per_day"]
+
+
+def check_random_window(form, cleaned):
+    """Validation for 'random times between start and end, N a day'."""
+    start, end, count = cleaned.get("window_start"), cleaned.get("window_end"), cleaned.get("posts_per_day")
+    if start and end and end <= start:
+        form.add_error("window_end", _("The last time must be later than the first."))
+    if count is not None and not 1 <= count <= 25:
+        form.add_error("posts_per_day", _("Choose between 1 and 25 posts a day."))
+    elif start and end and count and end > start:
+        minutes = (datetime.combine(date.min, end) - datetime.combine(date.min, start)).seconds // 60
+        if minutes < count * 15:
+            form.add_error("posts_per_day", _(
+                "That's too many for this window. Allow at least 15 minutes per post (max %(max)s here).")
+                % {"max": max(1, minutes // 15)})
+
+
+class RandomTimingMixin:
+    """For WeeklyTiming models: fixed times, or random times inside a window."""
+
+    # Missing timing fields fall back to the saved values, so a page opened before they existed still saves.
+    timing_fallback = False
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name in TIMING_FIELDS if self.timing_fallback else ["times"]:
+            self.fields[name].required = False  # empty times are fine in random mode; clean_times checks fixed mode
+
+    def clean_times(self):
+        if self.data.get("timing_mode") == "random":
+            return self.instance.times or "18:00"  # not used in random mode
+        return super().clean_times()
+
+    def clean(self):
+        cleaned = super().clean()
+        for name in ("timing_mode", "window_start", "window_end", "posts_per_day") if self.timing_fallback else ():
+            if cleaned.get(name) in (None, ""):
+                cleaned[name] = getattr(self.instance, name)
+        if cleaned.get("timing_mode") == "random":
+            check_random_window(self, cleaned)
+        return cleaned
+
+    def save(self, commit=True):
+        obj = super().save(commit=False)
+        obj.planned_runs = []
+        obj.next_run_at, obj.planned_runs = obj.plan_after()
+        if commit:
+            obj.save()
+            self.save_m2m()
+        return obj
+
+
 class StoryTextForm(forms.Form):
     POSITION_CHOICES = [("top", _("Top")), ("middle", _("Middle")), ("bottom", _("Bottom"))]
     STYLE_CHOICES = [("dark", _("Dark box")), ("light", _("Light box")), ("brand", _("Pink box")),
@@ -132,19 +191,45 @@ class StoryTextForm(forms.Form):
     repeat = forms.BooleanField(required=False, label=_("Post this story every week"))
     weekday_list = forms.MultipleChoiceField(choices=WEEKDAY_CHOICES, widget=forms.CheckboxSelectMultiple,
                                              required=False, label=_("Days"))
+    timing_mode = forms.ChoiceField(choices=WeeklyTiming.TIMING_CHOICES, initial="fixed", widget=forms.RadioSelect,
+                                    required=False, label=_("When"))
     times = forms.CharField(required=False, initial="18:00", label=_("Time(s)"),
                             help_text=_("24h times, comma separated, e.g. 09:00, 18:30"))
+    window_start = forms.TimeField(required=False, initial="10:00", label=_("First post not before"),
+                                   widget=TIMING_WIDGETS["window_start"])
+    window_end = forms.TimeField(required=False, initial="21:00", label=_("Last post not after"),
+                                 widget=TIMING_WIDGETS["window_end"])
+    posts_per_day = forms.IntegerField(required=False, initial=1, label=_("Posts per day"),
+                                       widget=TIMING_WIDGETS["posts_per_day"])
 
     def clean(self):
         cleaned = super().clean()
-        if cleaned.get("repeat"):
-            if not cleaned.get("weekday_list"):
-                self.add_error("weekday_list", _("Pick at least one day."))
+        if not cleaned.get("repeat"):
+            return cleaned
+        cleaned["timing_mode"] = cleaned.get("timing_mode") or "fixed"
+        if not cleaned.get("weekday_list"):
+            self.add_error("weekday_list", _("Pick at least one day."))
+        if cleaned.get("timing_mode") == "random":
+            for name in ("window_start", "window_end", "posts_per_day"):
+                if cleaned.get(name) is None:
+                    self.add_error(name, self.fields[name].error_messages["required"])
+            check_random_window(self, cleaned)
+            cleaned["times"] = "18:00"  # not used in random mode
+        else:
             try:
                 cleaned["times"] = clean_times_value(cleaned.get("times", ""))
             except forms.ValidationError as exc:
                 self.add_error("times", exc)
         return cleaned
+
+    def schedule_options(self):
+        data = self.cleaned_data
+        options = {"weekdays": ",".join(sorted(data["weekday_list"])), "timing_mode": data["timing_mode"],
+                   "times": data["times"]}
+        if data["timing_mode"] == "random":
+            options.update(window_start=data["window_start"], window_end=data["window_end"],
+                           posts_per_day=data["posts_per_day"])
+        return options
 
     def story_options(self):
         keys = ("headline", "text", "position", "style", "headline_size", "text_size")
@@ -237,12 +322,15 @@ class WeeklyScheduleMixin(forms.ModelForm):
         return obj
 
 
-class RecurringRuleForm(UserTagsCleaningMixin, LinkCleaningMixin, WeeklyScheduleMixin):
+class RecurringRuleForm(UserTagsCleaningMixin, LinkCleaningMixin, RandomTimingMixin, WeeklyScheduleMixin):
+    timing_fallback = True
+
     class Meta:
         model = RecurringRule
-        fields = ["name", "active", "post_type", "weekday_list", "times", "caption", "link", "user_tags", "use_ai_caption",
-                  "ai_brief", "media"]
+        fields = ["name", "active", "post_type", "weekday_list", *TIMING_FIELDS, "caption", "link", "user_tags",
+                  "use_ai_caption", "ai_brief", "media"]
         widgets = {
+            **TIMING_WIDGETS,
             "post_type": forms.RadioSelect,
             "caption": forms.Textarea(attrs={"rows": 5}),
             "ai_brief": forms.Textarea(attrs={"rows": 3}),
@@ -257,52 +345,18 @@ class RecurringRuleForm(UserTagsCleaningMixin, LinkCleaningMixin, WeeklySchedule
         return cleaned
 
 
-class QueueSettingsForm(UserTagsCleaningMixin, LinkCleaningMixin, WeeklyScheduleMixin):
+class QueueSettingsForm(UserTagsCleaningMixin, LinkCleaningMixin, RandomTimingMixin, WeeklyScheduleMixin):
     class Meta:
         model = QueueSettings
-        fields = ["active", "weekday_list", "timing_mode", "times", "window_start", "window_end", "posts_per_day",
-                  "source", "random_order", "as_story", "caption_mode", "default_caption", "ai_brief", "link",
+        fields = ["active", "weekday_list", *TIMING_FIELDS, "source", "random_order", "as_story", "caption_mode", "default_caption", "ai_brief", "link",
                   "user_tags", "reuse_items"]
         widgets = {
-            "timing_mode": forms.RadioSelect,
+            **TIMING_WIDGETS,
             "source": forms.RadioSelect,
-            "window_start": forms.TimeInput(attrs={"type": "time"}, format="%H:%M"),
-            "window_end": forms.TimeInput(attrs={"type": "time"}, format="%H:%M"),
-            "posts_per_day": forms.NumberInput(attrs={"min": 1, "max": 25}),
             "default_caption": forms.Textarea(attrs={"rows": 3}),
             "ai_brief": forms.Textarea(attrs={"rows": 3}),
             "user_tags": USER_TAGS_WIDGET,
         }
-
-    def clean_times(self):
-        if self.data.get("timing_mode") == QueueSettings.TIMING_RANDOM:
-            return self.instance.times or "18:00"  # not used in random mode
-        return super().clean_times()
-
-    def clean(self):
-        cleaned = super().clean()
-        if cleaned.get("timing_mode") == QueueSettings.TIMING_RANDOM:
-            start, end, count = cleaned.get("window_start"), cleaned.get("window_end"), cleaned.get("posts_per_day")
-            if start and end and end <= start:
-                self.add_error("window_end", _("The last time must be later than the first."))
-            if count is not None and not 1 <= count <= 25:
-                self.add_error("posts_per_day", _("Choose between 1 and 25 posts a day."))
-            elif start and end and count and end > start:
-                minutes = (datetime.combine(date.min, end) - datetime.combine(date.min, start)).seconds // 60
-                if minutes < count * 15:
-                    self.add_error("posts_per_day", _(
-                        "That's too many for this window. Allow at least 15 minutes per post (max %(max)s here).")
-                        % {"max": max(1, minutes // 15)})
-        return cleaned
-
-    def save(self, commit=True):
-        obj = super().save(commit=False)
-        obj.planned_runs = []
-        obj.next_run_at, obj.planned_runs = obj.plan_after()
-        if commit:
-            obj.save()
-        return obj
-
 
 class MediaAssetForm(forms.ModelForm):
     class Meta:

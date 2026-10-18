@@ -330,6 +330,36 @@ class AutomationTests(BaseTest):
         scheduler.tick()  # same run must not fire twice
         self.assertEqual(Post.objects.filter(recurring_rule=rule).count(), 1)
 
+    def test_random_recurring_rule_plans_its_next_day_after_posting(self):
+        asset = save_upload(image_upload())
+        rule = RecurringRule.objects.create(
+            name="Story", post_type=Post.STORY, weekdays="0,1,2,3,4,5,6", timing_mode="random",
+            window_start=time(10, 0), window_end=time(21, 0), posts_per_day=1,
+            next_run_at=timezone.now() - timedelta(minutes=1),
+            planned_runs=[(timezone.now() - timedelta(minutes=1)).isoformat()],
+        )
+        rule.media.set([asset])
+        scheduler.run_recurring_rules()
+        self.assertEqual(Post.objects.filter(recurring_rule=rule).count(), 1)
+        rule.refresh_from_db()
+        local = timezone.localtime(rule.next_run_at)
+        self.assertGreater(rule.next_run_at, timezone.now())
+        self.assertTrue(time(10, 0) <= local.time() <= time(21, 0), local)
+
+    def test_recurring_form_offers_random_times(self):
+        self.client.login(username="staff", password="pw-123456!")
+        asset = save_upload(image_upload())
+        resp = self.client.post(reverse("recurring_new"), {
+            "name": "Promo", "active": "on", "post_type": "feed", "weekday_list": ["1", "3"],
+            "timing_mode": "random", "times": "", "window_start": "12:00", "window_end": "15:00", "posts_per_day": "1",
+            "caption": "Hi", "media": [asset.pk],
+        })
+        self.assertRedirects(resp, reverse("recurring_list"))
+        rule = RecurringRule.objects.get()
+        self.assertEqual(rule.timing_mode, "random")
+        self.assertTrue(time(12, 0) <= timezone.localtime(rule.next_run_at).time() <= time(15, 0))
+        self.assertContains(self.client.get(reverse("recurring_list")), "random times between 12:00 and 15:00")
+
     def test_long_missed_run_is_skipped(self):
         rule = RecurringRule.objects.create(
             name="Old", post_type=Post.FEED, weekdays="0,1,2,3,4,5,6", times="09:00",
@@ -1131,6 +1161,18 @@ class StoryTextTests(BaseTest):
         self.assertEqual((rule.post_type, rule.weekdays, rule.times), (Post.STORY, "0,2", "17:00"))
         self.assertEqual(list(rule.media.all()), [MediaAsset.objects.get()])
         self.assertIn(timezone.localtime(rule.next_run_at).weekday(), (0, 2))
+
+    def test_story_can_repeat_at_random_times_in_a_window(self):
+        self.client.post(reverse("story_text"), {
+            "asset": "", "headline": "Νέο τμήμα", "text": "", "position": "bottom", "style": "dark",
+            "headline_size": "100", "text_size": "100", "repeat": "on", "weekday_list": ["0", "1", "2", "3", "4", "5", "6"],
+            "timing_mode": "random", "window_start": "10:00", "window_end": "21:00", "posts_per_day": "1",
+        })
+        rule = RecurringRule.objects.get()
+        self.assertEqual((rule.timing_mode, rule.posts_per_day), ("random", 1))
+        local = timezone.localtime(rule.next_run_at)
+        self.assertTrue(time(10, 0) <= local.time() <= time(21, 0), local)
+        self.assertEqual(len(rule.planned_runs), 1)
 
     def test_repeat_needs_days(self):
         resp = self.client.post(reverse("story_text"), {

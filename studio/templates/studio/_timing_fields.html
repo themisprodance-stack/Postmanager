@@ -1,0 +1,15 @@
+{% load i18n %}<div class="field">
+  <label>{{ form.timing_mode.label }}</label>
+  <div class="choice-row">{% for radio in form.timing_mode %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}</div>
+</div>
+<div data-show-when="timing_mode=fixed">
+  <div class="field"><label for="id_times">{% translate "Time(s)" %}</label>{{ form.times }}<span class="help">{% translate "24h times, comma separated, e.g. 09:00, 18:30" %}</span>{{ form.times.errors }}</div>
+</div>
+<div data-show-when="timing_mode=random">
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.75rem">
+    <div class="field"><label for="id_window_start">{{ form.window_start.label }}</label>{{ form.window_start }}{{ form.window_start.errors }}</div>
+    <div class="field"><label for="id_window_end">{{ form.window_end.label }}</label>{{ form.window_end }}{{ form.window_end.errors }}</div>
+    <div class="field"><label for="id_posts_per_day">{{ form.posts_per_day.label }}</label>{{ form.posts_per_day }}{{ form.posts_per_day.errors }}</div>
+  </div>
+  <span class="help">{% translate "Every posting day gets new random times inside this window, spread out so posts don't bunch together." %}</span>
+</div>
