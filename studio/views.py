@@ -1,5 +1,7 @@
+import base64
 import hmac
 import json
+import logging
 import secrets
 from datetime import timedelta
 from functools import wraps
@@ -38,6 +40,8 @@ def _when(dt):
     """A date in the studio's time zone, formatted for the current language (e.g. “Τρι 13 Οκτ, 18:30”)."""
     return date_format(timezone.localtime(dt), "D j M, H:i")
 
+
+log = logging.getLogger(__name__)
 
 LINK_TRIMMED = gettext_lazy("The part of the link after “#” was removed, because Instagram turns it into a hashtag.")
 
@@ -412,11 +416,16 @@ def story_text(request):
     initial = {"asset": request.GET.get("asset")} if request.GET.get("asset") else None
     form = StoryTextForm(request.POST or None, initial=initial)
     if request.method == "POST" and request.POST.get("preview"):
+        # Sent as text (a data: URL) rather than raw image bytes, so nothing between here and the browser can
+        # mangle it; errors come back as a message the page shows under the preview.
         if not form.is_valid():
-            return HttpResponse(status=400)
-        resp = HttpResponse(story_jpeg(form.cleaned_data["asset"], **form.story_options()), content_type="image/jpeg")
-        resp["Cache-Control"] = "no-store"
-        return resp
+            return JsonResponse({"error": " ".join(e for errors in form.errors.values() for e in errors)}, status=400)
+        try:
+            jpeg = story_jpeg(form.cleaned_data["asset"], preview_width=540, **form.story_options())
+        except Exception as exc:  # shown to the user instead of a blank preview
+            log.exception("Story preview failed")
+            return JsonResponse({"error": _("The preview couldn't be made: %(error)s") % {"error": exc}}, status=500)
+        return JsonResponse({"image": "data:image/jpeg;base64," + base64.b64encode(jpeg).decode()})
     if request.method == "POST" and not _uploads_unavailable(request) and form.is_valid():
         options = form.story_options()
         if not (options["headline"].strip() or options["text"].strip()):

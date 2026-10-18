@@ -124,9 +124,14 @@ class StoryTextForm(forms.Form):
                            widget=forms.Textarea(attrs={"rows": 3, "placeholder": _("e.g. First class free, bring a friend!")}))
     position = forms.ChoiceField(choices=POSITION_CHOICES, initial="bottom", widget=forms.RadioSelect, label=_("Text position"))
     style = forms.ChoiceField(choices=STYLE_CHOICES, initial="dark", widget=forms.RadioSelect, label=_("Style"))
+    headline_size = forms.IntegerField(min_value=40, max_value=200, initial=100, label=_("Title size"),
+                                       widget=forms.NumberInput(attrs={"type": "range", "min": 40, "max": 200, "step": 5}))
+    text_size = forms.IntegerField(min_value=40, max_value=200, initial=100, label=_("Smaller text size"),
+                                   widget=forms.NumberInput(attrs={"type": "range", "min": 40, "max": 200, "step": 5}))
 
     def story_options(self):
-        return {key: self.cleaned_data[key] for key in ("headline", "text", "position", "style")}
+        keys = ("headline", "text", "position", "style", "headline_size", "text_size")
+        return {key: self.cleaned_data[key] for key in keys}
 
 
 class PostForm(UserTagsCleaningMixin, LinkCleaningMixin, forms.ModelForm):

@@ -159,6 +159,9 @@ EL = {
     "Emoji can't be drawn on the image. Add stickers and emoji in Instagram if you like.": 'Τα emoji δεν μπορούν να μπουν στην εικόνα. Προσθέστε stickers και emoji από το Instagram αν θέλετε.',
     'Create story image': 'Δημιουργία εικόνας story',
     'Preview': 'Προεπισκόπηση',
+    'Title size': 'Μέγεθος τίτλου',
+    'Smaller text size': 'Μέγεθος μικρού κειμένου',
+    "The preview couldn't be made: %(error)s": 'Δεν ήταν δυνατή η προεπισκόπηση: %(error)s',
     # --- Music ---
     'Music': 'Μουσική',
     'Music files': 'Αρχεία μουσικής',

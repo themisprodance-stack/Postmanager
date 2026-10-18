@@ -27,6 +27,10 @@
       <div class="choice-row">{% for radio in form.position %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}</div></div>
     <div class="field"><label>{{ form.style.label }}</label>
       <div class="choice-row">{% for radio in form.style %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}</div></div>
+    <div class="grid grid-2 size-sliders">
+      <div class="field"><label for="id_headline_size">{{ form.headline_size.label }} <output class="muted small" data-size-for="id_headline_size"></output></label>{{ form.headline_size }}</div>
+      <div class="field"><label for="id_text_size">{{ form.text_size.label }} <output class="muted small" data-size-for="id_text_size"></output></label>{{ form.text_size }}</div>
+    </div>
     <div class="actions">
       <button class="btn btn-primary">{% translate "Create story image" %}</button>
       <a class="muted" href="{% url 'post_list' %}" style="margin-left:auto">{% translate "Cancel" %}</a>
@@ -34,7 +38,7 @@
   </div>
   <div class="story-preview">
     <img alt="{% translate 'Preview' %}" data-story-preview>
-    <p class="small muted" style="text-align:center">{% translate "Preview" %}</p>
+    <p class="small muted" style="text-align:center" data-preview-status>{% translate "Preview" %}</p>
   </div>
 </form>
 {% endblock %}
@@ -44,24 +48,42 @@
   const form = document.querySelector("[data-story-form]");
   if (!form) return;
   const img = form.querySelector("[data-story-preview]");
-  let timer, current;
+  const status = form.querySelector("[data-preview-status]");
+  const label = status.textContent;
+  let timer, latest = 0;
   const refresh = async () => {
+    const id = ++latest;
     const body = new FormData(form);
     body.set("preview", "1");
     img.classList.add("loading");
-    const request = current = fetch(form.dataset.previewUrl, { method: "POST", body, credentials: "same-origin" });
     try {
-      const resp = await request;
-      if (request !== current || !resp.ok) return;
-      const blob = await resp.blob();
-      if (img.src.startsWith("blob:")) URL.revokeObjectURL(img.src);
-      img.src = URL.createObjectURL(blob);
-    } catch (err) { /* keep the last preview */ }
-    finally { if (request === current) img.classList.remove("loading"); }
+      const resp = await fetch(form.dataset.previewUrl, { method: "POST", body, credentials: "same-origin" });
+      const data = await resp.json().catch(() => ({ error: `HTTP ${resp.status}` }));
+      if (id !== latest) return;
+      if (data.image) {
+        img.src = data.image;
+        status.textContent = label;
+        status.style.color = "";
+      } else {
+        status.textContent = data.error || `HTTP ${resp.status}`;
+        status.style.color = "var(--err)";
+      }
+    } catch (err) {
+      if (id === latest) { status.textContent = err.message; status.style.color = "var(--err)"; }
+    } finally {
+      if (id === latest) img.classList.remove("loading");
+    }
   };
   const schedule = (delay) => { clearTimeout(timer); timer = setTimeout(refresh, delay); };
-  form.addEventListener("input", () => schedule(600));
+  const showSizes = () => form.querySelectorAll("[data-size-for]").forEach((out) => {
+    out.textContent = form.querySelector("#" + out.dataset.sizeFor).value + "%";
+  });
+  form.addEventListener("input", (event) => {
+    showSizes();
+    schedule(event.target.type === "range" ? 250 : 600);
+  });
   form.addEventListener("change", () => schedule(100));
+  showSizes();
   refresh();
 })();
 </script>

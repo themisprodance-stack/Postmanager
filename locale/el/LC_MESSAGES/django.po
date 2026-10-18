@@ -1804,6 +1804,10 @@ msgstr "Από"
 msgid "Smaller text"
 msgstr "Μικρότερο κείμενο"
 
+#: studio/forms.py
+msgid "Smaller text size"
+msgstr "Μέγεθος μικρού κειμένου"
+
 #: studio/context_processors.py
 msgid "Something went wrong."
 msgstr "Κάτι πήγε στραβά."
@@ -1968,6 +1972,10 @@ msgstr ""
 "Το τμήμα του συνδέσμου μετά το «#» αφαιρέθηκε, γιατί το Instagram το κάνει "
 "hashtag."
 
+#: studio/views.py
+msgid "The preview couldn't be made: %(error)s"
+msgstr "Δεν ήταν δυνατή η προεπισκόπηση: %(error)s"
+
 #: studio/templates/studio/queue.html
 msgid "The queue is empty."
 msgstr "Η ουρά είναι άδεια."
@@ -2047,6 +2055,10 @@ msgstr "Ώρα/ες"
 #: studio/forms.py
 msgid "Title"
 msgstr "Τίτλος"
+
+#: studio/forms.py
+msgid "Title size"
+msgstr "Μέγεθος τίτλου"
 
 #: studio/templates/studio/instagram.html
 msgid "To change the app keys, save new ones below."

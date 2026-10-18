@@ -1094,24 +1094,39 @@ class StoryTextTests(BaseTest):
         photo = save_upload(image_upload())
         resp = self.client.post(reverse("story_text"), {
             "asset": photo.pk, "headline": "Απόψε 20:00 💃", "text": "", "position": "top", "style": "brand",
-            "preview": "1",
+            "headline_size": "150", "text_size": "60", "preview": "1",
         })
-        self.assertEqual(resp["Content-Type"], "image/jpeg")
-        self.assertEqual(Image.open(io.BytesIO(resp.content)).size, (1080, 1920))
+        import base64
+
+        data_url = resp.json()["image"]
+        self.assertTrue(data_url.startswith("data:image/jpeg;base64,"))
+        preview = Image.open(io.BytesIO(base64.b64decode(data_url.split(",", 1)[1])))
+        self.assertEqual(preview.size, (540, 960))
         self.assertEqual(MediaAsset.objects.count(), 1)  # previews aren't saved
 
     def test_story_image_is_saved_and_opens_as_story(self):
         resp = self.client.post(reverse("story_text"), {
             "asset": "", "headline": "Καλοκαιρινό πάρτι", "text": "Σάββατο 21:00", "position": "middle",
-            "style": "none",
+            "style": "none", "headline_size": "100", "text_size": "100",
         })
         story = MediaAsset.objects.get()
         self.assertRedirects(resp, f"{reverse('post_new')}?media={story.pk}&type=story", fetch_redirect_response=False)
         self.assertEqual((story.kind, story.width, story.height), (MediaAsset.IMAGE, 1080, 1920))
 
     def test_story_needs_some_text(self):
-        resp = self.client.post(reverse("story_text"), {"asset": "", "headline": " ", "text": "",
-                                                        "position": "bottom", "style": "dark"})
+        resp = self.client.post(reverse("story_text"), {"asset": "", "headline": " ", "text": "", "position": "bottom",
+                                                        "style": "dark", "headline_size": "100", "text_size": "100"})
         self.assertContains(resp, "Write some text")
         self.assertFalse(MediaAsset.objects.exists())
         self.assertContains(self.client.get(reverse("story_text")), "data-story-preview")
+
+    def test_bigger_size_makes_bigger_letters(self):
+        from .story import render_story
+
+        def ink_height(size):
+            image = render_story(None, "Νέο τμήμα", position="middle", style="none", headline_size=size)
+            column = [image.getpixel((540, y)) for y in range(1920)]
+            white = [y for y, px in enumerate(column) if min(px) > 230]
+            return max(white) - min(white) if white else 0
+
+        self.assertGreater(ink_height(180), ink_height(100) * 1.4)

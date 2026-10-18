@@ -64,11 +64,12 @@ def _fit_lines(draw, text, weight, size, min_size, max_lines, width):
         lines = _wrap(draw, text, font, width)
         if len(lines) <= max_lines or size <= min_size:
             return font, lines[:max_lines]
-        size -= 6
+        size -= max(2, size // 20)
 
 
-def render_story(image, headline, text="", position=BOTTOM, style="dark"):
-    """Return a 1080×1920 RGB image: the photo (or a brand gradient) with the text on a panel."""
+def render_story(image, headline, text="", position=BOTTOM, style="dark", headline_size=100, text_size=100):
+    """Return a 1080×1920 RGB image: the photo (or a brand gradient) with the text on a panel.
+    headline_size and text_size are percentages of the normal letter size."""
     canvas = story_canvas(image) if image is not None else _gradient()
     headline, text = EMOJI.sub("", headline).strip(), EMOJI.sub("", text).strip()
     panel_colour, text_colour = STYLES.get(style, STYLES["dark"])
@@ -81,10 +82,12 @@ def render_story(image, headline, text="", position=BOTTOM, style="dark"):
     width = W - 2 * MARGIN - 2 * pad
     blocks = []  # (font, lines, line height)
     if headline:
-        font, lines = _fit_lines(draw, headline, "Bold", 120, 60, 4, width)
+        scale = headline_size / 100
+        font, lines = _fit_lines(draw, headline, "Bold", round(120 * scale), round(48 * scale), 6, width)
         blocks.append((font, lines, round(font.size * 1.18)))
     if text:
-        font, lines = _fit_lines(draw, text, "Regular", 62, 40, 6, width)
+        scale = text_size / 100
+        font, lines = _fit_lines(draw, text, "Regular", round(62 * scale), round(30 * scale), 10, width)
         blocks.append((font, lines, round(font.size * 1.3)))
     gap = 30
     content_h = sum(len(lines) * lh for _f, lines, lh in blocks) + gap * (len(blocks) - 1)
@@ -119,9 +122,12 @@ def _open_photo(asset):
         return ImageOps.exif_transpose(Image.open(fh)).convert("RGB")
 
 
-def story_jpeg(asset, **options):
+def story_jpeg(asset, preview_width=None, **options):
+    image = render_story(_open_photo(asset), **options)
+    if preview_width:
+        image = image.resize((preview_width, round(preview_width * H / W)), Image.LANCZOS)
     buffer = io.BytesIO()
-    render_story(_open_photo(asset), **options).save(buffer, "JPEG", quality=90)
+    image.save(buffer, "JPEG", quality=85 if preview_width else 90)
     return buffer.getvalue()
 
 
