@@ -430,8 +430,22 @@ def story_text(request):
         options = form.story_options()
         if not (options["headline"].strip() or options["text"].strip()):
             form.add_error("headline", _("Write some text for the story."))
+        elif form.cleaned_data["repeat"] and not request.membership.is_owner:
+            form.add_error("repeat", _("Only an owner can set up weekly posts."))
         else:
             story = save_story(form.cleaned_data["asset"], request.user, **options)
+            if form.cleaned_data["repeat"]:
+                rule = RecurringRule(
+                    name=(options["headline"] or options["text"]).strip()[:120], post_type=Post.STORY,
+                    weekdays=",".join(sorted(form.cleaned_data["weekday_list"])), times=form.cleaned_data["times"],
+                )
+                rule.next_run_at = rule.compute_next_run()
+                rule.save()
+                rule.media.set([story])
+                messages.success(request, _("Story saved. It will be posted every %(days)s at %(times)s. Next: %(when)s.") % {
+                    "days": rule.weekday_labels(), "times": rule.times.replace(",", ", "), "when": _when(rule.next_run_at),
+                })
+                return redirect("recurring_list")
             messages.success(request, _(
                 "Story image saved in the Library. To add music, use the 🎵 button on it in the Library."))
             return redirect(f"{reverse('post_new')}?media={story.pk}&type=story")

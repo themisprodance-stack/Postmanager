@@ -31,6 +31,16 @@
       <div class="field"><label for="id_headline_size">{{ form.headline_size.label }} <output class="muted small" data-size-for="id_headline_size"></output></label>{{ form.headline_size }}</div>
       <div class="field"><label for="id_text_size">{{ form.text_size.label }} <output class="muted small" data-size-for="id_text_size"></output></label>{{ form.text_size }}</div>
     </div>
+    {% if is_owner %}
+    <div class="field repeat-box">
+      <label class="check">{{ form.repeat }} 🔁 {{ form.repeat.label }}</label>
+      {{ form.repeat.errors }}
+      <div data-repeat-fields {% if not form.repeat.value %}hidden{% endif %}>
+        {% include "studio/_weekly_fields.html" %}
+        <span class="help">{% translate "The same story goes out automatically on these days and times. You can pause or change it later under Recurring." %}</span>
+      </div>
+    </div>
+    {% endif %}
     <div class="actions">
       <button class="btn btn-primary">{% translate "Create story image" %}</button>
       <a class="muted" href="{% url 'post_list' %}" style="margin-left:auto">{% translate "Cancel" %}</a>
@@ -82,7 +92,14 @@
     showSizes();
     schedule(event.target.type === "range" ? 250 : 600);
   });
-  form.addEventListener("change", () => schedule(100));
+  form.addEventListener("change", (event) => {
+    if (event.target.name === "repeat") {
+      form.querySelector("[data-repeat-fields]").hidden = !event.target.checked;
+      return;
+    }
+    if (["weekday_list", "times"].includes(event.target.name)) return;
+    schedule(100);
+  });
   showSizes();
   refresh();
 })();

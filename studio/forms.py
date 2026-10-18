@@ -129,6 +129,23 @@ class StoryTextForm(forms.Form):
     text_size = forms.IntegerField(min_value=40, max_value=200, initial=100, label=_("Smaller text size"),
                                    widget=forms.NumberInput(attrs={"type": "range", "min": 40, "max": 200, "step": 5}))
 
+    repeat = forms.BooleanField(required=False, label=_("Post this story every week"))
+    weekday_list = forms.MultipleChoiceField(choices=WEEKDAY_CHOICES, widget=forms.CheckboxSelectMultiple,
+                                             required=False, label=_("Days"))
+    times = forms.CharField(required=False, initial="18:00", label=_("Time(s)"),
+                            help_text=_("24h times, comma separated, e.g. 09:00, 18:30"))
+
+    def clean(self):
+        cleaned = super().clean()
+        if cleaned.get("repeat"):
+            if not cleaned.get("weekday_list"):
+                self.add_error("weekday_list", _("Pick at least one day."))
+            try:
+                cleaned["times"] = clean_times_value(cleaned.get("times", ""))
+            except forms.ValidationError as exc:
+                self.add_error("times", exc)
+        return cleaned
+
     def story_options(self):
         keys = ("headline", "text", "position", "style", "headline_size", "text_size")
         return {key: self.cleaned_data[key] for key in keys}
@@ -185,6 +202,17 @@ class PostForm(UserTagsCleaningMixin, LinkCleaningMixin, forms.ModelForm):
         return cleaned
 
 
+def clean_times_value(value):
+    """'18:30, 9:00' -> '09:00,18:30'"""
+    try:
+        times = parse_times(value)
+    except ValueError:
+        raise forms.ValidationError(_("Use HH:MM, e.g. 09:00, 18:30"))
+    if not times:
+        raise forms.ValidationError(_("Add at least one time."))
+    return ",".join(t.strftime("%H:%M") for t in sorted(set(times)))
+
+
 class WeeklyScheduleMixin(forms.ModelForm):
     weekday_list = forms.MultipleChoiceField(
         choices=WEEKDAY_CHOICES, widget=forms.CheckboxSelectMultiple, label=_("Days"),
@@ -197,14 +225,7 @@ class WeeklyScheduleMixin(forms.ModelForm):
             self.initial["weekday_list"] = [d for d in self.instance.weekdays.split(",") if d]
 
     def clean_times(self):
-        value = self.cleaned_data["times"]
-        try:
-            times = parse_times(value)
-        except ValueError:
-            raise forms.ValidationError(_("Use HH:MM, e.g. 09:00, 18:30"))
-        if not times:
-            raise forms.ValidationError(_("Add at least one time."))
-        return ",".join(t.strftime("%H:%M") for t in sorted(set(times)))
+        return clean_times_value(self.cleaned_data["times"])
 
     def save(self, commit=True):
         obj = super().save(commit=False)

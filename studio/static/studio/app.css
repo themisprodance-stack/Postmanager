@@ -166,6 +166,8 @@ input[type=checkbox] { width: 1.05rem; height: 1.05rem; accent-color: var(--acce
 .story-preview img.loading { opacity: .6; }
 .size-sliders { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 .size-sliders input[type=range] { width: 100%; accent-color: var(--accent); }
+.repeat-box { border: 1px solid var(--border); border-radius: var(--radius); padding: .75rem .9rem; background: var(--bg); }
+.repeat-box [data-repeat-fields] { margin-top: .6rem; }
 .media-tile.no-photo { display: flex; align-items: center; justify-content: center; text-align: center; font-size: .8rem; color: #fff; background: linear-gradient(#c2185b, #4a148c); }
 @media (max-width: 760px) { .story-layout { grid-template-columns: 1fr; } .story-preview { position: static; max-width: 260px; margin: 0 auto; } }
 .music-row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; padding: .5rem 0; border-bottom: 1px solid var(--border); }

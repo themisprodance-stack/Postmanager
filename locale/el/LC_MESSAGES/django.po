@@ -1354,6 +1354,10 @@ msgstr "Μόνο ένας ιδιοκτήτης μπορεί να αλλάξει 
 msgid "Only an owner can do that."
 msgstr "Μόνο ένας ιδιοκτήτης μπορεί να το κάνει αυτό."
 
+#: studio/views.py
+msgid "Only an owner can set up weekly posts."
+msgstr "Μόνο ένας ιδιοκτήτης μπορεί να ορίσει εβδομαδιαίες αναρτήσεις."
+
 #: studio/models.py
 msgid "Only items I marked “In queue”"
 msgstr "Μόνο όσα σημείωσα «Στην ουρά»"
@@ -1458,6 +1462,10 @@ msgstr "Επιλέξτε φωτογραφία ή βίντεο."
 msgid "Pick a song."
 msgstr "Επιλέξτε τραγούδι."
 
+#: studio/forms.py
+msgid "Pick at least one day."
+msgstr "Επιλέξτε τουλάχιστον μία ημέρα."
+
 #: studio/models.py
 msgid "Pick items at random instead of oldest first."
 msgstr "Τυχαία επιλογή στοιχείων αντί για τα παλαιότερα πρώτα."
@@ -1504,6 +1512,10 @@ msgstr "Η ανάρτηση αφαιρέθηκε από το Postmanager."
 #: studio/views.py
 msgid "Post removed from Postmanager. It is still on Instagram."
 msgstr "Η ανάρτηση αφαιρέθηκε από το Postmanager. Παραμένει στο Instagram."
+
+#: studio/forms.py
+msgid "Post this story every week"
+msgstr "Ανάρτηση αυτού του story κάθε εβδομάδα"
 
 #: studio/templates/studio/stats.html
 msgid "Posted"
@@ -1858,6 +1870,13 @@ msgstr ""
 "Η εικόνα story αποθηκεύτηκε στη Βιβλιοθήκη. Για να προσθέσετε μουσική, "
 "πατήστε το κουμπί 🎵 πάνω της στη Βιβλιοθήκη."
 
+#: studio/views.py
+msgid ""
+"Story saved. It will be posted every %(days)s at %(times)s. Next: %(when)s."
+msgstr ""
+"Το story αποθηκεύτηκε. Θα αναρτάται κάθε %(days)s στις %(times)s. Επόμενη: "
+"%(when)s."
+
 #: studio/templates/studio/media_list.html
 msgid "Story with text"
 msgstr "Story με κείμενο"
@@ -1989,6 +2008,14 @@ msgid "The same media is used every time. Upload new files in the Library."
 msgstr ""
 "Χρησιμοποιούνται κάθε φορά τα ίδια αρχεία. Ανεβάστε νέα αρχεία στη "
 "Βιβλιοθήκη."
+
+#: studio/templates/studio/story_text.html
+msgid ""
+"The same story goes out automatically on these days and times. You can pause"
+" or change it later under Recurring."
+msgstr ""
+"Το ίδιο story δημοσιεύεται αυτόματα αυτές τις μέρες και ώρες. Μπορείτε να το"
+" σταματήσετε ή να το αλλάξετε αργότερα στις Επαναλαμβανόμενες."
 
 #: studio/forms.py
 msgid "The song is only %(length)s long."

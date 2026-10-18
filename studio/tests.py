@@ -1120,6 +1120,26 @@ class StoryTextTests(BaseTest):
         self.assertFalse(MediaAsset.objects.exists())
         self.assertContains(self.client.get(reverse("story_text")), "data-story-preview")
 
+    def test_story_can_repeat_every_week(self):
+        resp = self.client.post(reverse("story_text"), {
+            "asset": "", "headline": "Απόψε 20:00 Αρχάριοι", "text": "", "position": "bottom", "style": "dark",
+            "headline_size": "100", "text_size": "100", "repeat": "on", "weekday_list": ["0", "2"],
+            "times": "17:00",
+        })
+        self.assertRedirects(resp, reverse("recurring_list"), fetch_redirect_response=False)
+        rule = RecurringRule.objects.get()
+        self.assertEqual((rule.post_type, rule.weekdays, rule.times), (Post.STORY, "0,2", "17:00"))
+        self.assertEqual(list(rule.media.all()), [MediaAsset.objects.get()])
+        self.assertIn(timezone.localtime(rule.next_run_at).weekday(), (0, 2))
+
+    def test_repeat_needs_days(self):
+        resp = self.client.post(reverse("story_text"), {
+            "asset": "", "headline": "x", "text": "", "position": "bottom", "style": "dark",
+            "headline_size": "100", "text_size": "100", "repeat": "on", "times": "17:00",
+        })
+        self.assertContains(resp, "Pick at least one day")
+        self.assertFalse(RecurringRule.objects.exists())
+
     def test_bigger_size_makes_bigger_letters(self):
         from .story import render_story
 
