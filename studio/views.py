@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import ProtectedError
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -20,7 +20,7 @@ from django.views.decorators.http import require_POST
 
 from . import ai, instagram, scheduler
 from .forms import (
-    InstagramAppForm, LinkPageForm, MediaAssetForm, MusicUploadForm, MusicVideoForm, PostForm, QueueSettingsForm, RecurringRuleForm, TokenForm, UploadForm,
+    InstagramAppForm, LinkPageForm, MediaAssetForm, MusicUploadForm, MusicVideoForm, PostForm, StoryTextForm, QueueSettingsForm, RecurringRuleForm, TokenForm, UploadForm,
 )
 from .media import (
     UnsupportedFile, delete_asset_files, plan_direct_upload, register_direct_upload, register_music_upload,
@@ -30,6 +30,7 @@ from .models import (
     InstagramAccount, InstagramApp, LinkPage, MediaAsset, Membership, MusicTrack, Post, QueueSettings, RecurringRule,
     SchedulerHeartbeat, full_url,
 )
+from .story import save_story, story_jpeg
 from .video import VideoError, make_music_video
 
 
@@ -401,6 +402,33 @@ def music_video(request):
         "form": form,
         "library": MediaAsset.objects.all()[:300],
         "tracks": MusicTrack.objects.all(),
+    })
+
+
+# --- Story images with text -------------------------------------------------------------------
+
+@login_required
+def story_text(request):
+    initial = {"asset": request.GET.get("asset")} if request.GET.get("asset") else None
+    form = StoryTextForm(request.POST or None, initial=initial)
+    if request.method == "POST" and request.POST.get("preview"):
+        if not form.is_valid():
+            return HttpResponse(status=400)
+        resp = HttpResponse(story_jpeg(form.cleaned_data["asset"], **form.story_options()), content_type="image/jpeg")
+        resp["Cache-Control"] = "no-store"
+        return resp
+    if request.method == "POST" and not _uploads_unavailable(request) and form.is_valid():
+        options = form.story_options()
+        if not (options["headline"].strip() or options["text"].strip()):
+            form.add_error("headline", _("Write some text for the story."))
+        else:
+            story = save_story(form.cleaned_data["asset"], request.user, **options)
+            messages.success(request, _(
+                "Story image saved in the Library. To add music, use the 🎵 button on it in the Library."))
+            return redirect(f"{reverse('post_new')}?media={story.pk}&type=story")
+    return render(request, "studio/story_text.html", {
+        "form": form,
+        "photos": MediaAsset.objects.filter(kind=MediaAsset.IMAGE)[:300],
     })
 
 

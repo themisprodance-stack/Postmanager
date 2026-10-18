@@ -27,6 +27,7 @@ IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif", ".gif", 
 VIDEO_EXTENSIONS = {".mp4", ".mov"}
 AUDIO_EXTENSIONS = {".mp3", ".m4a", ".aac", ".wav"}
 MAX_IMAGE_WIDTH = 1440
+STORY_SIZE = (1080, 1920)  # 9:16, the shape of Stories and Reels
 FEED_MIN_RATIO = 4 / 5
 FEED_MAX_RATIO = 1.91
 
@@ -190,6 +191,15 @@ def _pad_to_ratio(image, ratio):
     background = ImageOps.fit(image, size).filter(ImageFilter.GaussianBlur(40))
     background.paste(image, ((size[0] - image.width) // 2, (size[1] - image.height) // 2))
     return background
+
+
+def story_canvas(image):
+    """The photo fitted inside a 9:16 frame, on a blurred copy of itself so nothing gets cropped."""
+    image = image.convert("RGB")
+    frame = ImageOps.fit(image, STORY_SIZE).filter(ImageFilter.GaussianBlur(40))
+    image = ImageOps.contain(image, STORY_SIZE, Image.LANCZOS)
+    frame.paste(image, ((STORY_SIZE[0] - image.width) // 2, (STORY_SIZE[1] - image.height) // 2))
+    return frame
 
 
 def delete_asset_files(asset):

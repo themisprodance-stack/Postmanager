@@ -14,13 +14,13 @@ from pathlib import Path
 import requests
 from django.core.files import File
 from django.utils.translation import gettext as _
-from PIL import Image, ImageFilter, ImageOps
+from PIL import Image, ImageOps
 
+from .media import STORY_SIZE, story_canvas
 from .models import MediaAsset
 
 log = logging.getLogger(__name__)
 
-STORY_SIZE = (1080, 1920)  # 9:16, the shape of Stories and Reels
 FRAME_RATE = 24  # Instagram accepts 23-60 fps; fewer frames encode faster
 MIN_SECONDS = 3  # Instagram rejects shorter videos
 MAX_PHOTO_SECONDS = 30
@@ -71,13 +71,8 @@ def local_copy(fieldfile, folder):
 
 
 def _story_frame(asset, dest):
-    """The photo fitted inside a 9:16 frame, on a blurred copy of itself so nothing gets cropped."""
     with asset.file.open("rb") as fh:
-        image = ImageOps.exif_transpose(Image.open(fh)).convert("RGB")
-    frame = ImageOps.fit(image, STORY_SIZE).filter(ImageFilter.GaussianBlur(40))
-    image = ImageOps.contain(image, STORY_SIZE, Image.LANCZOS)
-    frame.paste(image, ((STORY_SIZE[0] - image.width) // 2, (STORY_SIZE[1] - image.height) // 2))
-    frame.save(dest, "JPEG", quality=92)
+        story_canvas(ImageOps.exif_transpose(Image.open(fh))).save(dest, "JPEG", quality=92)
 
 
 def _fades(length):

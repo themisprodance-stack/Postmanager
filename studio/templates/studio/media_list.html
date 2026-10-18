@@ -2,7 +2,9 @@
 {% load static i18n %}
 {% block title %}{% translate "Library" %}{% endblock %}
 {% block content %}
-<div class="page-head"><div><h1>{% translate "Library" %}</h1><p class="muted">{% translate "All your photos and videos. Mark items for the queue to have them posted automatically." %}</p></div></div>
+<div class="page-head"><div><h1>{% translate "Library" %}</h1><p class="muted">{% translate "All your photos and videos. Mark items for the queue to have them posted automatically." %}</p></div>
+  <div class="actions"><a class="btn" href="{% url 'story_text' %}">✍️ {% translate "Story with text" %}</a><a class="btn" href="{% url 'music_video' %}">🎬 {% translate "Video with music" %}</a></div>
+</div>
 {% if uploads_unavailable %}<div class="alert alert-err">{% translate "Photo & video storage isn't connected yet, so uploading is switched off. An owner needs to connect Blob storage in the Vercel project (Storage tab)." %}</div>{% endif %}
 <form method="post" enctype="multipart/form-data" class="card">
   {% csrf_token %}
@@ -36,6 +38,7 @@
           <input type="hidden" name="next" value="{{ request.get_full_path }}">
           <button class="btn btn-sm">{% if asset.in_queue %}{% translate "✓ In queue" %}{% else %}{% translate "+ Queue" %}{% endif %}</button>
         </form>
+        {% if not asset.is_video %}<a class="btn btn-sm" href="{% url 'story_text' %}?asset={{ asset.pk }}" title="{% translate 'Story with text' %}">✍️</a>{% endif %}
         <a class="btn btn-sm" href="{% url 'music_video' %}?asset={{ asset.pk }}" title="{% translate 'Make a video with music' %}">🎵</a>
         {% if asset.times_used %}<span class="small muted">{% blocktranslate trimmed with n=asset.times_used %}Posted {{ n }}×{% endblocktranslate %}</span>{% endif %}
       </div>

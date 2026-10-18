@@ -375,6 +375,10 @@ msgstr "Καλύτερη ώρα για δημοσίευση"
 msgid "Between <b>%(start)s:00 and %(end)s:00</b>"
 msgstr "Μεταξύ <b>%(start)s:00 και %(end)s:00</b>"
 
+#: studio/forms.py
+msgid "Bottom"
+msgstr "Κάτω"
+
 #: studio/templates/studio/instagram.html
 msgid "Business:"
 msgstr "Επιχείρηση:"
@@ -546,9 +550,17 @@ msgstr "Δημιουργία λογαριασμού"
 msgid "Create an account"
 msgstr "Δημιουργία λογαριασμού"
 
+#: studio/templates/studio/story_text.html
+msgid "Create story image"
+msgstr "Δημιουργία εικόνας story"
+
 #: studio/templates/account/signup.html
 msgid "Create your account"
 msgstr "Δημιουργήστε τον λογαριασμό σας"
+
+#: studio/forms.py
+msgid "Dark box"
+msgstr "Σκούρο πλαίσιο"
 
 #: studio/templates/studio/stats.html
 msgid "Day"
@@ -675,6 +687,14 @@ msgstr ""
 #: studio/templates/account/login.html
 msgid "Email"
 msgstr "Email"
+
+#: studio/templates/studio/story_text.html
+msgid ""
+"Emoji can't be drawn on the image. Add stickers and emoji in Instagram if "
+"you like."
+msgstr ""
+"Τα emoji δεν μπορούν να μπουν στην εικόνα. Προσθέστε stickers και emoji από "
+"το Instagram αν θέλετε."
 
 #: studio/templates/studio/stats.html
 msgid "Engagement"
@@ -1101,6 +1121,10 @@ msgstr "Βιβλιοθήκη"
 msgid "Library items still to post"
 msgstr "Στοιχεία βιβλιοθήκης που δεν έχουν δημοσιευτεί"
 
+#: studio/forms.py
+msgid "Light box"
+msgstr "Ανοιχτό πλαίσιο"
+
 #: studio/templates/studio/post_form.html
 msgid "Link"
 msgstr "Σύνδεσμος"
@@ -1165,6 +1189,10 @@ msgstr "Χειροκίνητη"
 msgid "Members"
 msgstr "Μέλη"
 
+#: studio/forms.py
+msgid "Middle"
+msgstr "Μέση"
+
 #: studio/models.py
 msgid "Mon"
 msgstr "Δευ"
@@ -1228,6 +1256,10 @@ msgstr "Δεν υπάρχουν αρχεία ακόμη. Ανεβάστε μερ
 #: studio/templates/studio/music_list.html
 msgid "No music yet. Upload some above."
 msgstr "Δεν υπάρχει μουσική ακόμα. Ανεβάστε από πάνω."
+
+#: studio/templates/studio/story_text.html
+msgid "No photo (colour background)"
+msgstr "Χωρίς φωτογραφία (χρωματιστό φόντο)"
 
 #: studio/templates/studio/post_list.html
 msgid "No posts here yet."
@@ -1368,7 +1400,7 @@ msgstr "Επικολλήστε το εδώ"
 msgid "Paused"
 msgstr "Σε παύση"
 
-#: studio/models.py
+#: studio/templates/studio/story_text.html
 msgid "Photo"
 msgstr "Φωτογραφία"
 
@@ -1429,6 +1461,10 @@ msgstr "Επιλέξτε τραγούδι."
 #: studio/models.py
 msgid "Pick items at random instead of oldest first."
 msgstr "Τυχαία επιλογή στοιχείων αντί για τα παλαιότερα πρώτα."
+
+#: studio/forms.py
+msgid "Pink box"
+msgstr "Ροζ πλαίσιο"
 
 #: studio/models.py
 msgid ""
@@ -1525,6 +1561,10 @@ msgid ""
 msgstr ""
 "Αναρτήσεις που επαναλαμβάνονται κάθε εβδομάδα, όπως το πρόγραμμα μαθημάτων ή"
 " μια υπενθύμιση για το Σαββατοκύριακο."
+
+#: studio/templates/studio/story_text.html
+msgid "Preview"
+msgstr "Προεπισκόπηση"
 
 #: studio/forms.py
 msgid "Publish at"
@@ -1760,6 +1800,10 @@ msgstr "Εγγράφηκε πριν από %(ago)s"
 msgid "Since"
 msgstr "Από"
 
+#: studio/forms.py
+msgid "Smaller text"
+msgstr "Μικρότερο κείμενο"
+
 #: studio/context_processors.py
 msgid "Something went wrong."
 msgstr "Κάτι πήγε στραβά."
@@ -1802,6 +1846,22 @@ msgstr ""
 msgid "Story"
 msgstr "Story"
 
+#: studio/views.py
+msgid ""
+"Story image saved in the Library. To add music, use the 🎵 button on it in "
+"the Library."
+msgstr ""
+"Η εικόνα story αποθηκεύτηκε στη Βιβλιοθήκη. Για να προσθέσετε μουσική, "
+"πατήστε το κουμπί 🎵 πάνω της στη Βιβλιοθήκη."
+
+#: studio/templates/studio/media_list.html
+msgid "Story with text"
+msgstr "Story με κείμενο"
+
+#: studio/forms.py
+msgid "Style"
+msgstr "Στυλ"
+
 #: studio/templates/studio/post_form.html
 msgid "Suggest captions"
 msgstr "Προτάσεις λεζάντας"
@@ -1829,6 +1889,14 @@ msgstr ""
 #: studio/templates/studio/base.html
 msgid "Team"
 msgstr "Ομάδα"
+
+#: studio/forms.py
+msgid "Text only"
+msgstr "Μόνο κείμενο"
+
+#: studio/forms.py
+msgid "Text position"
+msgstr "Θέση κειμένου"
 
 #: studio/instagram.py
 msgid ""
@@ -1988,6 +2056,10 @@ msgstr "Για αλλαγή των κλειδιών της εφαρμογής, �
 msgid "Too many AI requests right now; try again in a minute."
 msgstr "Πάρα πολλά αιτήματα AI αυτή τη στιγμή· δοκιμάστε σε ένα λεπτό."
 
+#: studio/forms.py
+msgid "Top"
+msgstr "Πάνω"
+
 #: studio/models.py
 msgid "Tue"
 msgstr "Τρι"
@@ -2109,6 +2181,10 @@ msgid "Video"
 msgstr "Βίντεο"
 
 #: studio/templates/studio/media_list.html
+msgid "Video with music"
+msgstr "Βίντεο με μουσική"
+
+#: studio/templates/studio/media_list.html
 msgid "Videos"
 msgstr "Βίντεο"
 
@@ -2140,9 +2216,21 @@ msgstr "Όταν δημοσιευτούν όλα, ξεκίνα ξανά από �
 msgid "Write a fresh caption with AI each time."
 msgstr "Νέα λεζάντα με AI κάθε φορά."
 
+#: studio/templates/studio/story_text.html
+msgid ""
+"Write an announcement over a photo, e.g. tonight's class. The image is saved"
+" in your Library, ready for a Story."
+msgstr ""
+"Γράψτε μια ανακοίνωση πάνω σε φωτογραφία, π.χ. το αποψινό μάθημα. Η εικόνα "
+"αποθηκεύεται στη Βιβλιοθήκη, έτοιμη για Story."
+
 #: studio/templates/studio/post_form.html
 msgid "Write captions with AI"
 msgstr "Γράψτε λεζάντες με AI"
+
+#: studio/views.py
+msgid "Write some text for the story."
+msgstr "Γράψτε κάποιο κείμενο για το story."
 
 #: studio/context_processors.py
 msgid "Writing…"
@@ -2182,6 +2270,10 @@ msgstr "π.χ. @maria_dance, @johnsmith"
 msgid "e.g. @teacher_anna"
 msgstr "π.χ. @teacher_anna"
 
+#: studio/forms.py
+msgid "e.g. First class free, bring a friend!"
+msgstr "π.χ. Το πρώτο μάθημα δωρεάν, φέρτε έναν φίλο!"
+
 #: studio/templates/studio/post_form.html
 msgid ""
 "e.g. Line dance social night last Friday, 40 dancers, new beginners class "
@@ -2189,6 +2281,10 @@ msgid ""
 msgstr ""
 "π.χ. Βραδιά line dance την περασμένη Παρασκευή, 40 χορευτές, νέο τμήμα "
 "αρχαρίων ξεκινά τη Δευτέρα"
+
+#: studio/forms.py
+msgid "e.g. Tonight 20:00 · Beginners"
+msgstr "π.χ. Απόψε 20:00 · Αρχάριοι"
 
 #: studio/forms.py
 msgid "e.g. lineofdance.gr/classes"

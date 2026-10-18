@@ -4,7 +4,10 @@
 {% block content %}
 <div class="page-head">
   <h1>{% translate "Posts" %}</h1>
-  <a class="btn btn-primary" href="{% url 'post_new' %}">{% translate "+ New post" %}</a>
+  <div class="actions">
+    <a class="btn" href="{% url 'story_text' %}">✍️ {% translate "Story with text" %}</a>
+    <a class="btn btn-primary" href="{% url 'post_new' %}">{% translate "+ New post" %}</a>
+  </div>
 </div>
 <div class="tabs">
   <a href="?" class="{% if not status %}active{% endif %}">{% translate "All" %}</a>

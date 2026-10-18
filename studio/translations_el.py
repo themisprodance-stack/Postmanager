@@ -137,6 +137,28 @@ EL = {
     "Added at the end of the caption. Instagram shows caption links as plain text (not clickable). Don't use a “#section” part: Instagram would turn it into a hashtag, so it's removed.":
         "Προστίθεται στο τέλος της λεζάντας. Το Instagram δείχνει τους συνδέσμους της λεζάντας ως απλό κείμενο "
         "(δεν πατιούνται). Μη χρησιμοποιείτε τμήμα «#ενότητα»: το Instagram θα το έκανε hashtag, οπότε αφαιρείται.",
+    # --- Story with text ---
+    'Top': 'Πάνω',
+    'Middle': 'Μέση',
+    'Bottom': 'Κάτω',
+    'Dark box': 'Σκούρο πλαίσιο',
+    'Light box': 'Ανοιχτό πλαίσιο',
+    'Pink box': 'Ροζ πλαίσιο',
+    'Text only': 'Μόνο κείμενο',
+    'e.g. Tonight 20:00 · Beginners': 'π.χ. Απόψε 20:00 · Αρχάριοι',
+    'Smaller text': 'Μικρότερο κείμενο',
+    'e.g. First class free, bring a friend!': 'π.χ. Το πρώτο μάθημα δωρεάν, φέρτε έναν φίλο!',
+    'Text position': 'Θέση κειμένου',
+    'Style': 'Στυλ',
+    'Write some text for the story.': 'Γράψτε κάποιο κείμενο για το story.',
+    'Story image saved in the Library. To add music, use the 🎵 button on it in the Library.': 'Η εικόνα story αποθηκεύτηκε στη Βιβλιοθήκη. Για να προσθέσετε μουσική, πατήστε το κουμπί 🎵 πάνω της στη Βιβλιοθήκη.',
+    'Story with text': 'Story με κείμενο',
+    'Video with music': 'Βίντεο με μουσική',
+    "Write an announcement over a photo, e.g. tonight's class. The image is saved in your Library, ready for a Story.": 'Γράψτε μια ανακοίνωση πάνω σε φωτογραφία, π.χ. το αποψινό μάθημα. Η εικόνα αποθηκεύεται στη Βιβλιοθήκη, έτοιμη για Story.',
+    'No photo (colour background)': 'Χωρίς φωτογραφία (χρωματιστό φόντο)',
+    "Emoji can't be drawn on the image. Add stickers and emoji in Instagram if you like.": 'Τα emoji δεν μπορούν να μπουν στην εικόνα. Προσθέστε stickers και emoji από το Instagram αν θέλετε.',
+    'Create story image': 'Δημιουργία εικόνας story',
+    'Preview': 'Προεπισκόπηση',
     # --- Music ---
     'Music': 'Μουσική',
     'Music files': 'Αρχεία μουσικής',

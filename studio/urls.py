@@ -21,6 +21,7 @@ urlpatterns = [
     path("music/<int:pk>/rename/", views.music_rename, name="music_rename"),
     path("music/<int:pk>/delete/", views.music_delete, name="music_delete"),
     path("music/make-video/", views.music_video, name="music_video"),
+    path("story/new/", views.story_text, name="story_text"),
     path("recurring/", views.recurring_list, name="recurring_list"),
     path("recurring/new/", views.recurring_edit, name="recurring_new"),
     path("recurring/<int:pk>/", views.recurring_edit, name="recurring_edit"),

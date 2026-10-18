@@ -1,0 +1,68 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Story with text" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>✍️ {% translate "Story with text" %}</h1><p class="muted">{% translate "Write an announcement over a photo, e.g. tonight's class. The image is saved in your Library, ready for a Story." %}</p></div></div>
+<form method="post" class="card story-layout" data-story-form data-preview-url="{% url 'story_text' %}">
+  {% csrf_token %}
+  <div>
+    {% if form.non_field_errors %}<ul class="errorlist nonfield">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+    <div class="field">
+      <label>{% translate "Photo" %}</label>
+      <div class="picker"><div class="media-grid">
+        <label class="media-tile no-photo"><input type="radio" name="asset" value="" {% if not form.asset.value %}checked{% endif %}>{% translate "No photo (colour background)" %}</label>
+        {% for asset in photos %}
+        <label class="media-tile" title="{{ asset }}">
+          <input type="radio" name="asset" value="{{ asset.pk }}" {% if form.asset.value|stringformat:"s" == asset.pk|stringformat:"s" %}checked{% endif %}>
+          {% include "studio/_thumb.html" with asset=asset cls="x" %}
+        </label>
+        {% endfor %}
+      </div></div>
+      {{ form.asset.errors }}
+    </div>
+    <div class="field"><label for="id_headline">{{ form.headline.label }}</label>{{ form.headline }}{{ form.headline.errors }}</div>
+    <div class="field"><label for="id_text">{{ form.text.label }} <span class="muted small">{% translate "(optional)" %}</span></label>{{ form.text }}
+      <span class="help">{% translate "Emoji can't be drawn on the image. Add stickers and emoji in Instagram if you like." %}</span>{{ form.text.errors }}</div>
+    <div class="field"><label>{{ form.position.label }}</label>
+      <div class="choice-row">{% for radio in form.position %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}</div></div>
+    <div class="field"><label>{{ form.style.label }}</label>
+      <div class="choice-row">{% for radio in form.style %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}</div></div>
+    <div class="actions">
+      <button class="btn btn-primary">{% translate "Create story image" %}</button>
+      <a class="muted" href="{% url 'post_list' %}" style="margin-left:auto">{% translate "Cancel" %}</a>
+    </div>
+  </div>
+  <div class="story-preview">
+    <img alt="{% translate 'Preview' %}" data-story-preview>
+    <p class="small muted" style="text-align:center">{% translate "Preview" %}</p>
+  </div>
+</form>
+{% endblock %}
+{% block extra_body %}
+<script>
+(() => {
+  const form = document.querySelector("[data-story-form]");
+  if (!form) return;
+  const img = form.querySelector("[data-story-preview]");
+  let timer, current;
+  const refresh = async () => {
+    const body = new FormData(form);
+    body.set("preview", "1");
+    img.classList.add("loading");
+    const request = current = fetch(form.dataset.previewUrl, { method: "POST", body, credentials: "same-origin" });
+    try {
+      const resp = await request;
+      if (request !== current || !resp.ok) return;
+      const blob = await resp.blob();
+      if (img.src.startsWith("blob:")) URL.revokeObjectURL(img.src);
+      img.src = URL.createObjectURL(blob);
+    } catch (err) { /* keep the last preview */ }
+    finally { if (request === current) img.classList.remove("loading"); }
+  };
+  const schedule = (delay) => { clearTimeout(timer); timer = setTimeout(refresh, delay); };
+  form.addEventListener("input", () => schedule(600));
+  form.addEventListener("change", () => schedule(100));
+  refresh();
+})();
+</script>
+{% endblock %}

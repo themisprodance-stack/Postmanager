@@ -111,6 +111,24 @@ class MusicVideoForm(forms.Form):
         return cleaned
 
 
+class StoryTextForm(forms.Form):
+    POSITION_CHOICES = [("top", _("Top")), ("middle", _("Middle")), ("bottom", _("Bottom"))]
+    STYLE_CHOICES = [("dark", _("Dark box")), ("light", _("Light box")), ("brand", _("Pink box")),
+                     ("none", _("Text only"))]
+
+    asset = forms.ModelChoiceField(MediaAsset.objects.filter(kind=MediaAsset.IMAGE), required=False,
+                                   widget=forms.RadioSelect, label=_("Photo"))
+    headline = forms.CharField(max_length=80, required=False, label=_("Title"),
+                               widget=forms.TextInput(attrs={"placeholder": _("e.g. Tonight 20:00 · Beginners")}))
+    text = forms.CharField(max_length=250, required=False, label=_("Smaller text"),
+                           widget=forms.Textarea(attrs={"rows": 3, "placeholder": _("e.g. First class free, bring a friend!")}))
+    position = forms.ChoiceField(choices=POSITION_CHOICES, initial="bottom", widget=forms.RadioSelect, label=_("Text position"))
+    style = forms.ChoiceField(choices=STYLE_CHOICES, initial="dark", widget=forms.RadioSelect, label=_("Style"))
+
+    def story_options(self):
+        return {key: self.cleaned_data[key] for key in ("headline", "text", "position", "style")}
+
+
 class PostForm(UserTagsCleaningMixin, LinkCleaningMixin, forms.ModelForm):
     ACTION_CHOICES = [("draft", _("Save as draft")), ("schedule", _("Schedule")), ("now", _("Publish now"))]
 

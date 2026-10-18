@@ -160,6 +160,12 @@ input[type=checkbox] { width: 1.05rem; height: 1.05rem; accent-color: var(--acce
 .media-tile input { position: absolute; opacity: 0; }
 .media-tile:has(input:checked) { border-color: var(--accent); }
 .media-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.story-layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 1.25rem; align-items: start; }
+.story-preview { position: sticky; top: 1rem; }
+.story-preview img { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 14px; background: var(--bg); border: 1px solid var(--border); display: block; }
+.story-preview img.loading { opacity: .6; }
+.media-tile.no-photo { display: flex; align-items: center; justify-content: center; text-align: center; font-size: .8rem; color: #fff; background: linear-gradient(#c2185b, #4a148c); }
+@media (max-width: 760px) { .story-layout { grid-template-columns: 1fr; } .story-preview { position: static; max-width: 260px; margin: 0 auto; } }
 .music-row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; padding: .5rem 0; border-bottom: 1px solid var(--border); }
 .music-row:last-child { border-bottom: 0; }
 .music-row .music-title { flex: 1 1 200px; margin: 0; }

@@ -1083,3 +1083,35 @@ class MusicTests(BaseTest):
         pathname, types, _max = plan_direct_upload("Line Dance.m4a", "audio/x-m4a", 5_000_000)
         self.assertTrue(pathname.startswith("music/") and pathname.endswith(".m4a"))
         self.assertIn("audio/x-m4a", types)
+
+
+class StoryTextTests(BaseTest):
+    def setUp(self):
+        super().setUp()
+        self.client.login(username="staff", password="pw-123456!")
+
+    def test_preview_is_a_story_sized_image(self):
+        photo = save_upload(image_upload())
+        resp = self.client.post(reverse("story_text"), {
+            "asset": photo.pk, "headline": "Απόψε 20:00 💃", "text": "", "position": "top", "style": "brand",
+            "preview": "1",
+        })
+        self.assertEqual(resp["Content-Type"], "image/jpeg")
+        self.assertEqual(Image.open(io.BytesIO(resp.content)).size, (1080, 1920))
+        self.assertEqual(MediaAsset.objects.count(), 1)  # previews aren't saved
+
+    def test_story_image_is_saved_and_opens_as_story(self):
+        resp = self.client.post(reverse("story_text"), {
+            "asset": "", "headline": "Καλοκαιρινό πάρτι", "text": "Σάββατο 21:00", "position": "middle",
+            "style": "none",
+        })
+        story = MediaAsset.objects.get()
+        self.assertRedirects(resp, f"{reverse('post_new')}?media={story.pk}&type=story", fetch_redirect_response=False)
+        self.assertEqual((story.kind, story.width, story.height), (MediaAsset.IMAGE, 1080, 1920))
+
+    def test_story_needs_some_text(self):
+        resp = self.client.post(reverse("story_text"), {"asset": "", "headline": " ", "text": "",
+                                                        "position": "bottom", "style": "dark"})
+        self.assertContains(resp, "Write some text")
+        self.assertFalse(MediaAsset.objects.exists())
+        self.assertContains(self.client.get(reverse("story_text")), "data-story-preview")
