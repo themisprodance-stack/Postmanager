@@ -1,0 +1,53 @@
+# Render blueprint: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: studio-posts
+    runtime: python
+    plan: starter            # a persistent disk needs a paid instance; the free tier also sleeps, which stops the scheduler
+    buildCommand: pip install -r requirements.txt
+    startCommand: ./start.sh
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 5
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "false"
+      - key: DATABASE_URL
+        value: sqlite:////var/data/db.sqlite3
+      - key: MEDIA_ROOT
+        value: /var/data/media
+      - key: ALLOWED_HOSTS
+        sync: false          # e.g. studio-posts.onrender.com
+      - key: SITE_URL
+        sync: false          # e.g. https://studio-posts.onrender.com
+      - key: TIME_ZONE
+        sync: false
+      - key: STUDIO_NAME
+        sync: false
+      - key: STUDIO_VOICE
+        sync: false
+      - key: INSTAGRAM_APP_ID
+        sync: false
+      - key: INSTAGRAM_APP_SECRET
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: OWNER_EMAILS
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: EMAIL_HOST
+        sync: false
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        sync: false

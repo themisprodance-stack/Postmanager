@@ -1,0 +1,80 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Stats" %}{% endblock %}
+{% block content %}
+{% translate "Hour" as t_hour %}{% translate "Day" as t_day %}
+{% translate "Followers online by hour" as t_online %}{% translate "Followers online (30-day total)" as t_online_value %}
+{% translate "Engagement by hour" as t_eng_hour %}{% translate "Engagement by day" as t_eng_day %}{% translate "Average engagement" as t_avg_eng %}
+{% translate "Interactions by hour" as t_int_hour %}{% translate "Interactions by day" as t_int_day %}{% translate "Average interactions" as t_avg_int %}
+<div class="page-head"><div><h1>{% translate "Stats" %}</h1>
+  <p class="muted">{% translate "How your posts do, and the best time to post." %}{% if state.refreshed_at %} {% blocktranslate trimmed with ago=state.refreshed_at|timesince %}Updated {{ ago }} ago.{% endblocktranslate %}{% endif %}</p></div>
+  <form method="post">{% csrf_token %}<input type="hidden" name="action" value="refresh"><button class="btn">↻ {% translate "Refresh now" %}</button></form>
+</div>
+
+{% if not account %}
+  <div class="alert">{% translate "Connect Instagram first to see results." %}</div>
+{% elif state.error %}
+  <div class="alert alert-err">{{ state.error }}</div>
+{% endif %}
+
+{% if posts %}
+<div class="stats">
+  {% if state.followers is not None %}<div class="stat"><b>{{ state.followers }}</b><span>{% translate "Followers" %}</span></div>{% endif %}
+  <div class="stat"><b>{{ posts }}</b><span>{% translate "Posts analysed" %}</span></div>
+  {% if avg_reach is not None %}<div class="stat"><b>{{ avg_reach }}</b><span>{% translate "Average people reached" %}</span></div>{% endif %}
+  {% if avg_rate is not None %}<div class="stat"><b>{{ avg_rate }}%</b><span>{% translate "Average engagement" %}<br><span class="small">{% translate "likes, comments, saves & shares per person reached" %}</span></span></div>{% endif %}
+</div>
+
+<div class="card">
+  <h2>⏰ {% translate "Best time to post" %}</h2>
+  {% if best_window %}
+    <p class="best-time">{% blocktranslate trimmed with start=best_window.start|stringformat:"02d" end=best_window.end|stringformat:"02d" %}Between <b>{{ start }}:00 and {{ end }}:00</b>{% endblocktranslate %}
+      <span class="small muted">— {% if best_window.basis == "followers" %}{% translate "when most of your followers are online" %}{% else %}{% translate "when your posts have done best so far" %}{% endif %}</span></p>
+    {% if is_owner %}
+    <form method="post">{% csrf_token %}<input type="hidden" name="action" value="use_window">
+      <button class="btn btn-primary btn-sm">{% translate "Post my queue at random times in this window" %}</button></form>
+    {% endif %}
+  {% else %}
+    <p class="muted">{% translate "Not enough posts yet to tell. After about 5 posts at different times of day, Postmanager will suggest the best hours. Random posting times help it learn faster." %}</p>
+  {% endif %}
+</div>
+
+{% if online_rows %}
+<div class="card">
+  <h2>{{ t_online }}</h2>
+  {% include "studio/_bar_chart.html" with rows=online_rows unit="" title=t_online key_title=t_hour value_title=t_online_value every=3 short=":2" %}
+</div>
+{% endif %}
+
+<div class="card">
+  <h2>{% if metric == "rate" %}{% translate "Engagement by hour posted" %}{% else %}{% translate "Interactions by hour posted" %}{% endif %}</h2>
+  <p class="small muted">{% if metric == "rate" %}{% translate "Average engagement of posts published at each hour." %}{% else %}{% translate "Average likes + comments + saves + shares of posts published at each hour." %}{% endif %} {% translate "Highlighted: the best window." %}</p>
+  {% if metric == "rate" %}{% include "studio/_bar_chart.html" with rows=hour_rows unit="%" title=t_eng_hour key_title=t_hour value_title=t_avg_eng every=3 short=":2" %}
+  {% else %}{% include "studio/_bar_chart.html" with rows=hour_rows unit="" title=t_int_hour key_title=t_hour value_title=t_avg_int every=3 short=":2" %}{% endif %}
+</div>
+
+<div class="card">
+  <h2>{% translate "By day of the week" %}</h2>
+  {% if metric == "rate" %}{% include "studio/_bar_chart.html" with rows=day_rows unit="%" title=t_eng_day key_title=t_day value_title=t_avg_eng every=1 short=":3" %}
+  {% else %}{% include "studio/_bar_chart.html" with rows=day_rows unit="" title=t_int_day key_title=t_day value_title=t_avg_int every=1 short=":3" %}{% endif %}
+</div>
+
+<div class="card table-wrap">
+  <h2>🏆 {% translate "Best posts" %}</h2>
+  <table>
+    <tr><th></th><th>{% translate "Posted" %}</th><th>❤️</th><th>💬</th><th>🔖</th><th>↗️</th><th>{% translate "Reached" %}</th><th>{% translate "Engagement" %}</th></tr>
+    {% for s in top_posts %}
+    <tr>
+      <td><a href="{{ s.permalink }}" target="_blank" rel="noopener">{% if s.thumbnail_url %}<img class="thumb" src="{{ s.thumbnail_url }}" alt="" loading="lazy" onerror="this.replaceWith('↗')">{% else %}↗{% endif %}</a></td>
+      <td class="small">{{ s.posted_at|date:"D j M, H:i" }}<div class="muted">{{ s.caption|truncatechars:50 }}</div></td>
+      <td>{{ s.likes }}</td><td>{{ s.comments }}</td><td>{{ s.saves|default_if_none:"—" }}</td><td>{{ s.shares|default_if_none:"—" }}</td>
+      <td>{{ s.reach|default_if_none:"—" }}</td><td>{% if s.engagement_rate is not None %}{{ s.engagement_rate }}%{% else %}—{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  <p class="small muted">{% translate "❤️ likes · 💬 comments · 🔖 saves · ↗️ shares" %}</p>
+</div>
+{% elif account and not state.error %}
+  <div class="card"><p class="empty">{% translate "No results yet. Click “Refresh now”." %}</p></div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "studio/base.html" %}
+{% load static i18n %}
+{% block title %}{% translate "Library" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>{% translate "Library" %}</h1><p class="muted">{% translate "All your photos and videos. Mark items for the queue to have them posted automatically." %}</p></div></div>
+{% if uploads_unavailable %}<div class="alert alert-err">{% translate "Photo & video storage isn't connected yet, so uploading is switched off. An owner needs to connect Blob storage in the Vercel project (Storage tab)." %}</div>{% endif %}
+<form method="post" enctype="multipart/form-data" class="card">
+  {% csrf_token %}
+  <div class="field"><label for="id_files">{% translate "Upload photos or videos" %}</label>
+    {% if direct_upload %}<input type="file" id="id_files" multiple accept="image/*,video/mp4,video/quicktime" data-direct-upload="library"
+           data-token-url="{% url 'media_upload_token' %}" data-complete-url="{% url 'media_upload_complete' %}">
+    {% else %}{{ form.files }}{% endif %}{{ form.files.errors }}
+    <span class="help">{% if direct_upload %}{% translate "JPEG, PNG, HEIC, WebP photos and MP4/MOV videos (up to 300 MB). You can select many at once." %}{% else %}{% translate "JPEG, PNG, HEIC, WebP photos and MP4/MOV videos. You can select many at once." %}{% endif %}</span></div>
+  <div class="actions">
+    <label class="check" style="margin:0">{{ form.add_to_queue }} {% translate "Add to the content queue" %}</label>
+    <button class="btn btn-primary">{% translate "Upload" %}</button>
+  </div>
+</form>
+<div class="tabs">
+  <a href="?" class="{% if not show %}active{% endif %}">{% translate "All" %}</a>
+  <a href="?show=image" class="{% if show == 'image' %}active{% endif %}">{% translate "Photos" %}</a>
+  <a href="?show=video" class="{% if show == 'video' %}active{% endif %}">{% translate "Videos" %}</a>
+  <a href="?show=queue" class="{% if show == 'queue' %}active{% endif %}">{% translate "In queue" %}</a>
+</div>
+<div class="media-grid lib">
+  {% for asset in assets %}
+  <div class="media-card">
+    <a class="media-tile" href="{% url 'media_edit' asset.pk %}">
+      {% include "studio/_thumb.html" with asset=asset cls="x" %}
+      {% if asset.is_video %}<span class="tag">{% translate "Video" %}</span>{% endif %}
+    </a>
+    <div class="meta">
+      <a class="title" href="{% url 'media_edit' asset.pk %}">{{ asset }}</a>
+      <div class="actions" style="margin-top:.35rem">
+        <form class="inline" method="post" action="{% url 'media_toggle_queue' asset.pk %}">{% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+          <button class="btn btn-sm">{% if asset.in_queue %}{% translate "✓ In queue" %}{% else %}{% translate "+ Queue" %}{% endif %}</button>
+        </form>
+        <a class="btn btn-sm" href="{% url 'music_video' %}?asset={{ asset.pk }}" title="{% translate 'Make a video with music' %}">🎵</a>
+        {% if asset.times_used %}<span class="small muted">{% blocktranslate trimmed with n=asset.times_used %}Posted {{ n }}×{% endblocktranslate %}</span>{% endif %}
+      </div>
+    </div>
+  </div>
+  {% empty %}<p class="empty">{% translate "No files yet. Upload some above." %}</p>{% endfor %}
+</div>
+{% endblock %}
+{% block extra_body %}{% if direct_upload %}<script type="module" src="{% static 'studio/direct-upload.js' %}?v={{ static_version }}"></script>{% endif %}{% endblock %}

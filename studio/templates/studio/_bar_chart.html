@@ -1,0 +1,17 @@
+{% load i18n %}{# Single-series bar chart. rows: [{label, value, pct, count, best}]; unit: suffix for values #}
+<figure class="barchart" aria-label="{{ title }}">
+  <div class="bc-plot" role="list">
+    {% for r in rows %}
+    <div class="bc-col{% if r.best %} best{% endif %}{% if r.value is None %} empty{% endif %}" role="listitem" tabindex="0"
+         aria-label="{{ r.label }}: {% if r.value is None %}{% translate 'no data' %}{% else %}{{ r.value }}{{ unit }}{% endif %}">
+      <div class="bc-bar" style="height:{% if r.value is None %}0{% else %}{{ r.pct|default:1 }}{% endif %}%"></div>
+      <span class="bc-tip">{{ r.label }} · {% if r.value is None %}{% translate "no posts" %}{% else %}<b>{{ r.value }}{{ unit }}</b>{% if r.count %} · {% blocktranslate trimmed with n=r.count %}posts: {{ n }}{% endblocktranslate %}{% endif %}{% endif %}</span>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="bc-axis">{% for r in rows %}<span>{% if every == 1 or forloop.counter0|divisibleby:every %}{{ r.label|slice:short }}{% endif %}</span>{% endfor %}</div>
+  <details class="bc-table"><summary class="small muted">{% translate "Show as table" %}</summary>
+    <table><tr><th>{{ key_title }}</th><th>{{ value_title }}</th>{% if rows.0.count is not None %}<th>{% translate "Posts" %}</th>{% endif %}</tr>
+      {% for r in rows %}<tr><td>{{ r.label }}</td><td>{% if r.value is None %}—{% else %}{{ r.value }}{{ unit }}{% endif %}</td>{% if r.count is not None %}<td>{{ r.count }}</td>{% endif %}</tr>{% endfor %}
+    </table></details>
+</figure>

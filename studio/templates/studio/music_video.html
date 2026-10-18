@@ -1,0 +1,84 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Make a video with music" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>🎬 {% translate "Make a video with music" %}</h1><p class="muted">{% translate "Pick a photo or video and a song. The new video is saved in your Library, ready for a Story or Reel." %}</p></div></div>
+{% if not tracks %}
+<div class="card"><p>{% translate "Upload some music first." %} <a href="{% url 'music_list' %}">{% translate "Go to Music →" %}</a></p></div>
+{% else %}
+<form method="post" class="card" data-music-video>
+  {% csrf_token %}
+  {% if form.non_field_errors %}<ul class="errorlist nonfield">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+
+  <div class="field">
+    <label>1. {% translate "Photo or video" %}</label>
+    {% if library %}
+    <div class="picker"><div class="media-grid">
+      {% for asset in library %}
+      <label class="media-tile" title="{{ asset }}">
+        <input type="radio" name="asset" value="{{ asset.pk }}" data-video="{{ asset.is_video|yesno:'1,0' }}" {% if form.asset.value|stringformat:"s" == asset.pk|stringformat:"s" %}checked{% endif %}>
+        {% include "studio/_thumb.html" with asset=asset cls="x" %}
+        {% if asset.is_video %}<span class="tag">{% translate "Video" %}</span>{% endif %}
+      </label>
+      {% endfor %}
+    </div></div>
+    {% else %}<p class="muted">{% translate "Your library is empty." %} <a href="{% url 'media_list' %}">{% translate "Upload files first" %}</a>.</p>{% endif %}
+    {{ form.asset.errors }}
+  </div>
+
+  <div class="field">
+    <label>2. {% translate "Music" %}</label>
+    {% for track in tracks %}
+    <div class="music-row">
+      <label class="check music-title"><input type="radio" name="track" value="{{ track.pk }}" {% if form.track.value|stringformat:"s" == track.pk|stringformat:"s" %}checked{% endif %}> {{ track }} <span class="small muted">{{ track.duration_display }}</span></label>
+      <audio controls preload="none" src="{{ track.file.url }}"></audio>
+      <button type="button" class="btn btn-sm" data-start-here>{% translate "Start from here" %}</button>
+    </div>
+    {% endfor %}
+    <span class="help">{% translate "Play a song, pause where it should begin, and tap “Start from here”." %}</span>
+    {{ form.track.errors }}
+  </div>
+
+  <div class="grid grid-2">
+    <div class="field"><label for="id_start">3. {{ form.start.label }}</label>{{ form.start }}<span class="help">{% translate "minutes:seconds" %}</span>{{ form.start.errors }}</div>
+    <div class="field" data-photo-only><label for="id_length">{{ form.length.label }}</label>{{ form.length }}<span class="help">{% translate "Photos: 3–30 seconds. A video keeps its own length." %}</span>{{ form.length.errors }}</div>
+  </div>
+  <div class="field" data-video-only hidden><label class="check">{{ form.keep_original_sound }} {{ form.keep_original_sound.label }}</label></div>
+
+  <div class="actions">
+    <button class="btn btn-primary" data-busy-text="{% translate 'Making your video… this can take up to a minute' %}">{% translate "Make video" %}</button>
+    <a class="muted" href="{% url 'music_list' %}" style="margin-left:auto">{% translate "Cancel" %}</a>
+  </div>
+</form>
+{% endif %}
+{% endblock %}
+{% block extra_body %}
+<script>
+(() => {
+  const form = document.querySelector("[data-music-video]");
+  if (!form) return;
+  const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+  form.querySelectorAll("[data-start-here]").forEach((btn) => btn.addEventListener("click", () => {
+    const row = btn.closest(".music-row");
+    row.querySelector("input[name=track]").checked = true;
+    form.querySelector("#id_start").value = fmt(row.querySelector("audio").currentTime);
+  }));
+  form.querySelectorAll("audio").forEach((audio) => audio.addEventListener("play", () => {
+    form.querySelectorAll("audio").forEach((other) => { if (other !== audio) other.pause(); });
+    audio.closest(".music-row").querySelector("input[name=track]").checked = true;
+  }));
+  const update = () => {
+    const picked = form.querySelector("input[name=asset]:checked");
+    const isVideo = picked && picked.dataset.video === "1";
+    form.querySelector("[data-photo-only]").hidden = isVideo;
+    form.querySelector("[data-video-only]").hidden = !isVideo;
+  };
+  form.addEventListener("change", update);
+  update();
+  form.addEventListener("submit", () => {
+    const btn = form.querySelector("[data-busy-text]");
+    setTimeout(() => { btn.disabled = true; btn.textContent = btn.dataset.busyText; }, 0);
+  });
+})();
+</script>
+{% endblock %}

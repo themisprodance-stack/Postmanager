@@ -1,0 +1,52 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Home" %}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>{% if user.first_name %}{% blocktranslate trimmed with name=user.first_name %}Hi {{ name }} 👋{% endblocktranslate %}{% else %}{% translate "Hi there 👋" %}{% endif %}</h1>
+    <p class="muted">{% if ig_account %}{% blocktranslate trimmed with account=ig_account %}Posting as <b>{{ account }}</b>{% endblocktranslate %}{% else %}{% translate "Not connected to Instagram" %}{% endif %}</p></div>
+  <a class="btn btn-primary" href="{% url 'post_new' %}">{% translate "+ New post" %}</a>
+</div>
+
+<div class="stats">
+  <div class="stat"><b>{{ upcoming|length }}</b><span>{% translate "Scheduled" %}</span></div>
+  <div class="stat"><b>{{ published_this_week }}</b><span>{% translate "Published in the last 7 days" %}</span></div>
+  <div class="stat"><b>{{ drafts }}</b><span>{% translate "Drafts" %}</span></div>
+  <div class="stat"><b>{{ queue_remaining }}</b><span>{% translate "Items ready for the queue" %}</span></div>
+</div>
+
+{% if failed %}
+<div class="card">
+  <h2>⚠️ {% translate "Needs attention" %}</h2>
+  {% for post in failed %}{% include "studio/_post_row.html" %}{% endfor %}
+</div>
+{% endif %}
+
+<div class="grid grid-2">
+  <div class="card">
+    <h2>{% translate "Coming up" %}</h2>
+    {% for post in upcoming %}{% include "studio/_post_row.html" with compact=True %}{% empty %}<p class="empty">{% translate "Nothing scheduled." %} <a href="{% url 'post_new' %}">{% translate "Plan a post" %}</a></p>{% endfor %}
+  </div>
+  <div class="card">
+    <h2>{% translate "Automations" %}</h2>
+    {% for rule in rules %}
+      <div class="post-row"><div class="post-body">
+        <div class="post-meta"><span class="badge badge-accent">{% translate "Recurring" %}</span><span>{{ rule.weekday_labels }} · {{ rule.times }}</span></div>
+        {% if is_owner %}<a href="{% url 'recurring_edit' rule.pk %}"><b>{{ rule.name }}</b></a>{% else %}<b>{{ rule.name }}</b>{% endif %}
+        <div class="small muted">{% translate "Next:" %} {{ rule.next_run_at|date:"D j M, H:i"|default:"—" }}</div>
+      </div></div>
+    {% endfor %}
+    <div class="post-row"><div class="post-body">
+      <div class="post-meta"><span class="badge {% if queue.active %}badge-published{% endif %}">{% if queue.active %}{% translate "Queue on" %}{% else %}{% translate "Queue off" %}{% endif %}</span>{% if queue.active %}<span>{{ queue.weekday_labels }} · {{ queue.schedule_label }}</span>{% endif %}</div>
+      <a href="{% url 'queue' %}"><b>{% translate "Content queue" %}</b></a>
+      <div class="small muted">{% if queue.active %}{% translate "Next:" %} {{ queue.next_run_at|date:"D j M, H:i"|default:"—" }}{% if queue.random_order %} · 🎲 {% translate "random" %}{% endif %}{% else %}{% translate "Turn on to post from your library automatically." %}{% endif %}</div>
+    </div></div>
+    {% if is_owner %}<p style="margin-top:.75rem"><a href="{% url 'recurring_new' %}">{% translate "+ Add a recurring post" %}</a></p>{% endif %}
+  </div>
+</div>
+
+<div class="card">
+  <h2>{% translate "Recently published" %}</h2>
+  {% for post in recent %}{% include "studio/_post_row.html" with compact=True %}{% empty %}<p class="empty">{% translate "Nothing published yet." %}</p>{% endfor %}
+</div>
+{% endblock %}

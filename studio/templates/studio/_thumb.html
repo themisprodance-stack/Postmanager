@@ -1,0 +1,1 @@
+{% if asset.is_video %}<video class="{{ cls|default:'thumb' }}" src="{{ asset.file.url }}#t=0.5" muted playsinline preload="metadata"></video>{% else %}<img class="{{ cls|default:'thumb' }}" src="{{ asset.file.url }}" alt="{{ asset.title }}" loading="lazy">{% endif %}

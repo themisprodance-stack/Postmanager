@@ -1,0 +1,98 @@
+{% extends "studio/base.html" %}
+{% load static i18n %}
+{% block title %}{% if post %}{% translate "Edit post" %}{% else %}{% translate "New post" %}{% endif %}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% if post %}{% translate "Edit post" %}{% else %}{% translate "New post" %}{% endif %}</h1>
+  {% if post.status == "failed" %}<span class="badge badge-failed">{% translate "Failed:" %} {{ post.error|truncatechars:120 }}</span>{% endif %}
+</div>
+{% if uploads_unavailable %}<div class="alert alert-err">{% translate "Photo & video storage isn't connected yet, so uploading is switched off. An owner needs to connect Blob storage in the Vercel project (Storage tab)." %}</div>{% endif %}
+<form method="post" enctype="multipart/form-data" class="card">
+  {% csrf_token %}
+  {{ form.media_ids }}{{ form.action }}
+  {% if form.non_field_errors %}<ul class="errorlist nonfield">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+
+  <div class="field">
+    <label>{% translate "Type" %}</label>
+    <div class="choice-row">{% for radio in form.post_type %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}</div>
+    <span class="help" data-type-hint></span>
+  </div>
+
+  <div class="field">
+    <label>{% translate "Photos & videos" %} <span class="muted small" data-selected-count></span></label>
+    {% if library %}
+    <div class="picker">
+      <div class="media-grid" data-media-picker>
+        {% for asset in library %}
+        <button type="button" class="media-tile" data-asset="{{ asset.pk }}" title="{{ asset }}">
+          {% include "studio/_thumb.html" with asset=asset cls="x" %}
+          {% if asset.is_video %}<span class="tag">{% translate "Video" %}</span>{% endif %}
+          <span class="order"></span>
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+    <span class="help">{% translate "Tap to select from your library. For carousels, the order you tap is the order shown." %}</span>
+    {% endif %}
+    <div style="margin-top:.6rem">
+      <label for="id_new_files" class="small">{% if library %}{% translate "…or upload new" %}{% else %}{% translate "Upload photos or videos" %}{% endif %}</label>
+      {% if direct_upload %}
+      <input type="file" id="id_new_files" multiple accept="image/*,video/mp4,video/quicktime" data-direct-upload="picker"
+             data-token-url="{% url 'media_upload_token' %}" data-complete-url="{% url 'media_upload_complete' %}">
+      {% else %}{{ form.new_files }}{% endif %}
+      {{ form.new_files.errors }}
+    </div>
+  </div>
+
+  <div data-caption-block>
+    {% if ai_enabled %}
+    <div class="ai-box">
+      <label for="ai-brief">✨ {% translate "Write captions with AI" %}</label>
+      <textarea id="ai-brief" rows="2" placeholder="{% translate 'e.g. Line dance social night last Friday, 40 dancers, new beginners class starts Monday' %}"></textarea>
+      <div class="actions" style="margin-top:.5rem">
+        <button type="button" class="btn btn-sm btn-primary" data-ai-suggest data-url="{% url 'caption_suggestions' %}">{% translate "Suggest captions" %}</button>
+        <span class="small muted">{% translate "Uses your description and the selected photos." %}</span>
+      </div>
+      <div data-ai-results></div>
+    </div>
+    {% endif %}
+    <div class="field">
+      <label for="id_caption">{% translate "Caption" %}</label>
+      {{ form.caption }}
+      <div class="caption-tools"><span class="small muted" data-caption-count></span></div>
+      {{ form.caption.errors }}
+    </div>
+    <div class="field">
+      <label for="id_link">🔗 {% translate "Link" %} <span class="muted small">{% translate "(optional)" %}</span></label>
+      {{ form.link }}
+      <span class="help">{% translate "Added at the end of the caption. Instagram shows caption links as plain text (not clickable). Don't use a “#section” part: Instagram would turn it into a hashtag, so it's removed." %}</span>
+      {{ form.link.errors }}
+    </div>
+  </div>
+
+  <div class="field" data-tags-field>
+    <label for="id_user_tags">👤 {% translate "Tag people" %} <span class="muted small">{% translate "(optional)" %}</span></label>
+    {{ form.user_tags }}
+    <span class="help">{% translate "Instagram usernames, separated by commas. Only public accounts can be tagged; anyone Instagram can't reach is skipped and the post still goes out. In a carousel, the tags go on the first slide. Stories can't have tags." %}</span>
+    {{ form.user_tags.errors }}
+  </div>
+
+  <div class="field" data-reel-only hidden>
+    <label class="check">{{ form.share_reel_to_feed }} {% translate "Also show this Reel in the main profile grid" %}</label>
+  </div>
+
+  <div class="field" data-when-field>
+    <label for="id_scheduled_at">{{ form.scheduled_at.label }}</label>
+    {{ form.scheduled_at }}
+    <span class="help">{% translate "Your studio's local time." %}</span>
+    {{ form.scheduled_at.errors }}
+  </div>
+
+  <div class="sticky-actions actions">
+    <button class="btn btn-primary" data-action="schedule">{% translate "Schedule" %}</button>
+    <button class="btn" data-action="now">{% translate "Publish now" %}</button>
+    <button class="btn" data-action="draft">{% translate "Save draft" %}</button>
+    <a class="muted" href="{% url 'post_list' %}" style="margin-left:auto">{% translate "Cancel" %}</a>
+  </div>
+</form>
+{% endblock %}
+{% block extra_body %}{% if direct_upload %}<script type="module" src="{% static 'studio/direct-upload.js' %}?v={{ static_version }}"></script>{% endif %}{% endblock %}

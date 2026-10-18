@@ -1,0 +1,58 @@
+{% load static i18n %}<!doctype html>
+{% get_current_language as LANG %}
+<html lang="{{ LANG }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.headline|default:studio_name }}</title>
+  <meta name="description" content="{{ page.bio }}">
+  <meta property="og:title" content="{{ page.headline|default:studio_name }}">
+  <link rel="stylesheet" href="{% static 'studio/app.css' %}?v={{ static_version }}">
+  <style>
+    body { background: var(--bg); }
+    .lp { max-width: 520px; margin: 0 auto; padding: 2rem 16px 3rem; text-align: center; }
+    .lp-avatar { width: 92px; height: 92px; border-radius: 50%; object-fit: cover; margin: 0 auto .75rem; display: block;
+      background: var(--accent-soft); box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--accent); }
+    .lp h1 { font-size: 1.45rem; }
+    .lp .handle { color: var(--muted); margin-bottom: .5rem; display: inline-block; }
+    .lp-buttons { display: grid; gap: .65rem; margin: 1.5rem 0; }
+    .lp-buttons a { display: block; padding: .9rem 1rem; border-radius: 14px; background: var(--surface); color: var(--text);
+      border: 1px solid var(--border); font-weight: 600; box-shadow: var(--shadow); text-decoration: none; }
+    .lp-buttons a:hover { border-color: var(--accent); }
+    .lp-buttons a:first-child { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .lp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; border-radius: 12px; overflow: hidden; }
+    .lp-grid a { position: relative; aspect-ratio: 4 / 5; background: var(--border); display: block; }
+    .lp-grid img, .lp-grid video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .lp-grid .go { position: absolute; right: 6px; bottom: 6px; background: rgba(0,0,0,.6); color: #fff; font-size: .72rem;
+      padding: .1rem .45rem; border-radius: 6px; }
+    .lp-hint { color: var(--muted); font-size: .85rem; margin: 1.5rem 0 .6rem; }
+  </style>
+</head>
+<body>
+<main class="lp">
+  {% if account.profile_picture_url %}<img class="lp-avatar" src="{{ account.profile_picture_url }}" alt="" onerror="this.style.display='none'">{% endif %}
+  <h1>{{ page.headline|default:studio_name }}</h1>
+  {% if account %}<a class="handle" href="https://www.instagram.com/{{ account.username }}/" rel="noopener">@{{ account.username }}</a>{% endif %}
+  {% if page.bio %}<p>{{ page.bio|linebreaksbr }}</p>{% endif %}
+
+  {% if buttons %}
+  <nav class="lp-buttons">
+    {% for b in buttons %}<a href="{{ b.url }}" rel="noopener">{{ b.label }}</a>{% endfor %}
+  </nav>
+  {% endif %}
+
+  {% if tiles %}
+  <p class="lp-hint">{% translate "Tap a post to open its link" %}</p>
+  <div class="lp-grid">
+    {% for t in tiles %}
+    <a href="{{ t.url }}" rel="noopener" title="{{ t.post.caption|truncatechars:80 }}">
+      {% if t.asset.is_video %}<video src="{{ t.asset.file.url }}#t=0.5" muted playsinline preload="metadata"></video>
+      {% else %}<img src="{{ t.asset.file.url }}" alt="{{ t.post.caption|truncatechars:80 }}" loading="lazy">{% endif %}
+      <span class="go">🔗</span>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+</main>
+</body>
+</html>

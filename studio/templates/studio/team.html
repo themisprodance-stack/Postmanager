@@ -1,0 +1,41 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Team" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>{% translate "Team" %}</h1><p class="muted">{% translate "Editors can create, schedule and publish posts and manage the library. Owners can also approve people, connect Instagram and change recurring posts and the queue." %}</p></div></div>
+
+<div class="card">
+  <h2>{% translate "Waiting for approval" %}{% if waiting %} ({{ waiting|length }}){% endif %}</h2>
+  {% for m in waiting %}
+  <div class="post-row"><div class="post-body">
+    <b>{{ m.user.get_full_name|default:m.user.email }}</b> <span class="muted small">{{ m.user.email }}</span>
+    <div class="small muted">{% blocktranslate trimmed with ago=m.created_at|timesince %}Signed up {{ ago }} ago{% endblocktranslate %}{% if m.user.socialaccount_set.exists %} · {% translate "with Google" %}{% endif %}</div>
+    <div class="actions" style="margin-top:.45rem">
+      <form class="inline" method="post" action="{% url 'team_update' m.pk %}">{% csrf_token %}<input type="hidden" name="action" value="approve"><input type="hidden" name="role" value="editor"><button class="btn btn-sm btn-primary">{% translate "Approve as editor" %}</button></form>
+      <form class="inline" method="post" action="{% url 'team_update' m.pk %}" data-confirm="{% translate 'Make this person an owner? Owners have full control.' %}">{% csrf_token %}<input type="hidden" name="action" value="approve"><input type="hidden" name="role" value="owner"><button class="btn btn-sm">{% translate "Approve as owner" %}</button></form>
+      <form class="inline" method="post" action="{% url 'team_update' m.pk %}" data-confirm="{% translate 'Decline this request?' %}">{% csrf_token %}<input type="hidden" name="action" value="decline"><button class="btn btn-sm btn-danger">{% translate "Decline" %}</button></form>
+    </div>
+  </div></div>
+  {% empty %}<p class="empty">{% translate "Nobody is waiting. Share this sign-up link with your team:" %} <code>{{ request.scheme }}://{{ request.get_host }}{% url 'account_signup' %}</code></p>{% endfor %}
+</div>
+
+<div class="card table-wrap">
+  <h2>{% translate "Members" %}</h2>
+  <table>
+    <tr><th>{% translate "Name" %}</th><th>{% translate "Role" %}</th><th>{% translate "Since" %}</th><th></th></tr>
+    {% for m in members %}
+    <tr>
+      <td><b>{{ m.user.get_full_name|default:m.user.email|default:m.user.get_username }}</b>{% if m.user == user %} <span class="badge">{% translate "you" %}</span>{% endif %}<div class="small muted">{{ m.user.email }}</div></td>
+      <td>
+        {% if m.user == user %}{{ m.get_role_display }}{% else %}
+        <form class="inline" method="post" action="{% url 'team_update' m.pk %}">{% csrf_token %}<input type="hidden" name="action" value="role">
+          <select name="role" onchange="this.form.submit()" aria-label="{% translate 'Role' %}">{% for value, label in m.ROLE_CHOICES %}<option value="{{ value }}" {% if m.role == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+        </form>{% endif %}
+      </td>
+      <td class="small muted">{{ m.approved_at|date:"j M Y"|default:"—" }}</td>
+      <td style="text-align:right">{% if m.user != user %}<form class="inline" method="post" action="{% url 'team_update' m.pk %}" data-confirm="{% translate 'Remove this person’s access?' %}">{% csrf_token %}<input type="hidden" name="action" value="remove"><button class="btn btn-sm btn-danger">{% translate "Remove" %}</button></form>{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

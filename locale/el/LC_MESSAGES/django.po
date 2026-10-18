@@ -1,0 +1,2255 @@
+#
+msgid ""
+msgstr ""
+"Language: el\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: studio/context_processors.py
+msgid "%(chars)s / 2200 characters · %(tags)s / 30 hashtags"
+msgstr "%(chars)s / 2200 χαρακτήρες · %(tags)s / 30 hashtags"
+
+#: studio/models.py
+msgid "%(count)s× a day at random times between %(start)s and %(end)s"
+msgstr "%(count)s× την ημέρα σε τυχαίες ώρες μεταξύ %(start)s και %(end)s"
+
+#: studio/instagram.py
+msgid "%(explanation)s (Instagram said: %(message)s)"
+msgstr "%(explanation)s (Μήνυμα Instagram: %(message)s)"
+
+#: studio/context_processors.py
+msgid "%(n)s selected"
+msgstr "%(n)s επιλεγμένα"
+
+#: studio/media.py
+msgid "%(name)s: music files can be at most 50 MB."
+msgstr "%(name)s: τα αρχεία μουσικής μπορούν να είναι έως 50 MB."
+
+#: studio/media.py
+msgid "%(name)s: only MP3, M4A, AAC and WAV music files are supported."
+msgstr "%(name)s: υποστηρίζονται μόνο αρχεία μουσικής MP3, M4A, AAC και WAV."
+
+#: studio/media.py
+msgid "%(name)s: only photos and MP4/MOV videos are supported."
+msgstr "%(name)s: υποστηρίζονται μόνο φωτογραφίες και βίντεο MP4/MOV."
+
+#: studio/media.py
+msgid "%(name)s: photos can be at most 40 MB."
+msgstr "%(name)s: οι φωτογραφίες μπορούν να είναι έως 40 MB."
+
+#: studio/media.py
+msgid "%(name)s: the upload didn't arrive. Please try again."
+msgstr "%(name)s: το αρχείο δεν έφτασε. Δοκιμάστε ξανά."
+
+#: studio/media.py
+msgid ""
+"%(name)s: this file couldn't be opened as a photo. Try exporting it as JPEG."
+msgstr ""
+"%(name)s: το αρχείο δεν ανοίγει ως φωτογραφία. Δοκιμάστε να το αποθηκεύσετε "
+"ως JPEG."
+
+#: studio/media.py
+msgid "%(name)s: this file couldn't be played as music."
+msgstr "%(name)s: αυτό το αρχείο δεν μπορεί να αναπαραχθεί ως μουσική."
+
+#: studio/media.py
+msgid "%(name)s: videos can be at most 300 MB."
+msgstr "%(name)s: τα βίντεο μπορούν να είναι έως 300 MB."
+
+#: studio/accounts.py
+msgid "%(studio)s Posts: %(who)s wants access"
+msgstr "%(studio)s Posts: ο/η %(who)s ζητά πρόσβαση"
+
+#: studio/views.py
+msgid "%(used)s of %(limit)s daily posts used."
+msgstr "Χρησιμοποιήθηκαν %(used)s από %(limit)s ημερήσιες αναρτήσεις."
+
+#: studio/accounts.py
+msgid "%(who)s (%(email)s) signed up and is waiting for approval."
+msgstr "Ο/Η %(who)s (%(email)s) εγγράφηκε και περιμένει έγκριση."
+
+#: studio/views.py
+msgid "%(who)s can now use the app as %(role)s."
+msgstr "Ο/Η %(who)s μπορεί πλέον να χρησιμοποιεί την εφαρμογή ως %(role)s."
+
+#: studio/views.py
+msgid "%(who)s is now %(role)s."
+msgstr "Ο/Η %(who)s είναι πλέον %(role)s."
+
+#: studio/views.py
+msgid "%(who)s no longer has access."
+msgstr "Ο/Η %(who)s δεν έχει πλέον πρόσβαση."
+
+#: studio/templates/studio/queue.html
+msgid "(caption written automatically)"
+msgstr "(η λεζάντα γράφεται αυτόματα)"
+
+#: studio/templates/studio/_post_row.html
+msgid "(no caption)"
+msgstr "(χωρίς λεζάντα)"
+
+#: studio/templates/studio/instagram.html
+msgid "(one time, ~3 min)"
+msgstr "(μία φορά, ~3 λεπτά)"
+
+#: studio/templates/studio/post_form.html
+msgid "(optional)"
+msgstr "(προαιρετικό)"
+
+#: studio/templates/studio/instagram.html
+msgid "(optional, for reconnecting without copying keys)"
+msgstr "(προαιρετικό, για επανασύνδεση χωρίς αντιγραφή κλειδιών)"
+
+#: studio/templates/studio/instagram.html
+msgid "(valid until %(date)s)"
+msgstr "(ισχύει έως %(date)s)"
+
+#: studio/templates/studio/dashboard.html
+msgid "+ Add a recurring post"
+msgstr "+ Προσθήκη επαναλαμβανόμενης ανάρτησης"
+
+#: studio/templates/studio/dashboard.html
+msgid "+ New post"
+msgstr "+ Νέα ανάρτηση"
+
+#: studio/templates/studio/recurring_list.html
+msgid "+ New recurring post"
+msgstr "+ Νέα επαναλαμβανόμενη ανάρτηση"
+
+#: studio/templates/studio/media_list.html
+msgid "+ Queue"
+msgstr "+ Ουρά"
+
+#: studio/templates/studio/queue.html
+msgid "24h times, comma separated, e.g. 09:00, 18:30"
+msgstr "Ώρες σε 24ωρη μορφή, χωρισμένες με κόμμα, π.χ. 09:00, 18:30"
+
+#: studio/context_processors.py
+msgid "2–10 photos/videos. Click them in the order you want them to appear."
+msgstr ""
+"2–10 φωτογραφίες/βίντεο. Πατήστε τα με τη σειρά που θέλετε να εμφανίζονται."
+
+#: studio/instagram.py
+msgid ""
+"@%(username)s is a personal account. Instagram only allows apps to post to "
+"professional accounts: in the Instagram app go to Settings → Account type "
+"and tools → Switch to professional account (free), then generate a new "
+"token."
+msgstr ""
+"Ο @%(username)s είναι προσωπικός λογαριασμός. Το Instagram επιτρέπει σε "
+"εφαρμογές να δημοσιεύουν μόνο σε επαγγελματικούς λογαριασμούς: στην εφαρμογή"
+" Instagram πηγαίνετε Ρυθμίσεις → Τύπος λογαριασμού και εργαλεία → Αλλαγή σε "
+"επαγγελματικό λογαριασμό (δωρεάν) και δημιουργήστε νέο token."
+
+#: studio/instagram.py
+msgid "A Reel needs exactly one video."
+msgstr "Ένα Reel χρειάζεται ακριβώς ένα βίντεο."
+
+#: studio/instagram.py
+msgid "A Story needs exactly one photo or video."
+msgstr "Ένα Story χρειάζεται ακριβώς μία φωτογραφία ή ένα βίντεο."
+
+#: studio/instagram.py
+msgid "A carousel needs between 2 and 10 photos/videos."
+msgstr "Ένα καρουζέλ χρειάζεται από 2 έως 10 φωτογραφίες/βίντεο."
+
+#: studio/forms.py
+msgid "A link can't contain spaces."
+msgstr "Ένας σύνδεσμος δεν μπορεί να έχει κενά."
+
+#: studio/instagram.py
+msgid ""
+"A photo post needs exactly one photo (use Reel for a video, Carousel for "
+"several)."
+msgstr ""
+"Μια ανάρτηση φωτογραφίας χρειάζεται ακριβώς μία φωτογραφία (Reel για βίντεο,"
+" Καρουζέλ για πολλές)."
+
+#: studio/templates/studio/queue.html
+msgid "AI brief"
+msgstr "Οδηγία για το AI"
+
+#: studio/templates/studio/recurring_list.html
+msgid "AI caption"
+msgstr "Λεζάντα AI"
+
+#: studio/ai.py
+msgid "AI captions are not set up: add ANTHROPIC_API_KEY to the environment."
+msgstr ""
+"Οι λεζάντες AI δεν έχουν ρυθμιστεί: προσθέστε το ANTHROPIC_API_KEY στις "
+"ρυθμίσεις."
+
+#: studio/templates/studio/queue.html
+msgid "AI isn't set up, so the default caption is used when an item has none."
+msgstr ""
+"Το AI δεν έχει ρυθμιστεί, οπότε χρησιμοποιείται η προεπιλεγμένη λεζάντα όταν"
+" ένα στοιχείο δεν έχει."
+
+#: studio/ai.py
+msgid "AI service error (%(status)s)."
+msgstr "Σφάλμα υπηρεσίας AI (%(status)s)."
+
+#: studio/forms.py
+msgid "Access token"
+msgstr "Access token"
+
+#: studio/templates/studio/base.html
+msgid "Account settings"
+msgstr "Ρυθμίσεις λογαριασμού"
+
+#: studio/templates/studio/recurring_form.html
+msgid "Active"
+msgstr "Ενεργή"
+
+#: studio/instagram.py
+msgid "Add at least one photo or video."
+msgstr "Προσθέστε τουλάχιστον μία φωτογραφία ή ένα βίντεο."
+
+#: studio/forms.py
+msgid "Add at least one time."
+msgstr "Προσθέστε τουλάχιστον μία ώρα."
+
+#: studio/templates/studio/queue.html
+msgid "Add items from the Library with “+ Queue”."
+msgstr "Προσθέστε στοιχεία από τη Βιβλιοθήκη με «+ Ουρά»."
+
+#: studio/forms.py
+msgid "Add the link for this button."
+msgstr "Προσθέστε τον σύνδεσμο για αυτό το κουμπί."
+
+#: studio/templates/studio/instagram.html
+msgid "Add this OAuth redirect URI and save:"
+msgstr "Προσθέστε αυτό το OAuth redirect URI και αποθηκεύστε:"
+
+#: studio/templates/studio/media_list.html
+msgid "Add to the content queue"
+msgstr "Προσθήκη στην ουρά περιεχομένου"
+
+#: studio/templates/studio/post_form.html
+msgid ""
+"Added at the end of the caption. Instagram shows caption links as plain text"
+" (not clickable). Don't use a “#section” part: Instagram would turn it into "
+"a hashtag, so it's removed."
+msgstr ""
+"Προστίθεται στο τέλος της λεζάντας. Το Instagram δείχνει τους συνδέσμους της"
+" λεζάντας ως απλό κείμενο (δεν πατιούνται). Μη χρησιμοποιείτε τμήμα "
+"«#ενότητα»: το Instagram θα το έκανε hashtag, οπότε αφαιρείται."
+
+#: studio/models.py
+msgid ""
+"Added to the end of the caption as text (Instagram never makes caption links"
+" clickable)."
+msgstr ""
+"Προστίθεται στο τέλος της λεζάντας ως κείμενο (το Instagram δεν κάνει ποτέ "
+"τους συνδέσμους λεζάντας να πατιούνται)."
+
+#: studio/templates/studio/media_list.html
+msgid "All"
+msgstr "Όλες"
+
+#: studio/templates/studio/media_list.html
+msgid ""
+"All your photos and videos. Mark items for the queue to have them posted "
+"automatically."
+msgstr ""
+"Όλες οι φωτογραφίες και τα βίντεό σας. Σημειώστε στοιχεία για την ουρά ώστε "
+"να δημοσιεύονται αυτόματα."
+
+#: studio/templates/studio/pending.html
+msgid "Almost there!"
+msgstr "Σχεδόν έτοιμο!"
+
+#: studio/templates/account/signup.html
+msgid "Already have an account?"
+msgstr "Έχετε ήδη λογαριασμό;"
+
+#: studio/templates/studio/post_form.html
+msgid "Also show this Reel in the main profile grid"
+msgstr "Εμφάνιση του Reel και στο κύριο πλέγμα του προφίλ"
+
+#: studio/templates/studio/instagram.html
+msgid "Alternative: a “Log in with Instagram” button"
+msgstr "Εναλλακτικά: κουμπί «Σύνδεση με Instagram»"
+
+#: studio/models.py
+msgid "Always AI"
+msgstr "Πάντα AI"
+
+#: studio/templates/studio/pending.html
+msgid ""
+"An owner of %(studio)s needs to approve it before you can manage posts. "
+"They've been notified. This page will let you in once they have."
+msgstr ""
+"Ένας ιδιοκτήτης του %(studio)s πρέπει να τον εγκρίνει πριν διαχειριστείτε "
+"αναρτήσεις. Έχει ειδοποιηθεί. Αυτή η σελίδα θα σας αφήσει να μπείτε μόλις "
+"εγκριθεί."
+
+#: studio/templates/account/signup.html
+msgid "An owner of %(studio)s will approve your access."
+msgstr "Ένας ιδιοκτήτης του %(studio)s θα εγκρίνει την πρόσβασή σας."
+
+#: studio/models.py
+msgid "Anything in the library"
+msgstr "Οτιδήποτε στη βιβλιοθήκη"
+
+#: studio/templates/studio/instagram.html
+msgid "App name:"
+msgstr "Όνομα εφαρμογής:"
+
+#: studio/templates/studio/team.html
+msgid "Approve as editor"
+msgstr "Έγκριση ως συντάκτης"
+
+#: studio/templates/studio/team.html
+msgid "Approve as owner"
+msgstr "Έγκριση ως ιδιοκτήτης"
+
+#: studio/accounts.py
+msgid "Approve or decline: %(url)s"
+msgstr "Έγκριση ή απόρριψη: %(url)s"
+
+#: studio/templates/studio/base.html
+msgid "Ask an owner to connect it."
+msgstr "Ζητήστε από έναν ιδιοκτήτη να το συνδέσει."
+
+#: studio/models.py
+msgid "At fixed times"
+msgstr "Σε σταθερές ώρες"
+
+#: studio/templates/account/signup.html
+msgid "At least 8 characters, not too common."
+msgstr "Τουλάχιστον 8 χαρακτήρες, όχι πολύ συνηθισμένος."
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Automatic publishing"
+msgstr "Αυτόματη δημοσίευση"
+
+#: studio/templates/studio/base.html
+msgid "Automatic publishing isn't running"
+msgstr "Η αυτόματη δημοσίευση δεν λειτουργεί"
+
+#: studio/templates/studio/dashboard.html
+msgid "Automations"
+msgstr "Αυτοματισμοί"
+
+#: studio/templates/studio/stats.html
+msgid "Average engagement"
+msgstr "Μέση αλληλεπίδραση"
+
+#: studio/templates/studio/stats.html
+msgid "Average engagement of posts published at each hour."
+msgstr "Μέση αλληλεπίδραση των αναρτήσεων που δημοσιεύτηκαν σε κάθε ώρα."
+
+#: studio/templates/studio/stats.html
+msgid "Average interactions"
+msgstr "Μέσες αλληλεπιδράσεις"
+
+#: studio/templates/studio/stats.html
+msgid ""
+"Average likes + comments + saves + shares of posts published at each hour."
+msgstr ""
+"Μέσος όρος likes + σχολίων + αποθηκεύσεων + κοινοποιήσεων των αναρτήσεων "
+"κάθε ώρας."
+
+#: studio/templates/studio/stats.html
+msgid "Average people reached"
+msgstr "Μέση προσέγγιση (άτομα)"
+
+#: studio/views.py
+msgid "Bad request."
+msgstr "Μη έγκυρο αίτημα."
+
+#: studio/templates/studio/stats.html
+msgid "Best posts"
+msgstr "Οι καλύτερες αναρτήσεις"
+
+#: studio/templates/studio/stats.html
+msgid "Best time to post"
+msgstr "Καλύτερη ώρα για δημοσίευση"
+
+#: studio/templates/studio/stats.html
+msgid "Between <b>%(start)s:00 and %(end)s:00</b>"
+msgstr "Μεταξύ <b>%(start)s:00 και %(end)s:00</b>"
+
+#: studio/templates/studio/instagram.html
+msgid "Business:"
+msgstr "Επιχείρηση:"
+
+#: studio/forms.py
+msgid "Button text"
+msgstr "Κείμενο κουμπιού"
+
+#: studio/templates/studio/links_settings.html
+msgid "Buttons"
+msgstr "Κουμπιά"
+
+#: studio/templates/studio/stats.html
+msgid "By day of the week"
+msgstr "Ανά ημέρα της εβδομάδας"
+
+#: studio/templates/studio/music_video.html
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+#: studio/templates/studio/post_form.html
+msgid "Caption"
+msgstr "Λεζάντα"
+
+#: studio/templates/studio/queue.html
+msgid "Captions"
+msgstr "Λεζάντες"
+
+#: studio/models.py
+msgid "Carousel"
+msgstr "Καρουζέλ"
+
+#: studio/templates/studio/pending.html
+msgid "Check again"
+msgstr "Έλεγχος ξανά"
+
+#: studio/templates/studio/instagram.html
+msgid "Check connection"
+msgstr "Έλεγχος σύνδεσης"
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Check it"
+msgstr "Έλεγχος"
+
+#: studio/forms.py
+msgid "Choose between 1 and 25 posts a day."
+msgstr "Επιλέξτε από 1 έως 25 αναρτήσεις την ημέρα."
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"Click Generate token next to the account, tick the box, and Copy the long "
+"code (starts with IG)."
+msgstr ""
+"Πατήστε Generate token δίπλα στον λογαριασμό, τσεκάρετε το κουτάκι και "
+"αντιγράψτε τον μεγάλο κωδικό (ξεκινά με IG)."
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Click “Create cronjob”. Title: Postmanager"
+msgstr "Πατήστε «Create cronjob». Τίτλος: Postmanager"
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Click “Create”."
+msgstr "Πατήστε «Create»."
+
+#: studio/templates/studio/dashboard.html
+msgid "Coming up"
+msgstr "Έρχονται"
+
+#: studio/models.py
+msgid "Comma separated HH:MM, e.g. 09:00,18:30"
+msgstr "Χωρισμένες με κόμμα ΩΩ:ΛΛ, π.χ. 09:00,18:30"
+
+#: studio/models.py
+msgid "Comma separated, 0=Mon … 6=Sun"
+msgstr "Χωρισμένα με κόμμα, 0=Δευ … 6=Κυρ"
+
+#: studio/templates/studio/instagram.html
+msgid "Connect Instagram"
+msgstr "Σύνδεση Instagram"
+
+#: studio/templates/studio/stats.html
+msgid "Connect Instagram first to see results."
+msgstr "Συνδέστε πρώτα το Instagram για να δείτε αποτελέσματα."
+
+#: studio/templates/studio/instagram.html
+msgid "Connect a different account"
+msgstr "Σύνδεση άλλου λογαριασμού"
+
+#: studio/templates/studio/base.html
+msgid "Connect it →"
+msgstr "Σύνδεση →"
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"Connect the studio's Instagram once, and Postmanager can publish for you."
+msgstr ""
+"Συνδέστε μία φορά το Instagram της σχολής και το Postmanager θα δημοσιεύει "
+"για εσάς."
+
+#: studio/templates/studio/instagram.html
+msgid "Connected"
+msgstr "Συνδεδεμένο"
+
+#: studio/templates/studio/instagram.html
+msgid "Connected %(date)s · renews automatically"
+msgstr "Συνδέθηκε %(date)s · ανανεώνεται αυτόματα"
+
+#: studio/templates/studio/dashboard.html
+msgid "Content queue"
+msgstr "Ουρά περιεχομένου"
+
+#: studio/templates/account/login.html
+msgid "Continue with Google"
+msgstr "Συνέχεια με Google"
+
+#: studio/views.py
+msgid "Copied as a new draft."
+msgstr "Αντιγράφηκε ως νέο πρόχειρο."
+
+#: studio/context_processors.py
+msgid "Copied ✓"
+msgstr "Αντιγράφηκε ✓"
+
+#: studio/templates/studio/instagram.html
+msgid "Copy"
+msgstr "Αντιγραφή"
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"Copy the Instagram app ID and Instagram app secret from the top of that page"
+" into the form below."
+msgstr ""
+"Αντιγράψτε το Instagram app ID και το Instagram app secret από την κορυφή "
+"εκείνης της σελίδας στη φόρμα παρακάτω."
+
+#: studio/context_processors.py
+msgid "Copy this:"
+msgstr "Αντιγράψτε αυτό:"
+
+#: studio/ai.py
+msgid "Could not reach the AI service."
+msgstr "Δεν ήταν δυνατή η σύνδεση με την υπηρεσία AI."
+
+#: studio/views.py
+msgid "Couldn't connect: %(error)s"
+msgstr "Η σύνδεση απέτυχε: %(error)s"
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Create a cronjob"
+msgstr "Δημιουργήστε ένα cronjob"
+
+#: studio/templates/studio/instagram.html
+msgid "Create a free Meta app"
+msgstr "Δημιουργήστε μια δωρεάν εφαρμογή Meta"
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Create a free cron-job.org account"
+msgstr "Δημιουργήστε δωρεάν λογαριασμό στο cron-job.org"
+
+#: studio/templates/account/signup.html
+msgid "Create account"
+msgstr "Δημιουργία λογαριασμού"
+
+#: studio/templates/account/login.html
+msgid "Create an account"
+msgstr "Δημιουργία λογαριασμού"
+
+#: studio/templates/account/signup.html
+msgid "Create your account"
+msgstr "Δημιουργήστε τον λογαριασμό σας"
+
+#: studio/templates/studio/stats.html
+msgid "Day"
+msgstr "Ημέρα"
+
+#: studio/templates/studio/_weekly_fields.html
+msgid "Days"
+msgstr "Ημέρες"
+
+#: studio/templates/studio/team.html
+msgid "Decline"
+msgstr "Απόρριψη"
+
+#: studio/templates/studio/team.html
+msgid "Decline this request?"
+msgstr "Απόρριψη αυτού του αιτήματος;"
+
+#: studio/views.py
+msgid "Declined %(who)s."
+msgstr "Απορρίφθηκε: %(who)s."
+
+#: studio/templates/studio/queue.html
+msgid "Default caption"
+msgstr "Προεπιλεγμένη λεζάντα"
+
+#: studio/templates/studio/_post_row.html
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: studio/templates/studio/media_form.html
+msgid "Delete file"
+msgstr "Διαγραφή αρχείου"
+
+#: studio/templates/studio/media_form.html
+msgid "Delete this file permanently?"
+msgstr "Οριστική διαγραφή αυτού του αρχείου;"
+
+#: studio/templates/studio/_post_row.html
+msgid "Delete this post from Postmanager?"
+msgstr "Διαγραφή αυτής της ανάρτησης από το Postmanager;"
+
+#: studio/templates/studio/_post_row.html
+msgid "Delete this post from Postmanager? (It stays on Instagram.)"
+msgstr ""
+"Διαγραφή αυτής της ανάρτησης από το Postmanager; (Παραμένει στο Instagram.)"
+
+#: studio/templates/studio/recurring_form.html
+msgid "Delete this recurring post?"
+msgstr "Διαγραφή αυτής της επαναλαμβανόμενης ανάρτησης;"
+
+#: studio/templates/studio/music_list.html
+msgid "Delete this song?"
+msgstr "Διαγραφή αυτού του τραγουδιού;"
+
+#: studio/views.py
+msgid "Describe the post or select some media first."
+msgstr "Περιγράψτε την ανάρτηση ή επιλέξτε πρώτα κάποια αρχεία."
+
+#: studio/forms.py
+msgid "Describe what the AI should write about."
+msgstr "Περιγράψτε για τι να γράψει το AI."
+
+#: studio/views.py
+msgid "Direct uploads are not enabled."
+msgstr "Το απευθείας ανέβασμα δεν είναι ενεργό."
+
+#: studio/templates/studio/instagram.html
+msgid "Disconnect"
+msgstr "Αποσύνδεση"
+
+#: studio/templates/studio/instagram.html
+msgid "Disconnect Instagram? Scheduled posts will fail until you reconnect."
+msgstr ""
+"Αποσύνδεση του Instagram; Οι προγραμματισμένες αναρτήσεις θα αποτυγχάνουν "
+"μέχρι να συνδεθείτε ξανά."
+
+#: studio/models.py
+msgid "Draft"
+msgstr "Πρόχειρο"
+
+#: studio/views.py
+msgid "Draft saved."
+msgstr "Το πρόχειρο αποθηκεύτηκε."
+
+#: studio/templates/studio/dashboard.html
+msgid "Drafts"
+msgstr "Πρόχειρα"
+
+#: studio/templates/studio/_post_row.html
+msgid "Duplicate"
+msgstr "Αντίγραφο"
+
+#: studio/templates/studio/links_settings.html
+msgid ""
+"E.g. “📝 Sign up for a class” → lineofdance.gr/epikoinonia.php. The first "
+"button is highlighted."
+msgstr ""
+"Π.χ. «📝 Εγγραφή σε τμήμα» → lineofdance.gr/epikoinonia.php. Το πρώτο κουμπί "
+"τονίζεται."
+
+#: studio/templates/studio/_post_row.html
+msgid "Edit"
+msgstr "Επεξεργασία"
+
+#: studio/templates/studio/post_form.html
+msgid "Edit post"
+msgstr "Επεξεργασία ανάρτησης"
+
+#: studio/models.py
+msgid "Editor"
+msgstr "Συντάκτης"
+
+#: studio/templates/studio/team.html
+msgid ""
+"Editors can create, schedule and publish posts and manage the library. "
+"Owners can also approve people, connect Instagram and change recurring posts"
+" and the queue."
+msgstr ""
+"Οι συντάκτες δημιουργούν, προγραμματίζουν και δημοσιεύουν αναρτήσεις και "
+"διαχειρίζονται τη βιβλιοθήκη. Οι ιδιοκτήτες επιπλέον εγκρίνουν άτομα, "
+"συνδέουν το Instagram και αλλάζουν τις επαναλαμβανόμενες αναρτήσεις και την "
+"ουρά."
+
+#: studio/templates/account/login.html
+msgid "Email"
+msgstr "Email"
+
+#: studio/templates/studio/stats.html
+msgid "Engagement"
+msgstr "Αλληλεπίδραση"
+
+#: studio/templates/studio/stats.html
+msgid "Engagement by day"
+msgstr "Αλληλεπίδραση ανά ημέρα"
+
+#: studio/templates/studio/stats.html
+msgid "Engagement by hour"
+msgstr "Αλληλεπίδραση ανά ώρα"
+
+#: studio/templates/studio/stats.html
+msgid "Engagement by hour posted"
+msgstr "Αλληλεπίδραση ανά ώρα δημοσίευσης"
+
+#: studio/views.py
+msgid "Enter the app secret."
+msgstr "Συμπληρώστε το app secret."
+
+#: studio/templates/studio/queue.html
+msgid ""
+"Every posting day gets new random times inside this window, spread out so "
+"posts don't bunch together."
+msgstr ""
+"Κάθε ημέρα δημοσίευσης παίρνει νέες τυχαίες ώρες μέσα σε αυτό το διάστημα, "
+"μοιρασμένες ώστε να μη μαζεύονται οι αναρτήσεις."
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Execution schedule: every 5 minutes"
+msgstr "Execution schedule: κάθε 5 λεπτά"
+
+#: studio/models.py
+msgid "Failed"
+msgstr "Απέτυχε"
+
+#: studio/templates/studio/post_form.html
+msgid "Failed:"
+msgstr "Απέτυχε:"
+
+#: studio/views.py
+msgid "File deleted."
+msgstr "Το αρχείο διαγράφηκε."
+
+#: studio/models.py
+msgid "First post not before"
+msgstr "Πρώτη ανάρτηση όχι πριν από"
+
+#: studio/templates/studio/base.html
+msgid "Fix it (2 minutes) →"
+msgstr "Διόρθωση (2 λεπτά) →"
+
+#: studio/templates/studio/stats.html
+msgid "Followers"
+msgstr "Ακόλουθοι"
+
+#: studio/templates/studio/stats.html
+msgid "Followers online (30-day total)"
+msgstr "Ακόλουθοι online (σύνολο 30 ημερών)"
+
+#: studio/templates/studio/stats.html
+msgid "Followers online by hour"
+msgstr "Ακόλουθοι online ανά ώρα"
+
+#: studio/templates/studio/recurring_form.html
+msgid "For you only, e.g. “Weekly timetable”."
+msgstr "Μόνο για εσάς, π.χ. «Εβδομαδιαίο πρόγραμμα»."
+
+#: studio/templates/account/login.html
+msgid "Forgot your password?"
+msgstr "Ξεχάσατε τον κωδικό σας;"
+
+#: studio/models.py
+msgid "Fri"
+msgstr "Παρ"
+
+#: studio/templates/studio/queue.html
+msgid "General context for AI-written queue captions."
+msgstr "Γενικές πληροφορίες για τις λεζάντες της ουράς που γράφει το AI."
+
+#: studio/templates/studio/instagram.html
+msgid "Get the connection key"
+msgstr "Πάρτε το κλειδί σύνδεσης"
+
+#: studio/templates/studio/music_video.html
+msgid "Go to Music →"
+msgstr "Μετάβαση στη Μουσική →"
+
+#: studio/views.py
+msgid ""
+"Heads-up: automatic publishing isn't running right now, so this post won't "
+"go out on time. An owner needs to set up the timer (see the banner)."
+msgstr ""
+"Προσοχή: η αυτόματη δημοσίευση δεν λειτουργεί αυτή τη στιγμή, οπότε η "
+"ανάρτηση δεν θα βγει στην ώρα της. Ένας ιδιοκτήτης πρέπει να ρυθμίσει το "
+"χρονόμετρο (δείτε την ειδοποίηση)."
+
+#: studio/templates/studio/dashboard.html
+msgid "Hi %(name)s 👋"
+msgstr "Γεια σου %(name)s 👋"
+
+#: studio/templates/studio/dashboard.html
+msgid "Hi there 👋"
+msgstr "Γεια σου 👋"
+
+#: studio/templates/studio/stats.html
+msgid "Highlighted: the best window."
+msgstr "Τονισμένο: το καλύτερο διάστημα."
+
+#: studio/templates/studio/base.html
+msgid "Home"
+msgstr "Αρχική"
+
+#: studio/templates/studio/stats.html
+msgid "Hour"
+msgstr "Ώρα"
+
+#: studio/templates/studio/stats.html
+msgid "How your posts do, and the best time to post."
+msgstr ""
+"Πώς πάνε οι αναρτήσεις σας και ποια είναι η καλύτερη ώρα για δημοσίευση."
+
+#: studio/templates/studio/recurring_form.html
+msgid "If AI fails, the caption above is used."
+msgstr "Αν το AI αποτύχει, χρησιμοποιείται η παραπάνω λεζάντα."
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"If Meta says the account must accept an invite: Instagram app → Settings → "
+"Website permissions → Apps and websites → Tester invites → Accept, then try "
+"again."
+msgstr ""
+"Αν η Meta πει ότι ο λογαριασμός πρέπει να αποδεχτεί πρόσκληση: εφαρμογή "
+"Instagram → Ρυθμίσεις → Άδειες ιστοτόπων → Εφαρμογές και ιστότοποι → "
+"Προσκλήσεις δοκιμαστών → Αποδοχή, και δοκιμάστε ξανά."
+
+#: studio/templates/studio/media_list.html
+msgid "In queue"
+msgstr "Στην ουρά"
+
+#: studio/templates/studio/links_settings.html
+msgid ""
+"In the Instagram app: Edit profile → Links → Add external link, paste it, "
+"and save. Then write “🔗 Link in bio” in posts that have a link."
+msgstr ""
+"Στην εφαρμογή Instagram: Επεξεργασία προφίλ → Σύνδεσμοι → Προσθήκη "
+"εξωτερικού συνδέσμου, επικολλήστε τον και αποθηκεύστε. Μετά γράψτε «🔗 "
+"Σύνδεσμος στο bio» στις αναρτήσεις που έχουν σύνδεσμο."
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"In the Instagram app: Profile → ☰ → Settings → Account type and tools → "
+"Switch to professional account → Business. Skip this if it already is."
+msgstr ""
+"Στην εφαρμογή Instagram: Προφίλ → ☰ → Ρυθμίσεις → Τύπος λογαριασμού και "
+"εργαλεία → Αλλαγή σε επαγγελματικό λογαριασμό → Επιχείρηση. Παραλείψτε το αν"
+" είναι ήδη."
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"In the Meta app: Instagram → API setup with Instagram login → 3. Set up "
+"Instagram business login → Business login settings."
+msgstr ""
+"Στην εφαρμογή Meta: Instagram → API setup with Instagram login → 3. Set up "
+"Instagram business login → Business login settings."
+
+#: studio/templates/studio/queue.html
+msgid "In the queue"
+msgstr "Στην ουρά"
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"In your new app, open Instagram (left menu) → API setup with Instagram "
+"login."
+msgstr ""
+"Στη νέα σας εφαρμογή ανοίξτε Instagram (αριστερό μενού) → API setup with "
+"Instagram login."
+
+#: studio/models.py
+msgid "Include in the automatic content queue."
+msgstr "Συμπερίληψη στην αυτόματη ουρά περιεχομένου."
+
+#: studio/forms.py
+msgid "Instagram allows at most 20 tagged people."
+msgstr "Το Instagram επιτρέπει έως 20 επισημασμένα άτομα."
+
+#: studio/instagram.py
+msgid "Instagram allows at most 30 hashtags."
+msgstr "Το Instagram επιτρέπει έως 30 hashtags."
+
+#: studio/forms.py
+msgid "Instagram app ID"
+msgstr "Instagram app ID"
+
+#: studio/forms.py
+msgid "Instagram app secret"
+msgstr "Instagram app secret"
+
+#: studio/instagram.py
+msgid ""
+"Instagram captions (including the link) are limited to 2,200 characters."
+msgstr ""
+"Οι λεζάντες του Instagram (μαζί με τον σύνδεσμο) έχουν όριο 2.200 "
+"χαρακτήρες."
+
+#: studio/views.py
+msgid "Instagram connection cancelled: %(reason)s"
+msgstr "Η σύνδεση με το Instagram ακυρώθηκε: %(reason)s"
+
+#: studio/instagram.py
+msgid "Instagram could not process the media: %(status)s"
+msgstr "Το Instagram δεν μπόρεσε να επεξεργαστεί το αρχείο: %(status)s"
+
+#: studio/instagram.py
+msgid ""
+"Instagram didn't grant permission to publish. When generating the token, "
+"allow all requested permissions."
+msgstr ""
+"Το Instagram δεν έδωσε άδεια δημοσίευσης. Όταν δημιουργείτε το token, "
+"επιτρέψτε όλες τις άδειες που ζητούνται."
+
+#: studio/stats.py
+msgid "Instagram didn't return results right now: %(error)s"
+msgstr "Το Instagram δεν έδωσε αποτελέσματα αυτή τη στιγμή: %(error)s"
+
+#: studio/views.py
+msgid "Instagram disconnected. Scheduled posts will fail until you reconnect."
+msgstr ""
+"Το Instagram αποσυνδέθηκε. Οι προγραμματισμένες αναρτήσεις θα αποτυγχάνουν "
+"μέχρι να συνδεθείτε ξανά."
+
+#: studio/instagram.py
+msgid ""
+"Instagram doesn't allow apps to tag people in Stories. Remove the tags or "
+"choose another type."
+msgstr ""
+"Το Instagram δεν επιτρέπει σε εφαρμογές να επισημαίνουν άτομα στα Stories. "
+"Αφαιρέστε τις επισημάνσεις ή επιλέξτε άλλο τύπο."
+
+#: studio/instagram.py
+msgid ""
+"Instagram is rate-limiting requests right now. It will retry automatically."
+msgstr ""
+"Το Instagram περιορίζει προσωρινά τα αιτήματα. Θα γίνει αυτόματα νέα "
+"προσπάθεια."
+
+#: studio/views.py
+msgid ""
+"Instagram is still processing this post. It will go live within a few "
+"minutes."
+msgstr ""
+"Το Instagram επεξεργάζεται ακόμη την ανάρτηση. Θα δημοσιευτεί σε λίγα λεπτά."
+
+#: studio/templates/studio/base.html
+msgid "Instagram isn't connected yet, so nothing can be published."
+msgstr ""
+"Το Instagram δεν έχει συνδεθεί ακόμη, οπότε δεν μπορεί να δημοσιευτεί "
+"τίποτα."
+
+#: studio/templates/studio/links_settings.html
+msgid ""
+"Instagram only allows one clickable link: the one in your bio. Put this page"
+" there, and every post's link is two taps away."
+msgstr ""
+"Το Instagram επιτρέπει μόνο έναν σύνδεσμο που πατιέται: αυτόν στο βιογραφικό"
+" σας. Βάλτε εκεί αυτή τη σελίδα και ο σύνδεσμος κάθε ανάρτησης θα είναι δύο "
+"πατήματα μακριά."
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"Instagram only lets apps post to Business or Creator accounts (free, and "
+"nothing changes for your followers)."
+msgstr ""
+"Το Instagram επιτρέπει σε εφαρμογές να δημοσιεύουν μόνο σε λογαριασμούς "
+"Επιχείρησης ή Δημιουργού (δωρεάν, και τίποτα δεν αλλάζει για τους ακολούθους"
+" σας)."
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"Instagram requires every posting tool to have one. Log in with the Facebook "
+"account that manages the studio's Instagram."
+msgstr ""
+"Το Instagram το απαιτεί για κάθε εργαλείο δημοσίευσης. Συνδεθείτε με τον "
+"λογαριασμό Facebook που διαχειρίζεται το Instagram της σχολής."
+
+#: studio/instagram.py
+msgid "Instagram returned an unexpected response (HTTP %(status)s)."
+msgstr "Το Instagram έδωσε απρόσμενη απάντηση (HTTP %(status)s)."
+
+#: studio/templates/studio/queue.html
+msgid ""
+"Instagram usernames, separated by commas, tagged in every post this creates."
+" Only public accounts can be tagged. Stories are posted without tags."
+msgstr ""
+"Ονόματα χρηστών Instagram, χωρισμένα με κόμμα, που επισημαίνονται σε κάθε "
+"ανάρτηση που δημιουργείται. Μπορούν να επισημανθούν μόνο δημόσιοι "
+"λογαριασμοί. Τα Stories δημοσιεύονται χωρίς επισημάνσεις."
+
+#: studio/templates/studio/post_form.html
+msgid ""
+"Instagram usernames, separated by commas. Only public accounts can be "
+"tagged; anyone Instagram can't reach is skipped and the post still goes out."
+" In a carousel, the tags go on the first slide. Stories can't have tags."
+msgstr ""
+"Ονόματα χρηστών Instagram, χωρισμένα με κόμμα. Μπορούν να επισημανθούν μόνο "
+"δημόσιοι λογαριασμοί· όποιοι δεν είναι προσβάσιμοι παραλείπονται και η "
+"ανάρτηση δημοσιεύεται κανονικά. Στο καρουζέλ οι επισημάνσεις μπαίνουν στην "
+"πρώτη διαφάνεια. Τα Stories δεν μπορούν να έχουν επισημάνσεις."
+
+#: studio/instagram.py
+msgid ""
+"Instagram's limit of 100 posts per 24 hours was reached. Try again later."
+msgstr ""
+"Συμπληρώθηκε το όριο του Instagram των 100 αναρτήσεων ανά 24 ώρες. Δοκιμάστε"
+" αργότερα."
+
+#: studio/templates/studio/stats.html
+msgid "Interactions by day"
+msgstr "Αλληλεπιδράσεις ανά ημέρα"
+
+#: studio/templates/studio/stats.html
+msgid "Interactions by hour"
+msgstr "Αλληλεπιδράσεις ανά ώρα"
+
+#: studio/templates/studio/stats.html
+msgid "Interactions by hour posted"
+msgstr "Αλληλεπιδράσεις ανά ώρα δημοσίευσης"
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "It has never run."
+msgstr "Δεν έχει εκτελεστεί ποτέ."
+
+#: studio/models.py
+msgid "Item's own caption, otherwise AI"
+msgstr "Η λεζάντα του στοιχείου, αλλιώς AI"
+
+#: studio/models.py
+msgid "Item's own caption, otherwise the default caption"
+msgstr "Η λεζάντα του στοιχείου, αλλιώς η προεπιλεγμένη"
+
+#: studio/templates/studio/dashboard.html
+msgid "Items ready for the queue"
+msgstr "Στοιχεία έτοιμα για την ουρά"
+
+#: studio/templates/studio/media_list.html
+msgid ""
+"JPEG, PNG, HEIC, WebP photos and MP4/MOV videos (up to 300 MB). You can "
+"select many at once."
+msgstr ""
+"Φωτογραφίες JPEG, PNG, HEIC, WebP και βίντεο MP4/MOV (έως 300 MB). Μπορείτε "
+"να επιλέξετε πολλά μαζί."
+
+#: studio/templates/studio/media_list.html
+msgid ""
+"JPEG, PNG, HEIC, WebP photos and MP4/MOV videos. You can select many at "
+"once."
+msgstr ""
+"Φωτογραφίες JPEG, PNG, HEIC, WebP και βίντεο MP4/MOV. Μπορείτε να επιλέξετε "
+"πολλά μαζί."
+
+#: studio/forms.py
+msgid "Keep the video's own sound, quieter, under the music"
+msgstr "Κράτηση του ήχου του βίντεο, χαμηλότερα, κάτω από τη μουσική"
+
+#: studio/templates/studio/queue.html
+msgid ""
+"Keeps your feed active: on the days and times below, a photo or video is "
+"posted automatically, in order or at random. Photos become photo posts and "
+"videos become Reels."
+msgstr ""
+"Κρατά το προφίλ σας ενεργό: τις ημέρες και ώρες παρακάτω δημοσιεύεται "
+"αυτόματα μια φωτογραφία ή ένα βίντεο, με τη σειρά ή τυχαία. Οι φωτογραφίες "
+"γίνονται αναρτήσεις φωτογραφίας και τα βίντεο Reels."
+
+#: studio/templates/studio/base.html
+msgid "Language"
+msgstr "Γλώσσα"
+
+#: studio/models.py
+msgid "Last post not after"
+msgstr "Τελευταία ανάρτηση όχι μετά από"
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Last run %(ago)s ago (%(when)s)."
+msgstr "Τελευταία εκτέλεση πριν από %(ago)s (%(when)s)."
+
+#: studio/templates/studio/scheduler_setup.html
+msgid ""
+"Last run %(ago)s ago. Scheduled posts go out within about 5 minutes of their"
+" time."
+msgstr ""
+"Τελευταία εκτέλεση πριν από %(ago)s. Οι προγραμματισμένες αναρτήσεις "
+"βγαίνουν μέσα σε περίπου 5 λεπτά από την ώρα τους."
+
+#: studio/forms.py
+msgid "Leave empty to keep the saved secret."
+msgstr "Αφήστε το κενό για να κρατήσετε το αποθηκευμένο secret."
+
+#: studio/forms.py
+msgid "Length (seconds)"
+msgstr "Διάρκεια (δευτερόλεπτα)"
+
+#: studio/templates/studio/base.html
+msgid "Library"
+msgstr "Βιβλιοθήκη"
+
+#: studio/templates/studio/queue.html
+msgid "Library items still to post"
+msgstr "Στοιχεία βιβλιοθήκης που δεν έχουν δημοσιευτεί"
+
+#: studio/templates/studio/post_form.html
+msgid "Link"
+msgstr "Σύνδεσμος"
+
+#: studio/forms.py
+msgid "Link, e.g. lineofdance.gr"
+msgstr "Σύνδεσμος, π.χ. lineofdance.gr"
+
+#: studio/templates/studio/base.html
+msgid "Links page"
+msgstr "Σελίδα συνδέσμων"
+
+#: studio/views.py
+msgid "Links page saved."
+msgstr "Η σελίδα συνδέσμων αποθηκεύτηκε."
+
+#: studio/templates/studio/instagram.html
+msgid "Log in with Instagram"
+msgstr "Σύνδεση με Instagram"
+
+#: studio/templates/studio/base.html
+msgid "Log out"
+msgstr "Αποσύνδεση"
+
+#: studio/templates/studio/music_list.html
+msgid ""
+"MP3, M4A, AAC or WAV files, up to 50 MB each. You can select many at once."
+msgstr ""
+"Αρχεία MP3, M4A, AAC ή WAV, έως 50 MB το καθένα. Μπορείτε να επιλέξετε πολλά"
+" μαζί."
+
+#: studio/templates/studio/media_list.html
+msgid "Make a video with music"
+msgstr "Δημιουργία βίντεο με μουσική"
+
+#: studio/templates/studio/instagram.html
+msgid "Make sure it's a professional account"
+msgstr "Βεβαιωθείτε ότι είναι επαγγελματικός λογαριασμός"
+
+#: studio/templates/studio/team.html
+msgid "Make this person an owner? Owners have full control."
+msgstr "Να γίνει ιδιοκτήτης; Οι ιδιοκτήτες έχουν πλήρη έλεγχο."
+
+#: studio/templates/studio/music_video.html
+msgid "Make video"
+msgstr "Δημιουργία βίντεο"
+
+#: studio/video.py
+msgid "Making the video took too long. Try a shorter video or length."
+msgstr ""
+"Η δημιουργία του βίντεο άργησε πολύ. Δοκιμάστε μικρότερο βίντεο ή διάρκεια."
+
+#: studio/templates/studio/music_video.html
+msgid "Making your video… this can take up to a minute"
+msgstr "Δημιουργία βίντεο… μπορεί να διαρκέσει έως ένα λεπτό"
+
+#: studio/models.py
+msgid "Manual"
+msgstr "Χειροκίνητη"
+
+#: studio/templates/studio/team.html
+msgid "Members"
+msgstr "Μέλη"
+
+#: studio/models.py
+msgid "Mon"
+msgstr "Δευ"
+
+#: studio/templates/studio/base.html
+msgid "Music"
+msgstr "Μουσική"
+
+#: studio/forms.py
+msgid "Music files"
+msgstr "Αρχεία μουσικής"
+
+#: studio/templates/studio/media_form.html
+msgid "Name"
+msgstr "Όνομα"
+
+#: studio/templates/studio/dashboard.html
+msgid "Needs attention"
+msgstr "Χρειάζεται προσοχή"
+
+#: studio/context_processors.py
+msgid "Network error while uploading."
+msgstr "Σφάλμα δικτύου κατά το ανέβασμα."
+
+#: studio/templates/account/login.html
+msgid "New here?"
+msgstr "Νέος/α εδώ;"
+
+#: studio/templates/studio/post_form.html
+msgid "New post"
+msgstr "Νέα ανάρτηση"
+
+#: studio/templates/studio/recurring_form.html
+msgid "New recurring post"
+msgstr "Νέα επαναλαμβανόμενη ανάρτηση"
+
+#: studio/templates/studio/queue.html
+msgid "Next"
+msgstr "Επόμενη"
+
+#: studio/templates/studio/recurring_list.html
+msgid "Next post"
+msgstr "Επόμενη ανάρτηση"
+
+#: studio/templates/studio/queue.html
+msgid "Next post:"
+msgstr "Επόμενη ανάρτηση:"
+
+#: studio/templates/studio/dashboard.html
+msgid "Next:"
+msgstr "Επόμενη:"
+
+#: studio/instagram.py
+msgid "No Instagram account is connected."
+msgstr "Δεν έχει συνδεθεί λογαριασμός Instagram."
+
+#: studio/templates/studio/media_list.html
+msgid "No files yet. Upload some above."
+msgstr "Δεν υπάρχουν αρχεία ακόμη. Ανεβάστε μερικά παραπάνω."
+
+#: studio/templates/studio/music_list.html
+msgid "No music yet. Upload some above."
+msgstr "Δεν υπάρχει μουσική ακόμα. Ανεβάστε από πάνω."
+
+#: studio/templates/studio/post_list.html
+msgid "No posts here yet."
+msgstr "Δεν υπάρχουν αναρτήσεις εδώ ακόμη."
+
+#: studio/templates/studio/recurring_list.html
+msgid "No recurring posts yet."
+msgstr "Δεν υπάρχουν επαναλαμβανόμενες αναρτήσεις ακόμη."
+
+#: studio/templates/studio/stats.html
+msgid "No results yet. Click “Refresh now”."
+msgstr "Δεν υπάρχουν αποτελέσματα ακόμη. Πατήστε «Ανανέωση τώρα»."
+
+#: studio/templates/studio/team.html
+msgid "Nobody is waiting. Share this sign-up link with your team:"
+msgstr ""
+"Κανείς δεν περιμένει. Μοιραστείτε αυτόν τον σύνδεσμο εγγραφής με την ομάδα "
+"σας:"
+
+#: studio/context_processors.py
+msgid "None selected"
+msgstr "Κανένα επιλεγμένο"
+
+#: studio/templates/studio/dashboard.html
+msgid "Not connected to Instagram"
+msgstr "Χωρίς σύνδεση με το Instagram"
+
+#: studio/templates/studio/stats.html
+msgid ""
+"Not enough posts yet to tell. After about 5 posts at different times of day,"
+" Postmanager will suggest the best hours. Random posting times help it learn"
+" faster."
+msgstr ""
+"Δεν υπάρχουν ακόμη αρκετές αναρτήσεις. Μετά από περίπου 5 αναρτήσεις σε "
+"διαφορετικές ώρες, το Postmanager θα προτείνει τις καλύτερες ώρες. Οι "
+"τυχαίες ώρες δημοσίευσης το βοηθούν να μάθει πιο γρήγορα."
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Not running"
+msgstr "Δεν λειτουργεί"
+
+#: studio/templates/studio/_form_errors.html
+msgid "Not saved yet. Please fix:"
+msgstr "Δεν αποθηκεύτηκε ακόμη. Διορθώστε:"
+
+#: studio/templates/studio/_post_row.html
+msgid ""
+"Not tagged (private account, wrong username, or they don't allow tags):"
+msgstr ""
+"Δεν επισημάνθηκαν (ιδιωτικός λογαριασμός, λάθος όνομα χρήστη ή δεν "
+"επιτρέπουν επισημάνσεις):"
+
+#: studio/templates/studio/dashboard.html
+msgid "Nothing published yet."
+msgstr "Δεν έχει δημοσιευτεί τίποτα ακόμη."
+
+#: studio/templates/studio/dashboard.html
+msgid "Nothing scheduled."
+msgstr "Δεν υπάρχει τίποτα προγραμματισμένο."
+
+#: studio/templates/studio/queue.html
+msgid "One of these is picked at random each time."
+msgstr "Κάθε φορά επιλέγεται τυχαία ένα από αυτά."
+
+#: studio/context_processors.py
+msgid "One photo or video. Stories have no caption and disappear after 24h."
+msgstr ""
+"Μία φωτογραφία ή ένα βίντεο. Τα Stories δεν έχουν λεζάντα και εξαφανίζονται "
+"μετά από 24 ώρες."
+
+#: studio/context_processors.py
+msgid ""
+"One photo. Photos that are too tall or wide get soft blurred borders "
+"automatically."
+msgstr ""
+"Μία φωτογραφία. Όσες είναι πολύ ψηλές ή φαρδιές παίρνουν αυτόματα απαλό θολό"
+" περιθώριο."
+
+#: studio/context_processors.py
+msgid "One vertical video (MP4/MOV, 9:16 works best, 3 sec – 15 min)."
+msgstr "Ένα κάθετο βίντεο (MP4/MOV, ιδανικά 9:16, 3 δευτ. – 15 λεπτά)."
+
+#: studio/views.py
+msgid "Only an owner can change the queue settings."
+msgstr "Μόνο ένας ιδιοκτήτης μπορεί να αλλάξει τις ρυθμίσεις της ουράς."
+
+#: studio/templates/studio/queue.html
+msgid "Only an owner can change these settings."
+msgstr "Μόνο ένας ιδιοκτήτης μπορεί να αλλάξει αυτές τις ρυθμίσεις."
+
+#: studio/views.py
+msgid "Only an owner can do that."
+msgstr "Μόνο ένας ιδιοκτήτης μπορεί να το κάνει αυτό."
+
+#: studio/models.py
+msgid "Only items I marked “In queue”"
+msgstr "Μόνο όσα σημείωσα «Στην ουρά»"
+
+#: studio/templates/studio/instagram.html
+msgid "Open Meta for Developers ↗"
+msgstr "Άνοιγμα Meta for Developers ↗"
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Open cron-job.org ↗"
+msgstr "Άνοιγμα cron-job.org ↗"
+
+#: studio/templates/studio/links_settings.html
+msgid "Open page ↗"
+msgstr "Άνοιγμα σελίδας ↗"
+
+#: studio/models.py
+msgid "Optional caption used when this item is posted from the queue."
+msgstr ""
+"Προαιρετική λεζάντα που χρησιμοποιείται όταν το στοιχείο δημοσιεύεται από "
+"την ουρά."
+
+#: studio/models.py
+msgid "Optional link added to the end of every queue caption."
+msgstr "Προαιρετικός σύνδεσμος στο τέλος κάθε λεζάντας της ουράς."
+
+#: studio/models.py
+msgid "Optional link added to the end of the caption."
+msgstr "Προαιρετικός σύνδεσμος στο τέλος της λεζάντας."
+
+#: studio/models.py
+msgid "Owner"
+msgstr "Ιδιοκτήτης"
+
+#: studio/templates/account/login.html
+msgid "Password"
+msgstr "Κωδικός"
+
+#: studio/templates/studio/instagram.html
+msgid "Paste it here"
+msgstr "Επικολλήστε το εδώ"
+
+#: studio/templates/studio/recurring_list.html
+msgid "Paused"
+msgstr "Σε παύση"
+
+#: studio/models.py
+msgid "Photo"
+msgstr "Φωτογραφία"
+
+#: studio/templates/studio/media_list.html
+msgid ""
+"Photo & video storage isn't connected yet, so uploading is switched off. An "
+"owner needs to connect Blob storage in the Vercel project (Storage tab)."
+msgstr ""
+"Ο χώρος αποθήκευσης φωτογραφιών & βίντεο δεν έχει συνδεθεί ακόμη, οπότε το "
+"ανέβασμα είναι απενεργοποιημένο. Ένας ιδιοκτήτης πρέπει να συνδέσει "
+"αποθήκευση Blob στο έργο Vercel (καρτέλα Storage)."
+
+#: studio/templates/studio/music_video.html
+msgid "Photo or video"
+msgstr "Φωτογραφία ή βίντεο"
+
+#: studio/models.py
+msgid "Photo post"
+msgstr "Ανάρτηση φωτογραφίας"
+
+#: studio/templates/studio/media_list.html
+msgid "Photos"
+msgstr "Φωτογραφίες"
+
+#: studio/templates/studio/post_form.html
+msgid "Photos & videos"
+msgstr "Φωτογραφίες & βίντεο"
+
+#: studio/forms.py
+msgid "Photos or videos"
+msgstr "Φωτογραφίες ή βίντεο"
+
+#: studio/templates/studio/music_video.html
+msgid "Photos: 3–30 seconds. A video keeps its own length."
+msgstr ""
+"Φωτογραφίες: 3–30 δευτερόλεπτα. Ένα βίντεο κρατά τη δική του διάρκεια."
+
+#: studio/forms.py
+msgid "Pick a date and time, or save as draft."
+msgstr "Επιλέξτε ημερομηνία και ώρα ή αποθηκεύστε ως πρόχειρο."
+
+#: studio/templates/studio/music_video.html
+msgid ""
+"Pick a photo or video and a song. The new video is saved in your Library, "
+"ready for a Story or Reel."
+msgstr ""
+"Επιλέξτε φωτογραφία ή βίντεο και ένα τραγούδι. Το νέο βίντεο αποθηκεύεται "
+"στη Βιβλιοθήκη, έτοιμο για Story ή Reel."
+
+#: studio/forms.py
+msgid "Pick a photo or video."
+msgstr "Επιλέξτε φωτογραφία ή βίντεο."
+
+#: studio/forms.py
+msgid "Pick a song."
+msgstr "Επιλέξτε τραγούδι."
+
+#: studio/models.py
+msgid "Pick items at random instead of oldest first."
+msgstr "Τυχαία επιλογή στοιχείων αντί για τα παλαιότερα πρώτα."
+
+#: studio/models.py
+msgid ""
+"Placeholders: {date}, {weekday}, {studio}. Ignored when an AI caption is "
+"generated."
+msgstr ""
+"Μεταβλητές: {date}, {weekday}, {studio}. Αγνοείται όταν δημιουργείται "
+"λεζάντα με AI."
+
+#: studio/templates/studio/dashboard.html
+msgid "Plan a post"
+msgstr "Προγραμματίστε μια ανάρτηση"
+
+#: studio/templates/studio/music_video.html
+msgid "Play a song, pause where it should begin, and tap “Start from here”."
+msgstr ""
+"Παίξτε ένα τραγούδι, σταματήστε εκεί που θέλετε να ξεκινά και πατήστε "
+"«Έναρξη από εδώ»."
+
+#: studio/models.py
+msgid "Post from"
+msgstr "Δημοσίευση από"
+
+#: studio/templates/studio/stats.html
+msgid "Post my queue at random times in this window"
+msgstr "Δημοσίευση της ουράς σε τυχαίες ώρες μέσα σε αυτό το διάστημα"
+
+#: studio/models.py
+msgid "Post queue items as Stories instead of feed posts/Reels."
+msgstr ""
+"Δημοσίευση των στοιχείων της ουράς ως Stories αντί για αναρτήσεις/Reels."
+
+#: studio/views.py
+msgid "Post removed from Postmanager."
+msgstr "Η ανάρτηση αφαιρέθηκε από το Postmanager."
+
+#: studio/views.py
+msgid "Post removed from Postmanager. It is still on Instagram."
+msgstr "Η ανάρτηση αφαιρέθηκε από το Postmanager. Παραμένει στο Instagram."
+
+#: studio/templates/studio/stats.html
+msgid "Posted"
+msgstr "Δημοσίευση"
+
+#: studio/templates/studio/media_form.html
+msgid "Posted %(n)s×"
+msgstr "Δημοσιεύτηκε %(n)s×"
+
+#: studio/templates/studio/queue.html
+msgid "Posted in this order."
+msgstr "Δημοσιεύονται με αυτή τη σειρά."
+
+#: studio/templates/studio/dashboard.html
+msgid "Posting as <b>%(account)s</b>"
+msgstr "Δημοσίευση ως <b>%(account)s</b>"
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"Postmanager checks the key, then keeps it renewed for you automatically."
+msgstr "Το Postmanager ελέγχει το κλειδί και το ανανεώνει αυτόματα για εσάς."
+
+#: studio/stats.py
+msgid ""
+"Postmanager doesn't have permission to read your post results yet. In your "
+"Meta app open Instagram → Permissions and features, add "
+"“instagram_business_manage_insights”, then generate a new access token and "
+"paste it on the Instagram page."
+msgstr ""
+"Το Postmanager δεν έχει ακόμη άδεια να διαβάζει τα αποτελέσματα των "
+"αναρτήσεών σας. Στην εφαρμογή Meta ανοίξτε Instagram → Permissions and "
+"features, προσθέστε το «instagram_business_manage_insights», δημιουργήστε "
+"νέο access token και επικολλήστε το στη σελίδα Instagram."
+
+#: studio/templates/studio/instagram.html
+msgid "Postmanager is connected and can publish for you."
+msgstr "Το Postmanager είναι συνδεδεμένο και μπορεί να δημοσιεύει για εσάς."
+
+#: studio/templates/studio/_bar_chart.html
+msgid "Posts"
+msgstr "Αναρτήσεις"
+
+#: studio/templates/studio/stats.html
+msgid "Posts analysed"
+msgstr "Αναρτήσεις που αναλύθηκαν"
+
+#: studio/models.py
+msgid "Posts per day"
+msgstr "Αναρτήσεις την ημέρα"
+
+#: studio/templates/studio/recurring_list.html
+msgid ""
+"Posts that repeat every week, like the class timetable or a weekend "
+"reminder."
+msgstr ""
+"Αναρτήσεις που επαναλαμβάνονται κάθε εβδομάδα, όπως το πρόγραμμα μαθημάτων ή"
+" μια υπενθύμιση για το Σαββατοκύριακο."
+
+#: studio/forms.py
+msgid "Publish at"
+msgstr "Δημοσίευση στις"
+
+#: studio/templates/studio/post_form.html
+msgid "Publish now"
+msgstr "Δημοσίευση τώρα"
+
+#: studio/context_processors.py
+msgid "Publish this to Instagram now?"
+msgstr "Δημοσίευση στο Instagram τώρα;"
+
+#: studio/models.py
+msgid "Published"
+msgstr "Δημοσιεύτηκε"
+
+#: studio/templates/studio/dashboard.html
+msgid "Published in the last 7 days"
+msgstr "Δημοσιεύτηκαν τις τελευταίες 7 ημέρες"
+
+#: studio/templates/studio/links_settings.html
+msgid "Published posts with a link right now: %(n)s"
+msgstr "Δημοσιευμένες αναρτήσεις με σύνδεσμο αυτή τη στιγμή: %(n)s"
+
+#: studio/views.py
+msgid "Published to Instagram! 🎉"
+msgstr "Δημοσιεύτηκε στο Instagram! 🎉"
+
+#: studio/models.py
+msgid "Publishing"
+msgstr "Δημοσιεύεται"
+
+#: studio/views.py
+msgid "Publishing failed: %(error)s"
+msgstr "Η δημοσίευση απέτυχε: %(error)s"
+
+#: studio/views.py
+msgid "Publishing now. It will appear on Instagram within a minute or two."
+msgstr "Δημοσιεύεται τώρα. Θα εμφανιστεί στο Instagram σε ένα-δύο λεπτά."
+
+#: studio/templates/studio/base.html
+msgid "Queue"
+msgstr "Ουρά"
+
+#: studio/templates/studio/media_form.html
+msgid "Queue caption"
+msgstr "Λεζάντα ουράς"
+
+#: studio/templates/studio/queue.html
+msgid "Queue is on"
+msgstr "Η ουρά είναι ενεργή"
+
+#: studio/templates/studio/dashboard.html
+msgid "Queue off"
+msgstr "Ουρά ανενεργή"
+
+#: studio/templates/studio/dashboard.html
+msgid "Queue on"
+msgstr "Ουρά ενεργή"
+
+#: studio/templates/studio/stats.html
+msgid "Reached"
+msgstr "Προσέγγιση"
+
+#: studio/templates/studio/dashboard.html
+msgid "Recently published"
+msgstr "Πρόσφατες δημοσιεύσεις"
+
+#: studio/templates/studio/base.html
+msgid "Reconnect →"
+msgstr "Επανασύνδεση →"
+
+#: studio/templates/studio/base.html
+msgid "Recurring"
+msgstr "Επαναλαμβανόμενες"
+
+#: studio/views.py
+msgid "Recurring post deleted."
+msgstr "Η επαναλαμβανόμενη ανάρτηση διαγράφηκε."
+
+#: studio/templates/studio/recurring_form.html
+msgid "Recurring posts"
+msgstr "Επαναλαμβανόμενες αναρτήσεις"
+
+#: studio/models.py
+msgid "Reel"
+msgstr "Reel"
+
+#: studio/models.py
+msgid "Reels only: also show in the main grid."
+msgstr "Μόνο για Reels: εμφάνιση και στο κύριο πλέγμα."
+
+#: studio/templates/studio/stats.html
+msgid "Refresh now"
+msgstr "Ανανέωση τώρα"
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Reload this page in 5 minutes. It should say “✅ Running”."
+msgstr ""
+"Ανανεώστε αυτή τη σελίδα σε 5 λεπτά. Θα πρέπει να γράφει «✅ Λειτουργεί»."
+
+#: studio/templates/studio/team.html
+msgid "Remove"
+msgstr "Αφαίρεση"
+
+#: studio/templates/studio/team.html
+msgid "Remove this person’s access?"
+msgstr "Αφαίρεση της πρόσβασης αυτού του ατόμου;"
+
+#: studio/templates/account/signup.html
+msgid "Repeat password"
+msgstr "Επανάληψη κωδικού"
+
+#: studio/views.py
+msgid "Results updated from Instagram."
+msgstr "Τα αποτελέσματα ενημερώθηκαν από το Instagram."
+
+#: studio/templates/studio/_post_row.html
+msgid "Retry now"
+msgstr "Νέα προσπάθεια"
+
+#: studio/templates/studio/team.html
+msgid "Role"
+msgstr "Ρόλος"
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Running"
+msgstr "Λειτουργεί"
+
+#: studio/models.py
+msgid "Sat"
+msgstr "Σαβ"
+
+#: studio/templates/studio/links_settings.html
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: studio/templates/studio/instagram.html
+msgid "Save app keys"
+msgstr "Αποθήκευση κλειδιών εφαρμογής"
+
+#: studio/forms.py
+msgid "Save as draft"
+msgstr "Αποθήκευση ως πρόχειρο"
+
+#: studio/templates/studio/post_form.html
+msgid "Save draft"
+msgstr "Αποθήκευση πρόχειρου"
+
+#: studio/views.py
+msgid "Saved, but no posting time could be planned. Check the days and times."
+msgstr ""
+"Αποθηκεύτηκε, αλλά δεν προγραμματίστηκε ώρα δημοσίευσης. Ελέγξτε τις ημέρες "
+"και τις ώρες."
+
+#: studio/views.py
+msgid "Saved."
+msgstr "Αποθηκεύτηκε."
+
+#: studio/views.py
+msgid "Saved. Next post: %(when)s."
+msgstr "Αποθηκεύτηκε. Επόμενη ανάρτηση: %(when)s."
+
+#: studio/views.py
+msgid "Saved. The queue is off. Tick “Queue is on” to start posting."
+msgstr ""
+"Αποθηκεύτηκε. Η ουρά είναι ανενεργή. Τσεκάρετε «Η ουρά είναι ενεργή» για να "
+"ξεκινήσουν οι αναρτήσεις."
+
+#: studio/views.py
+msgid "Saved. You can now use “Log in with Instagram”."
+msgstr ""
+"Αποθηκεύτηκε. Μπορείτε πλέον να χρησιμοποιείτε το «Σύνδεση με Instagram»."
+
+#: studio/templates/studio/post_form.html
+msgid "Schedule"
+msgstr "Προγραμματισμός"
+
+#: studio/templates/studio/dashboard.html
+msgid "Scheduled"
+msgstr "Προγραμματισμένες"
+
+#: studio/views.py
+msgid "Scheduled for %(when)s."
+msgstr "Προγραμματίστηκε για %(when)s."
+
+#: studio/templates/studio/scheduler_setup.html
+msgid ""
+"Scheduled, recurring and queued posts are published by a timer that visits a"
+" secret link every 5 minutes."
+msgstr ""
+"Οι προγραμματισμένες, επαναλαμβανόμενες και αναρτήσεις ουράς δημοσιεύονται "
+"από ένα χρονόμετρο που επισκέπτεται έναν μυστικό σύνδεσμο κάθε 5 λεπτά."
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Set the CRON_SECRET setting first."
+msgstr "Ορίστε πρώτα τη ρύθμιση CRON_SECRET."
+
+#: studio/forms.py
+msgid "Short text"
+msgstr "Σύντομο κείμενο"
+
+#: studio/templates/studio/_bar_chart.html
+msgid "Show as table"
+msgstr "Εμφάνιση ως πίνακας"
+
+#: studio/forms.py
+msgid "Show my latest posts that have a link"
+msgstr "Εμφάνιση των τελευταίων αναρτήσεών μου που έχουν σύνδεσμο"
+
+#: studio/templates/account/login.html
+msgid "Sign in"
+msgstr "Σύνδεση"
+
+#: studio/templates/account/login.html
+msgid "Sign in to manage Instagram posts"
+msgstr "Συνδεθείτε για να διαχειριστείτε τις αναρτήσεις Instagram"
+
+#: studio/templates/studio/pending.html
+msgid "Sign out"
+msgstr "Αποσύνδεση"
+
+#: studio/templates/account/signup.html
+msgid "Sign up with Google"
+msgstr "Εγγραφή με Google"
+
+#: studio/templates/studio/team.html
+msgid "Signed up %(ago)s ago"
+msgstr "Εγγράφηκε πριν από %(ago)s"
+
+#: studio/templates/studio/team.html
+msgid "Since"
+msgstr "Από"
+
+#: studio/context_processors.py
+msgid "Something went wrong."
+msgstr "Κάτι πήγε στραβά."
+
+#: studio/templates/studio/music_list.html
+msgid ""
+"Songs and sounds you can add to your photos and videos. Use music you have "
+"the rights to: Instagram may mute videos with copyrighted songs."
+msgstr ""
+"Τραγούδια και ήχοι που μπορείτε να προσθέσετε στις φωτογραφίες και τα βίντεό"
+" σας. Χρησιμοποιήστε μουσική για την οποία έχετε δικαιώματα: το Instagram "
+"μπορεί να κάνει σίγαση σε βίντεο με τραγούδια που προστατεύονται από "
+"πνευματικά δικαιώματα."
+
+#: studio/templates/studio/music_video.html
+msgid "Start from here"
+msgstr "Έναρξη από εδώ"
+
+#: studio/forms.py
+msgid "Start the song at"
+msgstr "Έναρξη τραγουδιού στο"
+
+#: studio/templates/studio/base.html
+msgid "Stats"
+msgstr "Στατιστικά"
+
+#: studio/context_processors.py
+msgid "Storage refused the upload (%(status)s)."
+msgstr "Η αποθήκευση απέρριψε το αρχείο (%(status)s)."
+
+#: studio/models.py
+msgid "Story"
+msgstr "Story"
+
+#: studio/templates/studio/post_form.html
+msgid "Suggest captions"
+msgstr "Προτάσεις λεζάντας"
+
+#: studio/models.py
+msgid "Sun"
+msgstr "Κυρ"
+
+#: studio/templates/studio/post_form.html
+msgid "Tag people"
+msgstr "Επισήμανση ατόμων"
+
+#: studio/templates/studio/links_public.html
+msgid "Tap a post to open its link"
+msgstr "Πατήστε μια ανάρτηση για να ανοίξει ο σύνδεσμός της"
+
+#: studio/templates/studio/post_form.html
+msgid ""
+"Tap to select from your library. For carousels, the order you tap is the "
+"order shown."
+msgstr ""
+"Πατήστε για επιλογή από τη βιβλιοθήκη σας. Στο καρουζέλ, η σειρά που πατάτε "
+"είναι η σειρά εμφάνισης."
+
+#: studio/templates/studio/base.html
+msgid "Team"
+msgstr "Ομάδα"
+
+#: studio/instagram.py
+msgid ""
+"That doesn't look like an access token. It's a long code starting with “IG”."
+msgstr ""
+"Αυτό δεν μοιάζει με access token. Είναι ένας μεγάλος κωδικός που ξεκινά με "
+"«IG»."
+
+#: studio/forms.py
+msgid ""
+"That's too many for this window. Allow at least 15 minutes per post (max "
+"%(max)s here)."
+msgstr ""
+"Είναι πολλές για αυτό το διάστημα. Αφήστε τουλάχιστον 15 λεπτά ανά ανάρτηση "
+"(έως %(max)s εδώ)."
+
+#: studio/ai.py
+msgid "The AI declined to write a caption for this content."
+msgstr "Το AI αρνήθηκε να γράψει λεζάντα για αυτό το περιεχόμενο."
+
+#: studio/ai.py
+msgid "The AI response was cut off; try a shorter description."
+msgstr "Η απάντηση του AI κόπηκε· δοκιμάστε πιο σύντομη περιγραφή."
+
+#: studio/ai.py
+msgid "The AI returned an unexpected response."
+msgstr "Το AI έδωσε απρόσμενη απάντηση."
+
+#: studio/ai.py
+msgid "The AI returned no captions."
+msgstr "Το AI δεν έδωσε λεζάντες."
+
+#: studio/ai.py
+msgid "The Anthropic API key is invalid."
+msgstr "Το κλειδί API της Anthropic δεν είναι έγκυρο."
+
+#: studio/templates/studio/base.html
+msgid ""
+"The Instagram connection expires soon and couldn't be renewed automatically."
+msgstr "Η σύνδεση με το Instagram λήγει σύντομα και δεν ανανεώθηκε αυτόματα."
+
+#: studio/instagram.py
+msgid ""
+"The Instagram connection key is invalid or has expired. Generate a new one "
+"in the Meta app (Instagram → API setup → Generate access tokens) and paste "
+"it on the Instagram page."
+msgstr ""
+"Το κλειδί σύνδεσης Instagram δεν είναι έγκυρο ή έχει λήξει. Δημιουργήστε νέο"
+" στην εφαρμογή Meta (Instagram → API setup → Generate access tokens) και "
+"επικολλήστε το στη σελίδα Instagram."
+
+#: studio/views.py
+msgid "The connection isn't working: %(error)s"
+msgstr "Η σύνδεση δεν λειτουργεί: %(error)s"
+
+#: studio/views.py
+msgid "The connection request expired. Please try again."
+msgstr "Το αίτημα σύνδεσης έληξε. Δοκιμάστε ξανά."
+
+#: studio/forms.py
+msgid "The last time must be later than the first."
+msgstr "Η τελευταία ώρα πρέπει να είναι μετά την πρώτη."
+
+#: studio/views.py
+msgid ""
+"The part of the link after “#” was removed, because Instagram turns it into "
+"a hashtag."
+msgstr ""
+"Το τμήμα του συνδέσμου μετά το «#» αφαιρέθηκε, γιατί το Instagram το κάνει "
+"hashtag."
+
+#: studio/templates/studio/queue.html
+msgid "The queue is empty."
+msgstr "Η ουρά είναι άδεια."
+
+#: studio/views.py
+msgid "The queue now posts at random times between %(start)s and %(end)s."
+msgstr "Η ουρά δημοσιεύει πλέον σε τυχαίες ώρες μεταξύ %(start)s και %(end)s."
+
+#: studio/templates/studio/recurring_form.html
+msgid "The same media is used every time. Upload new files in the Library."
+msgstr ""
+"Χρησιμοποιούνται κάθε φορά τα ίδια αρχεία. Ανεβάστε νέα αρχεία στη "
+"Βιβλιοθήκη."
+
+#: studio/forms.py
+msgid "The song is only %(length)s long."
+msgstr "Το τραγούδι διαρκεί μόνο %(length)s."
+
+#: studio/video.py
+msgid "The video couldn't be made from these files."
+msgstr "Δεν ήταν δυνατή η δημιουργία βίντεο από αυτά τα αρχεία."
+
+#: studio/views.py
+msgid "There must always be at least one owner."
+msgstr "Πρέπει πάντα να υπάρχει τουλάχιστον ένας ιδιοκτήτης."
+
+#: studio/views.py
+msgid ""
+"There's nothing to post yet. Upload photos or choose “Anything in the "
+"library”."
+msgstr ""
+"Δεν υπάρχει τίποτα για δημοσίευση ακόμη. Ανεβάστε φωτογραφίες ή επιλέξτε "
+"«Οτιδήποτε στη βιβλιοθήκη»."
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"This copy of the app runs on your computer. Connecting works, but Instagram "
+"can only fetch photos from the online version."
+msgstr ""
+"Αυτό το αντίγραφο της εφαρμογής τρέχει στον υπολογιστή σας. Η σύνδεση "
+"λειτουργεί, αλλά το Instagram μπορεί να πάρει φωτογραφίες μόνο από την "
+"online έκδοση."
+
+#: studio/views.py
+msgid "This file is used by a post. Delete the post first."
+msgstr "Το αρχείο χρησιμοποιείται σε ανάρτηση. Διαγράψτε πρώτα την ανάρτηση."
+
+#: studio/views.py
+msgid "This post is already published and can't be edited."
+msgstr "Αυτή η ανάρτηση έχει ήδη δημοσιευτεί και δεν μπορεί να αλλάξει."
+
+#: studio/views.py
+msgid "This post is publishing right now; try again in a minute."
+msgstr "Η ανάρτηση δημοσιεύεται αυτή τη στιγμή· δοκιμάστε σε ένα λεπτό."
+
+#: studio/forms.py
+msgid "This time is in the past."
+msgstr "Αυτή η ώρα έχει περάσει."
+
+#: studio/video.py
+msgid "This video couldn't be read."
+msgstr "Αυτό το βίντεο δεν μπορεί να διαβαστεί."
+
+#: studio/video.py
+msgid "This video is too big to add music here (max 150 MB)."
+msgstr ""
+"Το βίντεο είναι πολύ μεγάλο για να προστεθεί μουσική εδώ (έως 150 MB)."
+
+#: studio/models.py
+msgid "Thu"
+msgstr "Πεμ"
+
+#: studio/templates/studio/_weekly_fields.html
+msgid "Time(s)"
+msgstr "Ώρα/ες"
+
+#: studio/forms.py
+msgid "Title"
+msgstr "Τίτλος"
+
+#: studio/templates/studio/instagram.html
+msgid "To change the app keys, save new ones below."
+msgstr "Για αλλαγή των κλειδιών της εφαρμογής, αποθηκεύστε νέα παρακάτω."
+
+#: studio/ai.py
+msgid "Too many AI requests right now; try again in a minute."
+msgstr "Πάρα πολλά αιτήματα AI αυτή τη στιγμή· δοκιμάστε σε ένα λεπτό."
+
+#: studio/models.py
+msgid "Tue"
+msgstr "Τρι"
+
+#: studio/templates/studio/dashboard.html
+msgid "Turn on to post from your library automatically."
+msgstr "Ενεργοποιήστε την για αυτόματες αναρτήσεις από τη βιβλιοθήκη σας."
+
+#: studio/templates/studio/post_form.html
+msgid "Type"
+msgstr "Τύπος"
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "URL — paste this (keep it private):"
+msgstr "URL — επικολλήστε αυτό (κρατήστε το μυστικό):"
+
+#: studio/templates/studio/instagram.html
+msgid ""
+"Under “1. Generate access tokens” click Add account and log in with the "
+"studio's Instagram. Allow everything it asks."
+msgstr ""
+"Στο «1. Generate access tokens» πατήστε Add account και συνδεθείτε με το "
+"Instagram της σχολής. Επιτρέψτε ό,τι ζητήσει."
+
+#: studio/media.py
+msgid "Unknown upload."
+msgstr "Άγνωστο αρχείο."
+
+#: studio/templates/studio/scheduler_setup.html
+msgid "Until it's set up, posts only go out when you press “Publish now”."
+msgstr ""
+"Μέχρι να ρυθμιστεί, οι αναρτήσεις βγαίνουν μόνο όταν πατάτε «Δημοσίευση "
+"τώρα»."
+
+#: studio/templates/studio/stats.html
+msgid "Updated %(ago)s ago."
+msgstr "Ενημερώθηκε πριν από %(ago)s."
+
+#: studio/templates/studio/media_list.html
+msgid "Upload"
+msgstr "Ανέβασμα"
+
+#: studio/context_processors.py
+msgid "Upload failed (%(status)s)."
+msgstr "Το ανέβασμα απέτυχε (%(status)s)."
+
+#: studio/templates/studio/music_video.html
+msgid "Upload files first"
+msgstr "Ανεβάστε πρώτα αρχεία"
+
+#: studio/templates/studio/music_list.html
+msgid "Upload music"
+msgstr "Ανέβασμα μουσικής"
+
+#: studio/forms.py
+msgid "Upload new photos/videos"
+msgstr "Ανέβασμα νέων φωτογραφιών/βίντεο"
+
+#: studio/templates/studio/media_list.html
+msgid "Upload photos or videos"
+msgstr "Ανέβασμα φωτογραφιών ή βίντεο"
+
+#: studio/templates/studio/music_video.html
+msgid "Upload some music first."
+msgstr "Ανεβάστε πρώτα λίγη μουσική."
+
+#: studio/views.py
+msgid "Uploaded %(count)s file(s)."
+msgstr "Ανέβηκαν %(count)s αρχεία."
+
+#: studio/context_processors.py
+msgid "Uploaded %(n)s file(s)."
+msgstr "Ανέβηκαν %(n)s αρχεία."
+
+#: studio/context_processors.py
+msgid "Uploading %(i)s of %(n)s: %(name)s"
+msgstr "Ανέβασμα %(i)s από %(n)s: %(name)s"
+
+#: studio/views.py
+msgid ""
+"Uploads aren't possible yet: connect Blob storage to the Vercel project, "
+"then redeploy."
+msgstr ""
+"Το ανέβασμα δεν είναι ακόμη δυνατό: συνδέστε αποθήκευση Blob στο έργο Vercel"
+" και κάντε νέο deploy."
+
+#: studio/forms.py
+msgid "Use HH:MM, e.g. 09:00, 18:30"
+msgstr "Χρησιμοποιήστε ΩΩ:ΛΛ, π.χ. 09:00, 18:30"
+
+#: studio/templates/studio/instagram.html
+msgid "Use case:"
+msgstr "Περίπτωση χρήσης:"
+
+#: studio/templates/studio/media_form.html
+msgid "Use in a new post"
+msgstr "Χρήση σε νέα ανάρτηση"
+
+#: studio/forms.py
+msgid "Use minutes:seconds, e.g. 0:45"
+msgstr "Γράψτε λεπτά:δευτερόλεπτα, π.χ. 0:45"
+
+#: studio/context_processors.py
+msgid "Use this caption"
+msgstr "Χρήση αυτής της λεζάντας"
+
+#: studio/templates/studio/queue.html
+msgid "Used when an item has no caption and AI is off or fails."
+msgstr ""
+"Χρησιμοποιείται όταν ένα στοιχείο δεν έχει λεζάντα και το AI είναι ανενεργό "
+"ή αποτυγχάνει."
+
+#: studio/templates/studio/post_form.html
+msgid "Uses your description and the selected photos."
+msgstr "Χρησιμοποιεί την περιγραφή σας και τις επιλεγμένες φωτογραφίες."
+
+#: studio/templates/studio/media_list.html
+msgid "Video"
+msgstr "Βίντεο"
+
+#: studio/templates/studio/media_list.html
+msgid "Videos"
+msgstr "Βίντεο"
+
+#: studio/templates/studio/_post_row.html
+msgid "View on Instagram"
+msgstr "Προβολή στο Instagram"
+
+#: studio/templates/studio/pending.html
+msgid "Waiting for approval"
+msgstr "Σε αναμονή έγκρισης"
+
+#: studio/models.py
+msgid "Wed"
+msgstr "Τετ"
+
+#: studio/models.py
+msgid "What the AI caption should be about."
+msgstr "Για τι να γράφει η λεζάντα του AI."
+
+#: studio/templates/studio/recurring_list.html
+msgid "When"
+msgstr "Πότε"
+
+#: studio/models.py
+msgid "When every item has been posted, start again from the least used."
+msgstr "Όταν δημοσιευτούν όλα, ξεκίνα ξανά από τα λιγότερο χρησιμοποιημένα."
+
+#: studio/models.py
+msgid "Write a fresh caption with AI each time."
+msgstr "Νέα λεζάντα με AI κάθε φορά."
+
+#: studio/templates/studio/post_form.html
+msgid "Write captions with AI"
+msgstr "Γράψτε λεζάντες με AI"
+
+#: studio/context_processors.py
+msgid "Writing…"
+msgstr "Γράφει…"
+
+#: studio/views.py
+msgid "You can't change your own access. Ask another owner."
+msgstr ""
+"Δεν μπορείτε να αλλάξετε τη δική σας πρόσβαση. Ζητήστε το από άλλον "
+"ιδιοκτήτη."
+
+#: studio/templates/studio/pending.html
+msgid "Your account <b>%(email)s</b> has been created."
+msgstr "Ο λογαριασμός σας <b>%(email)s</b> δημιουργήθηκε."
+
+#: studio/templates/studio/music_video.html
+msgid "Your library is empty."
+msgstr "Η βιβλιοθήκη σας είναι άδεια."
+
+#: studio/templates/studio/links_settings.html
+msgid "Your page address"
+msgstr "Η διεύθυνση της σελίδας σας"
+
+#: studio/templates/studio/post_form.html
+msgid "Your studio's local time."
+msgstr "Τοπική ώρα της σχολής σας."
+
+#: studio/views.py
+msgid "Your video with music is ready and saved in the Library."
+msgstr "Το βίντεο με μουσική είναι έτοιμο και αποθηκεύτηκε στη Βιβλιοθήκη."
+
+#: studio/forms.py
+msgid "e.g. @maria_dance, @johnsmith"
+msgstr "π.χ. @maria_dance, @johnsmith"
+
+#: studio/templates/studio/post_form.html
+msgid ""
+"e.g. Line dance social night last Friday, 40 dancers, new beginners class "
+"starts Monday"
+msgstr ""
+"π.χ. Βραδιά line dance την περασμένη Παρασκευή, 40 χορευτές, νέο τμήμα "
+"αρχαρίων ξεκινά τη Δευτέρα"
+
+#: studio/forms.py
+msgid "e.g. lineofdance.gr/classes"
+msgstr "π.χ. lineofdance.gr/classes"
+
+#: studio/templates/studio/stats.html
+msgid "likes, comments, saves & shares per person reached"
+msgstr ""
+"likes, σχόλια, αποθηκεύσεις & κοινοποιήσεις ανά άτομο που είδε την ανάρτηση"
+
+#: studio/templates/studio/music_video.html
+msgid "minutes:seconds"
+msgstr "λεπτά:δευτερόλεπτα"
+
+#: studio/views.py
+msgid "never"
+msgstr "ποτέ"
+
+#: studio/templates/studio/_bar_chart.html
+msgid "no data"
+msgstr "χωρίς δεδομένα"
+
+#: studio/templates/studio/_bar_chart.html
+msgid "no posts"
+msgstr "καμία ανάρτηση"
+
+#: studio/templates/account/_google_button.html
+msgid "or with email"
+msgstr "ή με email"
+
+#: studio/templates/studio/_bar_chart.html
+msgid "posts: %(n)s"
+msgstr "αναρτήσεις: %(n)s"
+
+#: studio/templates/studio/dashboard.html
+msgid "random"
+msgstr "τυχαία"
+
+#: studio/templates/studio/base.html
+msgid "so scheduled, recurring and queued posts won't go out on time."
+msgstr ""
+"οπότε οι προγραμματισμένες, επαναλαμβανόμενες και αναρτήσεις ουράς δεν θα "
+"βγουν στην ώρα τους."
+
+#: studio/templates/studio/queue.html
+msgid "then"
+msgstr "μετά"
+
+#: studio/templates/studio/media_form.html
+msgid "uploaded %(date)s"
+msgstr "ανέβηκε %(date)s"
+
+#: studio/templates/studio/stats.html
+msgid "when most of your followers are online"
+msgstr "όταν είναι online οι περισσότεροι ακόλουθοί σας"
+
+#: studio/templates/studio/stats.html
+msgid "when your posts have done best so far"
+msgstr "όταν οι αναρτήσεις σας έχουν πάει καλύτερα μέχρι τώρα"
+
+#: studio/templates/studio/team.html
+msgid "with Google"
+msgstr "με Google"
+
+#: studio/templates/studio/team.html
+msgid "you"
+msgstr "εσείς"
+
+#: studio/forms.py
+msgid "“%(name)s” isn't a valid Instagram username."
+msgstr "Το «%(name)s» δεν είναι έγκυρο όνομα χρήστη Instagram."
+
+#: studio/templates/studio/post_form.html
+msgid "…or upload new"
+msgstr "…ή ανεβάστε νέα"
+
+#: studio/views.py
+msgid "✅ Connection works: posting as @%(username)s."
+msgstr "✅ Η σύνδεση λειτουργεί: δημοσίευση ως @%(username)s."
+
+#: studio/views.py
+msgid "✅ Queue is on. Next post: %(when)s."
+msgstr "✅ Η ουρά είναι ενεργή. Επόμενη ανάρτηση: %(when)s."
+
+#: studio/templates/studio/media_list.html
+msgid "✓ In queue"
+msgstr "✓ Στην ουρά"
+
+#: studio/templates/studio/stats.html
+msgid "❤️ likes · 💬 comments · 🔖 saves · ↗️ shares"
+msgstr "❤️ likes · 💬 σχόλια · 🔖 αποθηκεύσεις · ↗️ κοινοποιήσεις"
+
+#: studio/views.py
+msgid "🎉 Connected to Instagram as %(account)s."
+msgstr "🎉 Συνδεθήκατε στο Instagram ως %(account)s."
+
+#: studio/models.py
+msgid "🎲 At random times, different every day"
+msgstr "🎲 Σε τυχαίες ώρες, διαφορετικές κάθε μέρα"

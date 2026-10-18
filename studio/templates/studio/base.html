@@ -1,0 +1,63 @@
+{% load static i18n %}<!doctype html>
+{% get_current_language as LANG %}
+<html lang="{{ LANG }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %} · {{ studio_name }} Posts</title>
+  <link rel="stylesheet" href="{% static 'studio/app.css' %}?v={{ static_version }}">
+</head>
+<body>
+{% if user.is_authenticated and membership.approved %}
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="{% url 'dashboard' %}">{{ studio_name }} <span>Posts</span></a>
+    {% with u=request.resolver_match.url_name %}
+    <nav class="nav">
+      <a href="{% url 'dashboard' %}" class="{% if u == 'dashboard' %}active{% endif %}">{% translate "Home" %}</a>
+      <a href="{% url 'post_list' %}" class="{% if 'post' in u %}active{% endif %}">{% translate "Posts" %}{% if failed_count %}<span class="badge badge-failed">{{ failed_count }}</span>{% endif %}</a>
+      <a href="{% url 'media_list' %}" class="{% if 'media' in u %}active{% endif %}">{% translate "Library" %}</a>
+      <a href="{% url 'music_list' %}" class="{% if 'music' in u %}active{% endif %}">{% translate "Music" %}</a>
+      <a href="{% url 'recurring_list' %}" class="{% if 'recurring' in u %}active{% endif %}">{% translate "Recurring" %}</a>
+      <a href="{% url 'queue' %}" class="{% if u == 'queue' %}active{% endif %}">{% translate "Queue" %}</a>
+      <a href="{% url 'stats' %}" class="{% if u == 'stats' %}active{% endif %}">{% translate "Stats" %}</a>
+      {% if is_owner %}
+      <a href="{% url 'instagram' %}" class="{% if 'instagram' in u %}active{% endif %}">Instagram</a>
+      <a href="{% url 'links_settings' %}" class="{% if u == 'links_settings' %}active{% endif %}">{% translate "Links page" %}</a>
+      <a href="{% url 'team' %}" class="{% if 'team' in u %}active{% endif %}">{% translate "Team" %}{% if waiting_count %}<span class="badge badge-failed">{{ waiting_count }}</span>{% endif %}</a>
+      {% endif %}
+    </nav>
+    {% endwith %}
+    <div class="user">
+      <form method="post" action="{% url 'set_language' %}" class="lang-switch">{% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <select name="language" onchange="this.form.submit()" aria-label="{% translate 'Language' %}">
+          {% get_available_languages as LANGUAGES %}{% get_language_info_list for LANGUAGES as langs %}
+          {% for l in langs %}<option value="{{ l.code }}" {% if l.code == LANG %}selected{% endif %}>{{ l.name_local|capfirst }}</option>{% endfor %}
+        </select>
+      </form>
+      <a class="who" href="{% url 'account_email' %}" title="{% translate 'Account settings' %}">{{ user.get_full_name|default:user.email }}</a>
+      <form method="post" action="{% url 'account_logout' %}">{% csrf_token %}<button class="btn btn-sm">{% translate "Log out" %}</button></form>
+    </div>
+  </div>
+</header>
+{% endif %}
+<main class="{% block main_class %}{% endblock %}">
+  {% if membership.approved and not ig_account and request.resolver_match.url_name != 'instagram' %}
+    <div class="alert">{% translate "Instagram isn't connected yet, so nothing can be published." %}{% if is_owner %} <a href="{% url 'instagram' %}">{% translate "Connect it →" %}</a>{% else %} {% translate "Ask an owner to connect it." %}{% endif %}</div>
+  {% elif membership.approved and ig_account.token_expires_soon %}
+    <div class="alert">{% translate "The Instagram connection expires soon and couldn't be renewed automatically." %}{% if is_owner %} <a href="{% url 'instagram' %}">{% translate "Reconnect →" %}</a>{% endif %}</div>
+  {% endif %}
+  {% if is_owner and scheduler_stopped and request.resolver_match.url_name != 'scheduler_setup' %}
+    <div class="alert alert-err">⏰ <b>{% translate "Automatic publishing isn't running" %}</b>, {% translate "so scheduled, recurring and queued posts won't go out on time." %} <a href="{% url 'scheduler_setup' %}">{% translate "Fix it (2 minutes) →" %}</a></div>
+  {% endif %}
+  {% if messages %}
+  <ul class="messages">{% for m in messages %}<li class="{{ m.tags }}">{{ m }}</li>{% endfor %}</ul>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+{{ js_i18n|json_script:"studio-i18n" }}
+<script src="{% static 'studio/app.js' %}?v={{ static_version }}"></script>
+{% block extra_body %}{% endblock %}
+</body>
+</html>

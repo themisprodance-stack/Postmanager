@@ -1,0 +1,25 @@
+{% extends "allauth/layouts/base.html" %}
+{% load i18n %}
+{% block head_title %}{% translate "Create account" %}{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="auth-head"><div class="logo">💃</div><h1>{% translate "Create your account" %}</h1><p class="muted">{% blocktranslate trimmed with studio=studio_name %}An owner of {{ studio }} will approve your access.{% endblocktranslate %}</p></div>
+  {% translate "Sign up with Google" as google_label %}
+  {% include "account/_google_button.html" with label=google_label %}
+  <form method="post" action="{% url 'account_signup' %}">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<ul class="errorlist nonfield">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+    <div class="field"><label for="id_email">{% translate "Email" %}</label>
+      <input type="email" name="email" id="id_email" autocomplete="email" required value="{{ form.email.value|default:'' }}">{{ form.email.errors }}</div>
+    <div class="field"><label for="id_password1">{% translate "Password" %}</label>
+      <input type="password" name="password1" id="id_password1" autocomplete="new-password" required>{{ form.password1.errors }}
+      <span class="help">{% translate "At least 8 characters, not too common." %}</span></div>
+    <div class="field"><label for="id_password2">{% translate "Repeat password" %}</label>
+      <input type="password" name="password2" id="id_password2" autocomplete="new-password" required>{{ form.password2.errors }}</div>
+    {{ redirect_field }}
+    <button class="btn btn-primary btn-block" type="submit">{% translate "Create account" %}</button>
+  </form>
+</div>
+<p class="auth-foot">{% translate "Already have an account?" %} <a href="{{ login_url }}">{% translate "Sign in" %}</a></p>
+{% include "account/_lang_switch.html" %}
+{% endblock %}

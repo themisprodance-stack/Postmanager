@@ -1,0 +1,32 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Links page" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>{% translate "Links page" %}</h1>
+  <p class="muted">{% translate "Instagram only allows one clickable link: the one in your bio. Put this page there, and every post's link is two taps away." %}</p></div>
+  <a class="btn" href="{{ public_url }}" target="_blank" rel="noopener">{% translate "Open page ↗" %}</a></div>
+
+<div class="card">
+  <h2>{% translate "Your page address" %}</h2>
+  <p><code>{{ public_url }}</code> <button type="button" class="btn btn-sm copy" data-copy="{{ public_url }}">{% translate "Copy" %}</button></p>
+  <p class="small muted">{% translate "In the Instagram app: Edit profile → Links → Add external link, paste it, and save. Then write “🔗 Link in bio” in posts that have a link." %}</p>
+</div>
+
+<form method="post" class="card">
+  {% csrf_token %}
+  {% include "studio/_form_errors.html" %}
+  <div class="field"><label for="id_headline">{{ form.headline.label }}</label>{{ form.headline }}</div>
+  <div class="field"><label for="id_bio">{{ form.bio.label }}</label>{{ form.bio }}</div>
+  <h2 style="margin-top:1.25rem">{% translate "Buttons" %}</h2>
+  <p class="small muted">{% translate "E.g. “📝 Sign up for a class” → lineofdance.gr/epikoinonia.php. The first button is highlighted." %}</p>
+  {% for label, url in form.button_rows %}
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem;margin-bottom:.4rem">
+    <div class="field" style="margin:0">{{ label }}{{ label.errors }}</div>
+    <div class="field" style="margin:0">{{ url }}{{ url.errors }}</div>
+  </div>
+  {% endfor %}
+  <div class="field" style="margin-top:1rem"><label class="check">{{ form.show_posts }} {{ form.show_posts.label }}</label>
+    <span class="help">{% blocktranslate trimmed with n=linked_posts %}Published posts with a link right now: {{ n }}{% endblocktranslate %}</span></div>
+  <button class="btn btn-primary">{% translate "Save" %}</button>
+</form>
+{% endblock %}

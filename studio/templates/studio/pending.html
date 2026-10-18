@@ -1,0 +1,15 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Waiting for approval" %}{% endblock %}
+{% block main_class %}auth{% endblock %}
+{% block content %}
+<div class="card" style="text-align:center">
+  <div class="auth-head"><div class="logo">⏳</div><h1>{% translate "Almost there!" %}</h1></div>
+  <p>{% blocktranslate trimmed with email=user.email %}Your account <b>{{ email }}</b> has been created.{% endblocktranslate %}</p>
+  <p class="muted">{% blocktranslate trimmed with studio=studio_name %}An owner of {{ studio }} needs to approve it before you can manage posts. They've been notified. This page will let you in once they have.{% endblocktranslate %}</p>
+  <div class="actions" style="justify-content:center;margin-top:1rem">
+    <a class="btn btn-primary" href="{% url 'pending' %}">{% translate "Check again" %}</a>
+    <form class="inline" method="post" action="{% url 'account_logout' %}">{% csrf_token %}<button class="btn">{% translate "Sign out" %}</button></form>
+  </div>
+</div>
+{% endblock %}

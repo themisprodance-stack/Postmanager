@@ -1,0 +1,42 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Automatic publishing" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>{% translate "Automatic publishing" %}</h1>
+  <p class="muted">{% translate "Scheduled, recurring and queued posts are published by a timer that visits a secret link every 5 minutes." %}</p></div></div>
+
+<div class="card">
+  {% if stopped %}
+    <h2>⏰ {% translate "Not running" %}</h2>
+    <p>{% if last_run %}{% blocktranslate trimmed with ago=last_run|timesince when=last_run|date:"D j M, H:i" %}Last run {{ ago }} ago ({{ when }}).{% endblocktranslate %}{% else %}{% translate "It has never run." %}{% endif %}
+      {% translate "Until it's set up, posts only go out when you press “Publish now”." %}</p>
+  {% else %}
+    <h2>✅ {% translate "Running" %}</h2>
+    <p>{% blocktranslate trimmed with ago=last_run|timesince %}Last run {{ ago }} ago. Scheduled posts go out within about 5 minutes of their time.{% endblocktranslate %}</p>
+  {% endif %}
+</div>
+
+{% if tick_url %}
+<ol class="setup-steps">
+  <li class="card">
+    <h2>{% translate "Create a free cron-job.org account" %}</h2>
+    <a class="btn btn-primary" href="https://console.cron-job.org/signup" target="_blank" rel="noopener">{% translate "Open cron-job.org ↗" %}</a>
+  </li>
+  <li class="card">
+    <h2>{% translate "Create a cronjob" %}</h2>
+    <ol class="small substeps">
+      <li>{% translate "Click “Create cronjob”. Title: Postmanager" %}</li>
+      <li>{% translate "URL — paste this (keep it private):" %}<br><code>{{ tick_url }}</code> <button type="button" class="btn btn-sm copy" data-copy="{{ tick_url }}">{% translate "Copy" %}</button></li>
+      <li>{% translate "Execution schedule: every 5 minutes" %}</li>
+      <li>{% translate "Click “Create”." %}</li>
+    </ol>
+  </li>
+  <li class="card">
+    <h2>{% translate "Check it" %}</h2>
+    <p>{% translate "Reload this page in 5 minutes. It should say “✅ Running”." %}</p>
+  </li>
+</ol>
+{% else %}
+<div class="alert">{% translate "Set the CRON_SECRET setting first." %}</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,8 @@
+{% load i18n %}<div class="field">
+  <label>{% translate "Days" %}</label>
+  <div class="choice-row">{% for cb in form.weekday_list %}<label>{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</div>
+  {{ form.weekday_list.errors }}
+</div>
+<div class="field">
+  <label for="id_times">{% translate "Time(s)" %}</label>{{ form.times }}<span class="help">{{ form.times.help_text }}</span>{{ form.times.errors }}
+</div>

@@ -1,0 +1,23 @@
+{% extends "allauth/layouts/base.html" %}
+{% load i18n %}
+{% block head_title %}{% translate "Sign in" %}{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="auth-head"><div class="logo">💃</div><h1>{{ studio_name }}</h1><p class="muted">{% translate "Sign in to manage Instagram posts" %}</p></div>
+  {% translate "Continue with Google" as google_label %}
+  {% include "account/_google_button.html" with label=google_label %}
+  <form method="post" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<ul class="errorlist nonfield">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+    <div class="field"><label for="id_login">{% translate "Email" %}</label>
+      <input type="email" name="login" id="id_login" autocomplete="email" required value="{{ form.login.value|default:'' }}">{{ form.login.errors }}</div>
+    <div class="field"><label for="id_password">{% translate "Password" %}</label>
+      <input type="password" name="password" id="id_password" autocomplete="current-password" required>{{ form.password.errors }}
+      <span class="help"><a href="{% url 'account_reset_password' %}">{% translate "Forgot your password?" %}</a></span></div>
+    {{ redirect_field }}
+    <button class="btn btn-primary btn-block" type="submit">{% translate "Sign in" %}</button>
+  </form>
+</div>
+<p class="auth-foot">{% translate "New here?" %} <a href="{{ signup_url }}">{% translate "Create an account" %}</a></p>
+{% include "account/_lang_switch.html" %}
+{% endblock %}

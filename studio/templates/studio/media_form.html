@@ -1,0 +1,24 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}{{ asset }}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{{ asset }}</h1><a href="{% url 'media_list' %}">← {% translate "Library" %}</a></div>
+<div class="grid grid-2">
+  <div class="card">
+    {% if asset.is_video %}<video src="{{ asset.file.url }}" controls playsinline style="width:100%;border-radius:8px"></video>
+    {% else %}<img src="{{ asset.file.url }}" alt="" style="width:100%;border-radius:8px">{% endif %}
+    <p class="small muted" style="margin-top:.5rem">{{ asset.get_kind_display }}{% if asset.width %} · {{ asset.width }}×{{ asset.height }}{% endif %} · {% blocktranslate trimmed with date=asset.created_at|date:"j M Y" %}uploaded {{ date }}{% endblocktranslate %}{% if asset.times_used %} · {% blocktranslate trimmed with n=asset.times_used %}Posted {{ n }}×{% endblocktranslate %}{% endif %}</p>
+  </div>
+  <form method="post" class="card">
+    {% csrf_token %}
+    <div class="field"><label for="id_title">{% translate "Name" %}</label>{{ form.title }}</div>
+    <div class="field"><label for="id_caption">{% translate "Queue caption" %}</label>{{ form.caption }}<span class="help">{{ form.caption.help_text }}</span></div>
+    <div class="field"><label class="check">{{ form.in_queue }} {{ form.in_queue.help_text }}</label></div>
+    <div class="actions">
+      <button class="btn btn-primary">{% translate "Save" %}</button>
+      <a class="btn" href="{% url 'post_new' %}?media={{ asset.pk }}">{% translate "Use in a new post" %}</a>
+    </div>
+  </form>
+</div>
+<form method="post" action="{% url 'media_delete' asset.pk %}" data-confirm="{% translate 'Delete this file permanently?' %}">{% csrf_token %}<button class="btn btn-danger btn-sm">{% translate "Delete file" %}</button></form>
+{% endblock %}

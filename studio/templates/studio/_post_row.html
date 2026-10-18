@@ -1,0 +1,31 @@
+{% load i18n %}<div class="post-row">
+  <a class="thumbs" href="{% if post.is_editable %}{% url 'post_edit' post.pk %}{% elif post.permalink %}{{ post.permalink }}{% else %}#{% endif %}">
+    {% for item in post.items.all|slice:":3" %}{% include "studio/_thumb.html" with asset=item.asset %}{% empty %}<span class="thumb"></span>{% endfor %}
+  </a>
+  <div class="post-body">
+    <div class="post-meta">
+      <span class="badge badge-{{ post.status }}">{{ post.get_status_display }}</span>
+      <span>{{ post.get_post_type_display }}</span>
+      {% if post.source != "manual" %}<span class="badge badge-accent">{{ post.get_source_display }}</span>{% endif %}
+      {% if post.status == "published" %}<span>· {{ post.published_at|date:"D j M, H:i" }}</span>
+      {% elif post.scheduled_at and post.status != "draft" %}<span>· {{ post.scheduled_at|date:"D j M, H:i" }}</span>{% endif %}
+    </div>
+    <div class="caption-preview">{% if post.caption %}{{ post.caption }}{% else %}{% translate "(no caption)" %}{% endif %}</div>
+    {% if post.link %}<div class="small muted">🔗 {{ post.link }}</div>{% endif %}
+    {% if post.publish_state.untagged %}<div class="small muted">👤 {% translate "Not tagged (private account, wrong username, or they don't allow tags):" %} {{ post.publish_state.untagged|join:", " }}</div>{% endif %}
+    {% if post.status == "failed" and post.error %}<div class="error-text">{{ post.error }}</div>{% endif %}
+    {% if not compact %}
+    <div class="actions" style="margin-top:.45rem">
+      {% if post.is_editable %}<a class="btn btn-sm" href="{% url 'post_edit' post.pk %}">{% translate "Edit" %}</a>{% endif %}
+      {% if post.status == "failed" %}
+        <form class="inline" method="post" action="{% url 'post_retry' post.pk %}">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><button class="btn btn-sm btn-primary">{% translate "Retry now" %}</button></form>
+      {% endif %}
+      {% if post.permalink %}<a class="btn btn-sm" href="{{ post.permalink }}" target="_blank" rel="noopener">{% translate "View on Instagram" %}</a>{% endif %}
+      <form class="inline" method="post" action="{% url 'post_duplicate' post.pk %}">{% csrf_token %}<button class="btn btn-sm">{% translate "Duplicate" %}</button></form>
+      {% if post.status != "publishing" %}
+      <form class="inline" method="post" action="{% url 'post_delete' post.pk %}" data-confirm="{% if post.status == 'published' %}{% translate 'Delete this post from Postmanager? (It stays on Instagram.)' %}{% else %}{% translate 'Delete this post from Postmanager?' %}{% endif %}">{% csrf_token %}<input type="hidden" name="next" value="{{ request.get_full_path }}"><button class="btn btn-sm btn-danger">{% translate "Delete" %}</button></form>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>

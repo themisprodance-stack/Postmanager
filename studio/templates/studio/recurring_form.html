@@ -1,0 +1,47 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}{% if rule %}{{ rule.name }}{% else %}{% translate "New recurring post" %}{% endif %}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% if rule %}{{ rule.name }}{% else %}{% translate "New recurring post" %}{% endif %}</h1><a href="{% url 'recurring_list' %}">← {% translate "Recurring posts" %}</a></div>
+<form method="post" class="card">
+  {% csrf_token %}
+  {% include "studio/_form_errors.html" %}
+  <div class="field"><label for="id_name">{% translate "Name" %}</label>{{ form.name }}<span class="help">{% translate "For you only, e.g. “Weekly timetable”." %}</span>{{ form.name.errors }}</div>
+  <div class="field"><label class="check">{{ form.active }} {% translate "Active" %}</label></div>
+  <div class="field">
+    <label>{% translate "Type" %}</label>
+    <div class="choice-row">{% for radio in form.post_type %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}</div>
+  </div>
+  {% include "studio/_weekly_fields.html" %}
+  <div class="field">
+    <label>{% translate "Photos & videos" %}</label>
+    {% if library %}
+    <div class="picker"><div class="media-grid">
+      {% for asset in library %}
+      <label class="media-tile" title="{{ asset }}">
+        <input type="checkbox" name="media" value="{{ asset.pk }}" {% if asset.pk|stringformat:"s" in selected %}checked{% endif %}>
+        {% include "studio/_thumb.html" with asset=asset cls="x" %}
+        {% if asset.is_video %}<span class="tag">{% translate "Video" %}</span>{% endif %}
+      </label>
+      {% endfor %}
+    </div></div>
+    <span class="help">{% translate "The same media is used every time. Upload new files in the Library." %}</span>
+    {% else %}<p class="muted">{% translate "Your library is empty." %} <a href="{% url 'media_list' %}">{% translate "Upload files first" %}</a>.</p>{% endif %}
+    {{ form.media.errors }}
+  </div>
+  <div class="field"><label for="id_caption">{% translate "Caption" %}</label>{{ form.caption }}<span class="help">{{ form.caption.help_text }}</span>{{ form.caption.errors }}</div>
+  <div class="field"><label for="id_link">🔗 {% translate "Link" %} <span class="muted small">{% translate "(optional)" %}</span></label>{{ form.link }}<span class="help">{{ form.link.help_text }}</span>{{ form.link.errors }}</div>
+  <div class="field"><label for="id_user_tags">👤 {% translate "Tag people" %} <span class="muted small">{% translate "(optional)" %}</span></label>{{ form.user_tags }}<span class="help">{% translate "Instagram usernames, separated by commas, tagged in every post this creates. Only public accounts can be tagged. Stories are posted without tags." %}</span>{{ form.user_tags.errors }}</div>
+  {% if ai_enabled %}
+  <div class="field"><label class="check">{{ form.use_ai_caption }} {{ form.use_ai_caption.help_text }}</label></div>
+  <div class="field"><label for="id_ai_brief">{% translate "AI brief" %}</label>{{ form.ai_brief }}<span class="help">{{ form.ai_brief.help_text }} {% translate "If AI fails, the caption above is used." %}</span>{{ form.ai_brief.errors }}</div>
+  {% endif %}
+  <div class="actions">
+    <button class="btn btn-primary">{% translate "Save" %}</button>
+    <a class="muted" href="{% url 'recurring_list' %}">{% translate "Cancel" %}</a>
+  </div>
+</form>
+{% if rule %}
+<form method="post" action="{% url 'recurring_delete' rule.pk %}" data-confirm="{% translate 'Delete this recurring post?' %}">{% csrf_token %}<button class="btn btn-danger btn-sm">{% translate "Delete" %}</button></form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}Instagram{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>Instagram</h1>
+  <p class="muted">{% if account %}{% translate "Postmanager is connected and can publish for you." %}{% else %}{% translate "Connect the studio's Instagram once, and Postmanager can publish for you." %}{% endif %}</p></div></div>
+
+{% if account %}
+<div class="card ig-account">
+  {% if account.profile_picture_url %}<img class="ig-avatar" src="{{ account.profile_picture_url }}" alt="">{% else %}<div class="ig-avatar">📷</div>{% endif %}
+  <div class="post-body">
+    <h2 style="margin:0">{{ account }} <span class="badge badge-published">{% translate "Connected" %}</span></h2>
+    <p class="small muted" style="margin:.2rem 0 .6rem">
+      {% if account.account_type %}{{ account.account_type|title }} · {% endif %}
+      {% blocktranslate trimmed with date=account.connected_at|date:"j M Y" %}Connected {{ date }} · renews automatically{% endblocktranslate %}{% if account.token_expires_at %} {% blocktranslate trimmed with date=account.token_expires_at|date:"j M Y" %}(valid until {{ date }}){% endblocktranslate %}{% endif %}
+    </p>
+    <div class="actions">
+      <form class="inline" method="post">{% csrf_token %}<input type="hidden" name="step" value="check"><button class="btn btn-primary btn-sm">{% translate "Check connection" %}</button></form>
+      <a class="btn btn-sm" href="?reconnect=1#setup">{% translate "Connect a different account" %}</a>
+      <form class="inline" method="post" action="{% url 'instagram_disconnect' %}" data-confirm="{% translate 'Disconnect Instagram? Scheduled posts will fail until you reconnect.' %}">{% csrf_token %}<button class="btn btn-sm btn-danger">{% translate "Disconnect" %}</button></form>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if show_setup %}
+<div id="setup">
+{% if not site_is_public %}
+<div class="alert">{% translate "This copy of the app runs on your computer. Connecting works, but Instagram can only fetch photos from the online version." %}</div>
+{% endif %}
+
+<ol class="setup-steps">
+  <li class="card">
+    <h2>{% translate "Make sure it's a professional account" %}</h2>
+    <p>{% translate "Instagram only lets apps post to Business or Creator accounts (free, and nothing changes for your followers)." %}</p>
+    <p class="small muted">{% translate "In the Instagram app: Profile → ☰ → Settings → Account type and tools → Switch to professional account → Business. Skip this if it already is." %}</p>
+  </li>
+
+  <li class="card">
+    <h2>{% translate "Create a free Meta app" %} <span class="muted small">{% translate "(one time, ~3 min)" %}</span></h2>
+    <p>{% translate "Instagram requires every posting tool to have one. Log in with the Facebook account that manages the studio's Instagram." %}</p>
+    <a class="btn btn-primary" href="https://developers.facebook.com/apps/creation/" target="_blank" rel="noopener">{% translate "Open Meta for Developers ↗" %}</a>
+    <ol class="small substeps">
+      <li>{% translate "App name:" %} <b>{{ studio_name }} Posts</b> <button type="button" class="btn btn-sm copy" data-copy="{{ studio_name }} Posts">{% translate "Copy" %}</button> → <b>Next</b></li>
+      <li>{% translate "Use case:" %} <b>Manage messaging &amp; content on Instagram</b> → <b>Next</b></li>
+      <li>{% translate "Business:" %} <b>I don't want to connect a business portfolio yet</b> → <b>Next</b> → <b>Create app</b></li>
+    </ol>
+  </li>
+
+  <li class="card">
+    <h2>{% translate "Get the connection key" %}</h2>
+    <ol class="small substeps">
+      <li>{% translate "In your new app, open Instagram (left menu) → API setup with Instagram login." %}</li>
+      <li>{% translate "Under “1. Generate access tokens” click Add account and log in with the studio's Instagram. Allow everything it asks." %}</li>
+      <li>{% translate "Click Generate token next to the account, tick the box, and Copy the long code (starts with IG)." %}</li>
+    </ol>
+    <p class="small muted">{% translate "If Meta says the account must accept an invite: Instagram app → Settings → Website permissions → Apps and websites → Tester invites → Accept, then try again." %}</p>
+  </li>
+
+  <li class="card">
+    <h2>{% translate "Paste it here" %}</h2>
+    <form method="post">
+      {% csrf_token %}<input type="hidden" name="step" value="token">
+      <div class="field">{{ token_form.access_token }}{{ token_form.access_token.errors }}
+        <span class="help">{% translate "Postmanager checks the key, then keeps it renewed for you automatically." %}</span></div>
+      <button class="btn btn-primary">{% translate "Connect Instagram" %}</button>
+    </form>
+  </li>
+</ol>
+
+<details class="card">
+  <summary><b>{% translate "Alternative: a “Log in with Instagram” button" %}</b> <span class="muted small">{% translate "(optional, for reconnecting without copying keys)" %}</span></summary>
+  <div style="margin-top:.75rem">
+  {% if oauth_ready %}
+    <p><a class="btn btn-primary" href="{% url 'instagram_connect' %}">{% translate "Log in with Instagram" %}</a></p>
+    <p class="small muted">{% translate "To change the app keys, save new ones below." %}</p>
+  {% endif %}
+    <ol class="small substeps">
+      <li>{% translate "In the Meta app: Instagram → API setup with Instagram login → 3. Set up Instagram business login → Business login settings." %}</li>
+      <li>{% translate "Add this OAuth redirect URI and save:" %}<br><code>{{ redirect_uri }}</code> <button type="button" class="btn btn-sm copy" data-copy="{{ redirect_uri }}">{% translate "Copy" %}</button></li>
+      <li>{% translate "Copy the Instagram app ID and Instagram app secret from the top of that page into the form below." %}</li>
+    </ol>
+    <form method="post">
+      {% csrf_token %}<input type="hidden" name="step" value="app">
+      {% if app_form.non_field_errors %}<ul class="errorlist nonfield">{% for e in app_form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+      <div class="field"><label for="id_app_id">{{ app_form.app_id.label }}</label>{{ app_form.app_id }}{{ app_form.app_id.errors }}</div>
+      <div class="field"><label for="id_app_secret">{{ app_form.app_secret.label }}</label>{{ app_form.app_secret }}{{ app_form.app_secret.errors }}
+        {% if oauth_ready %}<span class="help">{{ app_form.app_secret.help_text }}</span>{% endif %}</div>
+      <button class="btn">{% translate "Save app keys" %}</button>
+    </form>
+  </div>
+</details>
+</div>
+{% endif %}
+{% endblock %}

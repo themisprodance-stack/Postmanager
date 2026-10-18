@@ -1,0 +1,33 @@
+{% extends "studio/base.html" %}
+{% load static i18n %}
+{% block title %}{% translate "Music" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>{% translate "Music" %}</h1><p class="muted">{% translate "Songs and sounds you can add to your photos and videos. Use music you have the rights to: Instagram may mute videos with copyrighted songs." %}</p></div>
+  {% if tracks %}<a class="btn btn-primary" href="{% url 'music_video' %}">🎬 {% translate "Make a video with music" %}</a>{% endif %}
+</div>
+{% if uploads_unavailable %}<div class="alert alert-err">{% translate "Photo & video storage isn't connected yet, so uploading is switched off. An owner needs to connect Blob storage in the Vercel project (Storage tab)." %}</div>{% endif %}
+<form method="post" enctype="multipart/form-data" class="card">
+  {% csrf_token %}
+  <div class="field"><label for="id_files">{% translate "Upload music" %}</label>
+    {% if direct_upload %}<input type="file" id="id_files" multiple accept="{{ form.files.field.widget.attrs.accept }}" data-direct-upload="library"
+           data-token-url="{% url 'media_upload_token' %}" data-complete-url="{% url 'music_upload_complete' %}">
+    {% else %}{{ form.files }}{% endif %}{{ form.files.errors }}
+    <span class="help">{% translate "MP3, M4A, AAC or WAV files, up to 50 MB each. You can select many at once." %}</span></div>
+  <div class="actions"><button class="btn btn-primary">{% translate "Upload" %}</button></div>
+</form>
+<div class="card">
+  {% for track in tracks %}
+  <div class="music-row">
+    <form class="inline music-title" method="post" action="{% url 'music_rename' track.pk %}">{% csrf_token %}
+      <input type="text" name="title" value="{{ track }}" maxlength="200" aria-label="{% translate 'Name' %}" onchange="this.form.submit()">
+    </form>
+    <span class="small muted">{{ track.duration_display }}</span>
+    <audio controls preload="none" src="{{ track.file.url }}"></audio>
+    <form class="inline" method="post" action="{% url 'music_delete' track.pk %}" onsubmit="return confirm('{% translate "Delete this song?" %}')">{% csrf_token %}
+      <button class="btn btn-sm">{% translate "Delete" %}</button>
+    </form>
+  </div>
+  {% empty %}<p class="empty">{% translate "No music yet. Upload some above." %}</p>{% endfor %}
+</div>
+{% endblock %}
+{% block extra_body %}{% if direct_upload %}<script type="module" src="{% static 'studio/direct-upload.js' %}?v={{ static_version }}"></script>{% endif %}{% endblock %}

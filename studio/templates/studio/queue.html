@@ -1,0 +1,66 @@
+{% extends "studio/base.html" %}
+{% load i18n %}
+{% block title %}{% translate "Content queue" %}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>{% translate "Content queue" %}</h1><p class="muted">{% translate "Keeps your feed active: on the days and times below, a photo or video is posted automatically, in order or at random. Photos become photo posts and videos become Reels." %}</p></div></div>
+<div class="grid grid-2">
+  <form method="post" class="card">
+    {% csrf_token %}
+    {% include "studio/_form_errors.html" %}
+    {% if not is_owner %}<p class="alert">{% translate "Only an owner can change these settings." %}</p><fieldset disabled style="border:0;padding:0;margin:0">{% endif %}
+    <div class="field"><label class="check">{{ form.active }} {% translate "Queue is on" %}</label>
+      {% if queue.active and queue.next_run_at %}<span class="help">{% translate "Next post:" %} {{ queue.next_run_at|date:"l j M, H:i" }}
+        {% if queue.timing_mode == "random" and queue.planned_times|length > 1 %} · {% translate "then" %} {% for t in queue.planned_times|slice:"1:" %}{{ t|date:"H:i" }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}</span>{% endif %}</div>
+    <div class="field">
+      <label>{% translate "Days" %}</label>
+      <div class="choice-row">{% for cb in form.weekday_list %}<label>{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</div>
+      {{ form.weekday_list.errors }}
+    </div>
+    <div class="field">
+      <label>{{ form.timing_mode.label }}</label>
+      <div class="choice-row">{% for radio in form.timing_mode %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}</div>
+    </div>
+    <div data-show-when="timing_mode=fixed">
+      <div class="field"><label for="id_times">{% translate "Time(s)" %}</label>{{ form.times }}<span class="help">{% translate "24h times, comma separated, e.g. 09:00, 18:30" %}</span>{{ form.times.errors }}</div>
+    </div>
+    <div data-show-when="timing_mode=random">
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.75rem">
+        <div class="field"><label for="id_window_start">{{ form.window_start.label }}</label>{{ form.window_start }}{{ form.window_start.errors }}</div>
+        <div class="field"><label for="id_window_end">{{ form.window_end.label }}</label>{{ form.window_end }}{{ form.window_end.errors }}</div>
+        <div class="field"><label for="id_posts_per_day">{{ form.posts_per_day.label }}</label>{{ form.posts_per_day }}{{ form.posts_per_day.errors }}</div>
+      </div>
+      <span class="help">{% translate "Every posting day gets new random times inside this window, spread out so posts don't bunch together." %}</span>
+    </div>
+    <div class="field" style="margin-top:1rem"><label>{{ form.source.label }}</label>
+      <div class="choice-row">{% for radio in form.source %}<label>{{ radio.tag }} {{ radio.choice_label }}</label>{% endfor %}</div></div>
+    <div class="field"><label class="check">{{ form.random_order }} 🎲 {{ form.random_order.help_text }}</label></div>
+    <div class="field"><label class="check">{{ form.as_story }} {{ form.as_story.help_text }}</label></div>
+    <div class="field"><label for="id_caption_mode">{% translate "Captions" %}</label>{{ form.caption_mode }}{% if not ai_enabled %}<span class="help">{% translate "AI isn't set up, so the default caption is used when an item has none." %}</span>{% endif %}</div>
+    <div class="field"><label for="id_ai_brief">{% translate "AI brief" %}</label>{{ form.ai_brief }}<span class="help">{% translate "General context for AI-written queue captions." %}</span></div>
+    <div class="field"><label for="id_default_caption">{% translate "Default caption" %}</label>{{ form.default_caption }}<span class="help">{% translate "Used when an item has no caption and AI is off or fails." %}</span></div>
+    <div class="field"><label for="id_link">🔗 {% translate "Link" %} <span class="muted small">{% translate "(optional)" %}</span></label>{{ form.link }}<span class="help">{{ form.link.help_text }}</span></div>
+    <div class="field"><label for="id_user_tags">👤 {% translate "Tag people" %} <span class="muted small">{% translate "(optional)" %}</span></label>{{ form.user_tags }}<span class="help">{% translate "Instagram usernames, separated by commas, tagged in every post this creates. Only public accounts can be tagged. Stories are posted without tags." %}</span>{{ form.user_tags.errors }}</div>
+    <div class="field"><label class="check">{{ form.reuse_items }} {{ form.reuse_items.help_text }}</label></div>
+    <button class="btn btn-primary">{% translate "Save" %}</button>
+    {% if not is_owner %}</fieldset>{% endif %}
+  </form>
+  <div class="card">
+    <h2>{% if queue.source == "library" %}{% translate "Library items still to post" %}{% else %}{% translate "In the queue" %}{% endif %} ({{ items|length }}{% if items|length == 50 %}+{% endif %})</h2>
+    <p class="small muted">{% if queue.random_order %}🎲 {% translate "One of these is picked at random each time." %}{% else %}{% translate "Posted in this order." %}{% endif %}
+      {% if queue.source == "queue" %}{% translate "Add items from the Library with “+ Queue”." %}{% endif %}</p>
+    {% for asset in items %}
+    <div class="post-row">
+      <a class="thumbs" href="{% url 'media_edit' asset.pk %}">{% include "studio/_thumb.html" %}</a>
+      <div class="post-body">
+        <div class="post-meta">
+          {% if forloop.first and not queue.random_order %}<span class="badge badge-scheduled">{% translate "Next" %}</span>{% endif %}
+          <span>{{ asset.get_kind_display }}</span>
+          {% if asset.times_used %}<span>· {% blocktranslate trimmed with n=asset.times_used %}Posted {{ n }}×{% endblocktranslate %}</span>{% endif %}
+        </div>
+        <div class="caption-preview">{% if asset.caption %}{{ asset.caption }}{% else %}{% translate "(caption written automatically)" %}{% endif %}</div>
+      </div>
+    </div>
+    {% empty %}<p class="empty">{% translate "The queue is empty." %}</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}
