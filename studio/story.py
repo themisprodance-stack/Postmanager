@@ -118,8 +118,10 @@ def render_story(image, headline, text="", position=BOTTOM, style="dark", headli
 def _open_photo(asset):
     if asset is None:
         return None
-    with asset.file.open("rb") as fh:
-        return ImageOps.exif_transpose(Image.open(fh)).convert("RGB")
+    from .video import local_copy
+
+    with Image.open(local_copy(asset.file)) as image:  # cached, so live previews don't re-download the photo
+        return ImageOps.exif_transpose(image).convert("RGB")
 
 
 def story_jpeg(asset, preview_width=None, **options):

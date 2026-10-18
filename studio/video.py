@@ -4,6 +4,7 @@ Uses the ffmpeg binary that ships with the imageio-ffmpeg package, so nothing ne
 Inputs are copied to a temporary folder first, because cloud storage files only exist as URLs.
 """
 
+import hashlib
 import logging
 import re
 import subprocess
@@ -11,7 +12,6 @@ import tempfile
 import uuid
 from pathlib import Path
 
-import requests
 from django.core.files import File
 from django.utils.translation import gettext as _
 from PIL import Image, ImageOps
@@ -55,18 +55,27 @@ def probe(path):
     return duration, bool(re.search(r"Stream #.*: Audio:", stderr))
 
 
-def local_copy(fieldfile, folder):
-    """Path of a local copy of a stored file (the file itself when storage is local)."""
+CACHE_DIR = Path(tempfile.gettempdir()) / "postmanager-cache"
+
+
+def local_copy(fieldfile, folder=None):
+    """Path of a local copy of a stored file (the file itself when storage is local). Without a folder, the copy is
+    kept in a cache that survives between requests on the same server, so previews don't download it every time."""
     try:
         return fieldfile.path
     except NotImplementedError:  # cloud storage
         pass
-    dest = Path(folder) / f"in-{uuid.uuid4().hex}{Path(fieldfile.name).suffix}"
-    with requests.get(fieldfile.url, stream=True, timeout=120) as resp:
-        resp.raise_for_status()
-        with open(dest, "wb") as fh:
-            for chunk in resp.iter_content(1 << 20):
-                fh.write(chunk)
+    suffix = Path(fieldfile.name).suffix
+    if folder is None:
+        CACHE_DIR.mkdir(exist_ok=True)
+        dest = CACHE_DIR / (hashlib.sha1(fieldfile.name.encode()).hexdigest() + suffix)
+        if dest.exists():
+            return str(dest)
+    else:
+        dest = Path(folder) / f"in-{uuid.uuid4().hex}{suffix}"
+    partial = dest.with_name(dest.name + ".part")
+    fieldfile.storage.download(fieldfile.name, partial)
+    partial.replace(dest)
     return str(dest)
 
 

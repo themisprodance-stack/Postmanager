@@ -8,6 +8,7 @@ import os
 import hashlib
 import hmac
 import json
+import logging
 import mimetypes
 import time
 
@@ -18,6 +19,13 @@ from django.core.files.storage import Storage
 from django.utils.deconstruct import deconstructible
 os.environ.setdefault("VERCEL_TELEMETRY_DISABLED", "1")
 from vercel import blob  # noqa: E402
+
+
+log = logging.getLogger(__name__)
+
+
+class BlobDownloadError(OSError):
+    pass
 
 
 def _token():
@@ -50,6 +58,26 @@ def client_upload_token(pathname, *, allowed_content_types, maximum_size_in_byte
     return f"vercel_blob_client_{store_id()}_{secured}"
 
 
+def blob_get(url, stream=False):
+    """GET a stored file. Requests from inside Vercel are sometimes refused (403) even though the file is public,
+    so retry with the store token and past the CDN cache before giving up. Returns an open requests.Response."""
+    attempts = [
+        ({}, {}),
+        ({"authorization": f"Bearer {_token()}"}, {}),
+        ({"authorization": f"Bearer {_token()}"}, {"cache": "0"}),
+    ]
+    problems = []
+    for headers, params in attempts:
+        resp = requests.get(url, headers={"user-agent": "Postmanager/1.0", **headers}, params=params,
+                            stream=stream, timeout=120)
+        if resp.status_code == 200:
+            return resp
+        problems.append(f"{resp.status_code} {resp.text[:150].strip()}".strip())
+        resp.close()
+    log.warning("Blob download of %s failed: %s", url, problems)
+    raise BlobDownloadError(f"Storage refused the download ({' | '.join(problems)})")
+
+
 @deconstructible
 class VercelBlobStorage(Storage):
     def _save(self, name, content):
@@ -59,9 +87,12 @@ class VercelBlobStorage(Storage):
         return name
 
     def _open(self, name, mode="rb"):
-        resp = requests.get(self.url(name), timeout=120)
-        resp.raise_for_status()
-        return ContentFile(resp.content, name=name)
+        return ContentFile(blob_get(self.url(name)).content, name=name)
+
+    def download(self, name, dest):
+        with blob_get(self.url(name), stream=True) as resp, open(dest, "wb") as fh:
+            for chunk in resp.iter_content(1 << 20):
+                fh.write(chunk)
 
     def get_available_name(self, name, max_length=None):
         return name  # upload paths already contain a random UUID

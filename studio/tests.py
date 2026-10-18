@@ -1130,3 +1130,30 @@ class StoryTextTests(BaseTest):
             return max(white) - min(white) if white else 0
 
         self.assertGreater(ink_height(180), ink_height(100) * 1.4)
+
+
+class BlobDownloadTests(TestCase):
+    @override_settings(BLOB_READ_WRITE_TOKEN="vercel_blob_rw_StoreAbc123_secretpart")
+    def test_refused_download_is_retried_with_the_token(self):
+        from . import storage
+
+        calls = []
+
+        def fake_get(url, headers=None, params=None, **kwargs):
+            calls.append((headers.get("authorization"), params))
+            return FakeResponse({}, status=403 if len(calls) == 1 else 200)
+
+        FakeResponse.close = lambda self: None
+        with mock.patch.object(storage.requests, "get", side_effect=fake_get):
+            self.assertEqual(storage.blob_get("https://x.public.blob.vercel-storage.com/a.jpg").status_code, 200)
+        self.assertEqual(calls[0][0], None)
+        self.assertEqual(calls[1][0], "Bearer vercel_blob_rw_StoreAbc123_secretpart")
+
+    @override_settings(BLOB_READ_WRITE_TOKEN="vercel_blob_rw_StoreAbc123_secretpart")
+    def test_download_error_says_what_storage_answered(self):
+        from . import storage
+
+        FakeResponse.close = lambda self: None
+        with mock.patch.object(storage.requests, "get", return_value=FakeResponse("Forbidden", status=403)):
+            with self.assertRaisesRegex(storage.BlobDownloadError, "403 Forbidden"):
+                storage.blob_get("https://x.public.blob.vercel-storage.com/a.jpg")
